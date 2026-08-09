@@ -1,4 +1,4 @@
-package com.advick.krishimart.krishi_mart
+package com.advick.krishimark_company
 
 import io.flutter.embedding.android.FlutterActivity
 
