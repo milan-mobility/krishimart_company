@@ -1,0 +1,69 @@
+name: krishi_mart
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.9
+  dio: ^5.11.0
+  flutter_easyloading: ^4.0.2
+  gap: ^3.0.1
+  shared_preferences: ^2.5.5
+  permission_handler: ^12.0.1
+  device_info_plus: ^13.2.0
+  intl: ^0.20.3
+  flutter_svg: ^2.3.0
+  pretty_dio_logger: ^1.4.0
+  connectivity_plus: ^7.3.1
+  shimmer: ^3.0.0
+  get: ^4.7.3
+  flutter_spinkit: ^5.2.2
+  firebase_messaging: ^15.2.8
+  flutter_local_notifications: ^17.2.1+2
+  firebase_core: ^3.15.1
+  internet_connection_checker_plus: ^3.1.1
+  otp_pin_field: ^1.5.2
+  cached_network_image: ^3.4.1
+  image_picker: ^1.2.3
+  intl_phone_field: ^3.2.0
+  url_launcher: ^6.3.2
+  dropdown_search: ^5.0.6
+  flutter_localization: ^0.4.1
+
+
+dependency_overrides:
+  intl: ^0.19.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.11
+  flutter_gen_runner: ^5.7.0
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/png/
+    - assets/svg/
+    - assets/fonts/
+
+  fonts:
+    - family: inter
+      fonts:
+        - asset: assets/fonts/InterTight-Black.ttf
+        - asset: assets/fonts/InterTight-Bold.ttf
+        - asset: assets/fonts/InterTight-Light.ttf
+        - asset: assets/fonts/InterTight-Medium.ttf
+        - asset: assets/fonts/InterTight-Regular.ttf
+        - asset: assets/fonts/InterTight-SemiBold.ttf

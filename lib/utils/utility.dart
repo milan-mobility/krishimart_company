@@ -1,0 +1,235 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:krishi_mart/data/network/dio_exception.dart';
+import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
+import 'package:krishi_mart/helpers/extensions/list_extension.dart';
+import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/view/base/custom_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../view/screens/home/controller/home_controller.dart';
+
+class Utility {
+  static bool checkIsNetworkUrl(final String url) {
+    if (url.contains('http') || url.contains('https')) {
+      return true;
+    }
+    return false;
+  }
+
+  static double getSafePadding({required final BuildContext context}) {
+    final double bottom = MediaQuery.of(context).padding.bottom;
+    if (bottom == 0) return 15; // normal case
+    if (bottom >= 24 && bottom < 34) {
+      return GetPlatform.isAndroid ? 10 : 0;
+    }
+    if (bottom >= 34) {
+      return GetPlatform.isAndroid ? 15 : 0;
+    }
+    return bottom;
+  }
+
+  static void hideKeyboard(final BuildContext context) {
+    FocusScope.of(context).unfocus();
+  }
+
+  static void logout() {
+    final SharedPreferenceHelper sharedPref =
+        Get.find<SharedPreferenceHelper>();
+    sharedPref.clear();
+    if (Get.isRegistered<HomeController>()) {
+      Get.delete<HomeController>(force: true);
+    }
+    Get.offAllNamed(RouteHelper.login);
+  }
+
+  static Future<String> convertBase64(final File imageFile) async {
+    final List<int> imageBytes = await imageFile.readAsBytes();
+
+    return base64Encode(imageBytes);
+  }
+
+  static Future<List<String>> getPhotos({final bool isMultiple = true}) async {
+    List<String> images = <String>[];
+    try {
+      List<XFile> xFileList = <XFile>[];
+      if (isMultiple) {
+        xFileList = await ImagePicker().pickMultiImage(
+          limit: 100,
+          requestFullMetadata: true,
+          imageQuality: 60,
+        );
+      } else {
+        final XFile? image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+        );
+        if (image != null) {
+          xFileList.add(image);
+        }
+      }
+      if (xFileList.isNotNullOrEmpty()) {
+        return images = xFileList.map((final XFile e) => e.path).toList();
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return images;
+  }
+
+  static Future<void> makeCall(final String phone) async {
+    final uri = Uri.parse("tel:$phone");
+    await launchUrl(uri);
+  }
+
+  static Future<int> getAndroidOSVersion() async {
+    final AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+    return androidInfo.version.sdkInt;
+  }
+
+  /*static Future<String?> selectVideo() async {
+    try {
+      final XFile? videoPath = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+        maxDuration: Duration(seconds: 20),
+      );
+      if (videoPath != null && videoPath.path.isNotNullAndEmpty()) {
+        String? compressedPath = videoPath.path;
+        if (GetPlatform.isAndroid) {
+          Get.defaultDialog(
+            title: 'Compressing Video',
+            titleStyle: interW600,
+            content: CompressWidget(),
+          );
+
+          compressedPath = await compressVideo(videoPath.path);
+          Get.back();
+          if (compressedPath != null) {
+            return compressedPath;
+          }
+        } else {
+          compressedPath = await compressVideo(videoPath.path);
+          if (compressedPath != null) {
+            return compressedPath;
+          }
+        }
+      }
+    } catch (e) {
+      e.printError();
+    }
+    return null;
+  }
+
+  static Future<String?> compressVideo(final String path) async {
+    final MediaInfo? result = await VideoCompress.compressVideo(
+      path,
+      quality: VideoQuality.MediumQuality,
+    );
+    if (result != null) {
+      return result.path;
+    }
+    return null;
+  }
+
+  static Future<Uint8List?> getThumbnailBytes(final String videoPath) async {
+    return await VideoThumbnail.thumbnailData(
+      video: videoPath,
+      imageFormat: ImageFormat.JPEG,
+      maxHeight: 200,
+      quality: 75,
+    );
+  }*/
+
+  static void showAPIError(final DioException error) {
+    try {
+      final dynamic data = error.response?.data;
+
+      // ✅ Handle structured API response
+      if (data is Map) {
+        // 🔥 1. PRIORITY: Handle "errors" (Laravel-style validation)
+        final dynamic errors = data['errors'];
+
+        if (errors is Map && errors.isNotEmpty) {
+          final List<String> messages = [];
+
+          for (final value in errors.values) {
+            if (value is List && value.isNotEmpty) {
+              for (final item in value) {
+                if (item is String && item.isNotEmpty) {
+                  messages.add(item);
+                }
+              }
+            } else if (value is String && value.isNotEmpty) {
+              messages.add(value);
+            }
+          }
+
+          if (messages.isNotEmpty) {
+            showErrorSnackBar(message: messages.join('\n'));
+            return;
+          }
+        }
+
+        // ✅ 2. Fallback to "message"
+        final dynamic message = data['message'];
+        if (message is String && message.isNotEmpty) {
+          showErrorSnackBar(message: message);
+          return;
+        }
+      }
+
+      // ✅ 3. Your existing fallback logic (kept intact)
+      if (error.response?.data is Map) {
+        final MapEntry<dynamic, dynamic> firstItem = Map<dynamic, dynamic>.of(
+          error.response?.data,
+        ).entries.first;
+
+        String message = '';
+
+        if (firstItem.value is List) {
+          if (firstItem.value[0] is Map) {
+            final MapEntry<dynamic, dynamic> field = Map<dynamic, dynamic>.of(
+              firstItem.value[0],
+            ).entries.first;
+
+            if (field.value is List) {
+              if (field.value[0] is String) {
+                message = field.value[0];
+              } else {
+                final MapEntry<dynamic, dynamic> mapField =
+                    Map<dynamic, dynamic>.of(field.value[0]).entries.first;
+
+                if (mapField.value is List) {
+                  message = mapField.value[0];
+                } else if (mapField.value is String) {
+                  message = mapField.value;
+                }
+              }
+            } else if (field.value is Map) {
+              message = 'Something went wrong';
+            } else {
+              message = field.value.toString();
+            }
+          } else {
+            message = firstItem.value[0].toString();
+          }
+        } else if (firstItem.value is String) {
+          message = firstItem.value;
+        }
+
+        if (message.isNotEmpty) {
+          showErrorSnackBar(message: message);
+          return;
+        }
+      }
+    } catch (e) {
+      final String message = DioExceptions.fromDioError(error).message;
+      showErrorSnackBar(message: message);
+    }
+  }
+}
