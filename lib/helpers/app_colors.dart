@@ -20,4 +20,27 @@ class AppColors {
   static const Color color1F6D1A = Color(0xFF1F6D1A);
   static const Color color1A1A2D = Color(0xFF1A1A2D);
   static const Color colorB1F0CE = Color(0xFFB1F0CE);
+  static const Color roleCompany = Color(0xFF14532D);
+  static const Color roleDealer = Color(0xFFFF6814);
+  static const Color roleSubtitle = Color(0xFF6B7280);
+  static const Color roleBackground = Color(0xFFF4FBF5);
+  static const Color roleCompanyIconBackground = Color(0xFFEAF9F0);
+  static const Color roleDealerIconBackground = Color(0xFFFFF5EA);
+  static const Color roleTrustBackground = Color(0xFFDCFCE7);
+  static const Color colorF7FAF7 = Color(0xFFF7FAF7);
+  static const Color colorE8F5E9 = Color(0xFFE8F5E9);
+  static const Color formBorder = Color(0xFFD9E2DE);
+  static const Color formHint = Color(0xFF9AA8B5);
+  static const Color formCard = Color(0xFFFFFFFF);
+  static const Color categorySelected = Color(0xFF2D6A4F);
+  static const Color productSurface = Color(0xFFF8FAF9);
+  static const Color productUploadBorder = Color(0xFFD7E1DC);
+  static const Color productHeader = Color(0xFF9A6847);
+  static const Color productEditBackground = Color(0xFFEAF3FF);
+  static const Color productDeleteBackground = Color(0xFFFFEEEE);
+  static const Color productImageBackground = Color(0xFFE8F7DA);
+  static const Color dashboardStatGreen = Color(0xFF2F795C);
+  static const Color dashboardStatOrange = Color(0xFFF6A15F);
+  static const Color dashboardStatMint = Color(0xFF57BB89);
+  static const Color dashboardBanner = Color(0xFFDDE5FF);
 }

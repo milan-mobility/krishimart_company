@@ -4,5 +4,5 @@ import 'gujarati/gu_translations.dart';
 
 abstract class AppTranslation {
   static Map<String, Map<String, String>> translations =
-      <String, Map<String, String>>{'en': enUs, 'ar': gu};
+      <String, Map<String, String>>{'en': enUs, 'gu': gu};
 }

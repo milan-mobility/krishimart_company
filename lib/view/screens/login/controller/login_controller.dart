@@ -20,6 +20,12 @@ class LoginController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController txtPhone = TextEditingController();
 
+  String get userRole {
+    return sharedPref.getUserRole.isNotEmpty
+        ? sharedPref.getUserRole
+        : UserType.company.name;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -44,7 +50,7 @@ class LoginController extends GetxController {
     try {
       final Map<String, dynamic> params = <String, dynamic>{
         'mobile': txtPhone.text.trim(),
-        'role': UserType.farmer.name,
+        'role': userRole,
       };
 
       Loader.load(true);

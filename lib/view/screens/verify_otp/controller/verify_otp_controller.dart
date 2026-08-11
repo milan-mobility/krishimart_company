@@ -31,6 +31,12 @@ class VerifyOtpController extends GetxController implements GetxService {
 
   String otpPin = '';
 
+  String get userRole {
+    return sharedPref.getUserRole.isNotEmpty
+        ? sharedPref.getUserRole
+        : UserType.company.name;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -66,7 +72,7 @@ class VerifyOtpController extends GetxController implements GetxService {
       final Map<String, dynamic> params = <String, dynamic>{
         'mobile': mobile,
         'otp': otpPin,
-        'role': UserType.farmer.name,
+        'role': userRole,
         'device_name': GetPlatform.isAndroid ? 'android' : 'ios',
       };
 
@@ -80,7 +86,19 @@ class VerifyOtpController extends GetxController implements GetxService {
         sharedPref.saveAuthToken(userModel?.accessToken ?? '');
         sharedPref.saveUserInfo(userModel?.user ?? User());
         sharedPref.saveIsLoggedIn(true);
-        Get.offAllNamed(RouteHelper.completeFarmerProfile);
+        sharedPref.saveHasProfileCompleted(
+          userModel?.hasProfileCompleted ?? false,
+        );
+
+        if (userModel?.hasProfileCompleted ?? true) {
+          Get.offAllNamed(RouteHelper.home);
+        } else {
+          if (sharedPref.getUserRole == UserType.company.name) {
+            Get.offAllNamed(RouteHelper.completeCompanyProfile);
+          } else {
+            Get.offAllNamed(RouteHelper.completeDealerProfile);
+          }
+        }
       }
     } on DioException catch (e) {
       Utility.showAPIError(e);

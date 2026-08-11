@@ -18,6 +18,8 @@ class CommonDropDownField<T> extends StatelessWidget {
     this.showSearchBox = true,
     this.enabled = true,
     this.height,
+    this.hintText,
+    this.showPrefixIcon = true,
   });
 
   final T? selectedItem;
@@ -28,6 +30,8 @@ class CommonDropDownField<T> extends StatelessWidget {
   final bool enabled;
   final bool showSearchBox;
   final double? height;
+  final String? hintText;
+  final bool showPrefixIcon;
 
   @override
   Widget build(final BuildContext context) {
@@ -126,15 +130,26 @@ class CommonDropDownField<T> extends StatelessWidget {
         dropdownBuilder: (final BuildContext context, final T? item) {
           return Row(
             children: [
-              SvgPicture.asset(Assets.svg.icFormLocation),
-              Text(
-                itemAsString(item).capitalize ?? '',
-                style: interW500.copyWith(
-                  fontSize: 16,
-                  color: enabled ? textColor : AppColors.themeColor,
-                  overflow: TextOverflow.ellipsis,
+              if (showPrefixIcon) ...<Widget>[
+                SvgPicture.asset(Assets.svg.icFormLocation),
+                const SizedBox(width: 8),
+              ],
+              Expanded(
+                child: Text(
+                  item == null
+                      ? hintText ?? ''
+                      : itemAsString(item).capitalize ?? '',
+                  style: interW500.copyWith(
+                    fontSize: 16,
+                    color: item == null
+                        ? AppColors.formHint
+                        : enabled
+                        ? textColor
+                        : AppColors.themeColor,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 1,
               ),
             ],
           );

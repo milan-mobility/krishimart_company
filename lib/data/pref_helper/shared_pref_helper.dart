@@ -18,6 +18,30 @@ class SharedPreferenceHelper {
     return _sharedPreference.getBool(PrefKeys.isLoggedIn) ?? false;
   }
 
+  Future<void> saveRoleSelected(final bool value) async {
+    await _sharedPreference.setBool(PrefKeys.hasUserRoleSelected, value);
+  }
+
+  bool get isRoleSelected {
+    return _sharedPreference.getBool(PrefKeys.hasUserRoleSelected) ?? false;
+  }
+
+  Future<void> saveHasProfileCompleted(final bool value) async {
+    await _sharedPreference.setBool(PrefKeys.hasProfileCompleted, value);
+  }
+
+  bool get hasProfileCompleted {
+    return _sharedPreference.getBool(PrefKeys.hasProfileCompleted) ?? false;
+  }
+
+  Future<void> saveUserRole(final String value) async {
+    await _sharedPreference.setString(PrefKeys.selectedUserRole, value);
+  }
+
+  String get getUserRole {
+    return _sharedPreference.getString(PrefKeys.selectedUserRole) ?? '';
+  }
+
   Future<void> saveAuthToken(final String fcmToken) async {
     await _sharedPreference.setString(PrefKeys.authToken, fcmToken);
   }

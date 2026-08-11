@@ -17,6 +17,9 @@ class CommonAppbar extends StatelessWidget implements PreferredSize {
     this.iconStr,
     this.leadingWidth,
     this.txtColor,
+    this.subtitle,
+    this.subtitleColor,
+    this.leadingIconColor,
   });
 
   final String title;
@@ -26,6 +29,9 @@ class CommonAppbar extends StatelessWidget implements PreferredSize {
   final String? iconStr;
   final double? leadingWidth;
   final Color? txtColor;
+  final String? subtitle;
+  final Color? subtitleColor;
+  final Color? leadingIconColor;
 
   @override
   Widget build(final BuildContext context) {
@@ -43,25 +49,52 @@ class CommonAppbar extends StatelessWidget implements PreferredSize {
             ? Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.rotationY(3.1416), // flip horizontally
-                child: SvgPicture.asset(iconStr ?? Assets.svg.icBack),
+                child: SvgPicture.asset(
+                  iconStr ?? Assets.svg.icBack,
+                  colorFilter: leadingIconColor == null
+                      ? null
+                      : ColorFilter.mode(leadingIconColor!, BlendMode.srcIn),
+                ),
               )
-            : SvgPicture.asset(iconStr ?? Assets.svg.icBack),
+            : SvgPicture.asset(
+                iconStr ?? Assets.svg.icBack,
+                colorFilter: leadingIconColor == null
+                    ? null
+                    : ColorFilter.mode(leadingIconColor!, BlendMode.srcIn),
+              ),
       ),
       centerTitle: false,
       titleSpacing: AppResponsive.space(10),
-      title: Text(
-        title,
-        style: interW600.copyWith(
-          fontSize: AppResponsive.font(18),
-          color: txtColor ?? AppColors.themeColor,
-        ),
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: interW600.copyWith(
+              fontSize: AppResponsive.font(18),
+              color: txtColor ?? AppColors.themeColor,
+            ),
+          ),
+          if (subtitle != null) ...<Widget>[
+            SizedBox(height: AppResponsive.space(2)),
+            Text(
+              subtitle!,
+              style: interW400.copyWith(
+                fontSize: AppResponsive.font(12),
+                color: subtitleColor ?? txtColor ?? AppColors.themeColor,
+              ),
+            ),
+          ],
+        ],
       ),
       actions: actions,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(AppResponsive.space(56));
+  Size get preferredSize =>
+      Size.fromHeight(AppResponsive.space(subtitle == null ? 56 : 76));
 
   @override
   Widget get child => throw UnimplementedError();

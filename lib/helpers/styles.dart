@@ -48,3 +48,82 @@ TextStyle interW900 = TextStyle(
   fontSize: AppResponsive.font(14),
   color: AppColors.color404943,
 );
+
+TextStyle userRoleTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(25),
+  color: AppColors.themeColor,
+);
+
+TextStyle userRoleWelcome = interW700.copyWith(
+  fontSize: AppResponsive.font(24),
+  color: AppColors.themeColor,
+);
+
+TextStyle userRoleSubtitle = interW400.copyWith(
+  fontSize: AppResponsive.font(14),
+  color: AppColors.roleSubtitle,
+);
+
+TextStyle userRoleOptionTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(20),
+);
+
+TextStyle userRoleOptionDescription = interW400.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.roleSubtitle,
+);
+
+TextStyle userRoleBenefitTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.color1A1A2D,
+);
+
+TextStyle userRoleBenefitDescription = interW400.copyWith(
+  fontSize: AppResponsive.font(10),
+  color: AppColors.roleSubtitle,
+);
+
+TextStyle companyProfileSectionTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(16),
+  color: AppColors.themeColor,
+);
+
+TextStyle companyProfileFieldLabel = interW600.copyWith(
+  fontSize: AppResponsive.font(11),
+  color: AppColors.color191C1C,
+);
+
+TextStyle companyProfileHint = interW400.copyWith(
+  fontSize: AppResponsive.font(12),
+  color: AppColors.formHint,
+);
+
+TextStyle companyProfileCategoryTitle = interW600.copyWith(
+  fontSize: AppResponsive.font(10),
+  color: AppColors.color191C1C,
+);
+
+TextStyle companyProfileUploadTitle = interW600.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.color2D5A27,
+);
+
+TextStyle companyProfileUploadDescription = interW400.copyWith(
+  fontSize: AppResponsive.font(10),
+  color: AppColors.formHint,
+);
+
+TextStyle productFormTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(20),
+  color: AppColors.color1A1A2D,
+);
+
+TextStyle productFieldLabel = interW600.copyWith(
+  fontSize: AppResponsive.font(10),
+  color: AppColors.color717973,
+);
+
+TextStyle productUploadLabel = interW600.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.color404943,
+);
