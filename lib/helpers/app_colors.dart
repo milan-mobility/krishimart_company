@@ -40,7 +40,9 @@ class AppColors {
   static const Color productDeleteBackground = Color(0xFFFFEEEE);
   static const Color productImageBackground = Color(0xFFE8F7DA);
   static const Color dashboardStatGreen = Color(0xFF2F795C);
-  static const Color dashboardStatOrange = Color(0xFFF6A15F);
+  static const Color dashboardStatOrange = Color(0xFFF4A261);
   static const Color dashboardStatMint = Color(0xFF57BB89);
   static const Color dashboardBanner = Color(0xFFDDE5FF);
+  static const Color color0F5238 = Color(0xFF0F5238);
+  static const Color color1E3A8A = Color(0xFF1E3A8A);
 }

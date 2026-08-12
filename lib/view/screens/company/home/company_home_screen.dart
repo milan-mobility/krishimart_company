@@ -5,16 +5,15 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/view/base/bottom_navigation_bar.dart';
-import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
-import 'package:krishi_mart/view/screens/dealer/home/widgets/dealer_banner_carousel.dart';
+import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
 import 'package:krishi_mart/view/screens/dealer/home/widgets/dealer_dashboard_stat_card.dart';
 import 'package:krishi_mart/view/screens/dealer/home/widgets/dealer_home_header.dart';
 import 'package:krishi_mart/view/screens/dealer/home/widgets/dealer_products_section.dart';
 
 import '../../../../gen/assets.gen.dart';
 
-class DealerHomeScreen extends StatelessWidget {
-  const DealerHomeScreen({super.key});
+class CompanyHomeScreen extends StatelessWidget {
+  const CompanyHomeScreen({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -23,8 +22,8 @@ class DealerHomeScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.productSurface,
         bottomNavigationBar: BottomNavigation(selectedIndex: 0),
-        body: GetBuilder<DealerHomeController>(
-          builder: (final DealerHomeController controller) {
+        body: GetBuilder<CompanyHomeController>(
+          builder: (final CompanyHomeController controller) {
             return Column(
               children: <Widget>[
                 DealerHomeHeader(dealerName: controller.dealerName),
@@ -56,8 +55,6 @@ class DealerHomeScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Gap(AppResponsive.value(24, tablet: 30)),
-                          DealerBannerCarousel(controller: controller),
                           Gap(AppResponsive.value(26, tablet: 32)),
                           DealerProductsSection(products: controller.products),
                         ],

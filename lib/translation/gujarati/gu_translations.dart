@@ -132,4 +132,15 @@ final Map<String, String> gu = <String, String>{
   'Best Quality Assurance': 'શ્રેષ્ઠ ગુણવત્તાની ખાતરી',
   'Support': 'સહાય',
   '24/7 Dealer Support': '24/7 ડીલર સહાય',
+  'My Profile': 'મારી પ્રોફાઇલ',
+  'Agro Company': 'એગ્રો કંપની',
+  'Agro Dealer': 'એગ્રો ડીલર',
+  'Privacy Policy': 'ગોપનીયતા નીતિ',
+  'Terms and Conditions': 'નિયમો અને શરતો',
+  'Help and Support': 'મદદ અને સહાય',
+  'Logout': 'લૉગઆઉટ',
+  'Delete Account': 'એકાઉન્ટ કાઢી નાખો',
+  'This page is coming soon': 'આ પેજ ટૂંક સમયમાં આવશે',
+  'Delete account support is coming soon':
+      'એકાઉન્ટ કાઢી નાખવાની સુવિધા ટૂંક સમયમાં આવશે',
 };

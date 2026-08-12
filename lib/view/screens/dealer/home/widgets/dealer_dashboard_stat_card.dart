@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
@@ -16,14 +17,13 @@ class DealerDashboardStatCard extends StatelessWidget {
 
   final String value;
   final String label;
-  final IconData icon;
+  final String icon;
   final Color color;
 
   @override
   Widget build(final BuildContext context) {
     return Expanded(
       child: Container(
-        height: AppResponsive.value(92, tablet: 108),
         padding: EdgeInsets.all(AppResponsive.value(12, tablet: 16)),
         decoration: BoxDecoration(
           color: color,
@@ -34,19 +34,19 @@ class DealerDashboardStatCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(icon, color: AppColors.white, size: AppResponsive.value(19)),
+            SvgPicture.asset(icon),
             Gap(AppResponsive.value(7, tablet: 9)),
             Text(
               value,
               style: interW700.copyWith(
-                fontSize: AppResponsive.font(16),
+                fontSize: AppResponsive.font(22),
                 color: AppColors.white,
               ),
             ),
             Text(
-              label.tr.toUpperCase(),
+              label.tr,
               style: interW500.copyWith(
-                fontSize: AppResponsive.font(9),
+                fontSize: AppResponsive.font(14),
                 color: AppColors.white,
               ),
             ),

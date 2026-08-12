@@ -91,7 +91,11 @@ class VerifyOtpController extends GetxController implements GetxService {
         );
 
         if (userModel?.hasProfileCompleted ?? true) {
-          Get.offAllNamed(RouteHelper.home);
+          if (sharedPref.getUserRole == UserType.company.name) {
+            Get.offAllNamed(RouteHelper.companyHomeScreen);
+          } else {
+            Get.offAllNamed(RouteHelper.dealerHome);
+          }
         } else {
           if (sharedPref.getUserRole == UserType.company.name) {
             Get.offAllNamed(RouteHelper.completeCompanyProfile);

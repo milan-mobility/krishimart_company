@@ -48,8 +48,6 @@ project_root/
     │       └── home/
     │           ├── controller/
     │           │   └── home_controller.dart
-    │           ├── binding/
-    │           │   └── home_binding.dart
     │           ├── widgets/
     │           │   ├── people_list_widget.dart
     │           │   └── people_list_row.dart

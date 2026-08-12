@@ -11,22 +11,23 @@ import 'package:krishi_mart/view/screens/company/product/add_product/widgets/pro
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_photo_upload.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_text_field.dart';
 
-class AddProductScreen extends GetView<AddProductController> {
+class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
 
   @override
   Widget build(final BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.productSurface,
-      appBar: CommonAppbar(
-        title: 'Add Product'.tr,
-        backgroundColor: AppColors.themeColor,
-        txtColor: AppColors.white,
-        leadingIconColor: AppColors.white,
-      ),
-      body: GetBuilder<AddProductController>(
-        builder: (final AddProductController controller) {
-          return SafeArea(
+    return GetBuilder<AddProductController>(
+      init: AddProductController(),
+      builder: (final AddProductController controller) {
+        return Scaffold(
+          backgroundColor: AppColors.productSurface,
+          appBar: CommonAppbar(
+            title: 'Add Product'.tr,
+            backgroundColor: AppColors.themeColor,
+            txtColor: AppColors.white,
+            leadingIconColor: AppColors.white,
+          ),
+          body: SafeArea(
             top: false,
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
@@ -104,35 +105,35 @@ class AddProductScreen extends GetView<AddProductController> {
                 ),
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(12, tablet: 16),
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(12, tablet: 16),
           ),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: AppColors.themeColor.withValues(alpha: .08),
-                blurRadius: 12,
-                offset: const Offset(0, -3),
+          bottomNavigationBar: SafeArea(
+            top: false,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(12, tablet: 16),
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(12, tablet: 16),
               ),
-            ],
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: AppColors.themeColor.withValues(alpha: .08),
+                    blurRadius: 12,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
+              ),
+              child: CommonButton(
+                btnText: 'Save Product'.tr,
+                borderRadius: AppResponsive.value(10),
+                onPressed: controller.saveProduct,
+              ),
+            ),
           ),
-          child: CommonButton(
-            btnText: 'Save Product'.tr,
-            borderRadius: AppResponsive.value(10),
-            onPressed: controller.saveProduct,
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

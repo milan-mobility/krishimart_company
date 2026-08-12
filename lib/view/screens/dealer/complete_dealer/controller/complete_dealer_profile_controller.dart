@@ -171,7 +171,7 @@ class CompleteDealerProfileController extends GetxController {
 
       Loader.load(true);
       await profileRepo.completeFarmerProfile(params);
-      Get.offAllNamed(RouteHelper.home);
+      Get.offAllNamed(RouteHelper.dealerHome);
     } on DioException catch (error) {
       Utility.showAPIError(error);
     } catch (error) {

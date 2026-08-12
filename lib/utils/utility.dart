@@ -11,9 +11,9 @@ import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/helpers/extensions/list_extension.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
+import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../view/screens/home/controller/home_controller.dart';
 
 class Utility {
   static bool checkIsNetworkUrl(final String url) {
@@ -43,8 +43,11 @@ class Utility {
     final SharedPreferenceHelper sharedPref =
         Get.find<SharedPreferenceHelper>();
     sharedPref.clear();
-    if (Get.isRegistered<HomeController>()) {
-      Get.delete<HomeController>(force: true);
+    if (Get.isRegistered<CompanyHomeController>()) {
+      Get.delete<CompanyHomeController>(force: true);
+    }
+    if (Get.isRegistered<DealerHomeController>()) {
+      Get.delete<DealerHomeController>(force: true);
     }
     Get.offAllNamed(RouteHelper.login);
   }

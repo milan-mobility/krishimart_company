@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/utils/app_enums.dart';
 
 import '../../gen/assets.gen.dart';
 
@@ -15,9 +17,14 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    final sharedPref = Get.find<SharedPreferenceHelper>();
     return Container(
       decoration: BoxDecoration(
         color: AppColors.colorECEEED,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(AppResponsive.value(20)),
+          topRight: Radius.circular(AppResponsive.value(20)),
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
             offset: Offset(0, -1),
@@ -29,22 +36,22 @@ class BottomNavigation extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(AppResponsive.space(12)),
-          topRight: Radius.circular(AppResponsive.space(12)),
+          topLeft: Radius.circular(AppResponsive.value(20)),
+          topRight: Radius.circular(AppResponsive.value(20)),
         ),
         child: BottomNavigationBar(
           backgroundColor: AppColors.white,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.colorA4F792,
+          selectedItemColor: AppColors.themeColor,
           unselectedItemColor: AppColors.color414844,
           showUnselectedLabels: true,
           currentIndex: selectedIndex ?? 0,
           selectedLabelStyle: interW500.copyWith(
-            fontSize: AppResponsive.font(12),
+            fontSize: AppResponsive.font(15),
             color: AppColors.colorA4F792,
           ),
           unselectedLabelStyle: interW500.copyWith(
-            fontSize: AppResponsive.font(12),
+            fontSize: AppResponsive.font(14),
             color: AppColors.color414844,
           ),
           items: <BottomNavigationBarItem>[
@@ -54,14 +61,9 @@ class BottomNavigation extends StatelessWidget {
               label: 'Home'.tr,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.svg.icMenuVideo),
-              activeIcon: SvgPicture.asset(Assets.svg.icMenuVideo),
-              label: 'Reels'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.svg.icMenuVideo),
-              activeIcon: SvgPicture.asset(Assets.svg.icMenuVideo),
-              label: 'Videos'.tr,
+              icon: SvgPicture.asset(Assets.svg.icProduct),
+              activeIcon: SvgPicture.asset(Assets.svg.icProduct),
+              label: 'Product'.tr,
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(Assets.svg.icMenuProfile),
@@ -72,21 +74,22 @@ class BottomNavigation extends StatelessWidget {
           onTap: (final int index) {
             switch (index) {
               case 0:
-                if (Get.currentRoute != RouteHelper.home) {
-                  Get.offAndToNamed(RouteHelper.home);
+                if (sharedPref.getUserRole == UserType.company.name) {
+                  if (Get.currentRoute != RouteHelper.companyHomeScreen) {
+                    Get.offAndToNamed(RouteHelper.companyHomeScreen);
+                  }
+                } else {
+                  if (Get.currentRoute != RouteHelper.dealerHome) {
+                    Get.offAndToNamed(RouteHelper.dealerHome);
+                  }
                 }
                 break;
               case 1:
-                if (Get.currentRoute != RouteHelper.reels) {
-                  Get.offAndToNamed(RouteHelper.reels);
+                if (Get.currentRoute != RouteHelper.productList) {
+                  Get.offAndToNamed(RouteHelper.productList);
                 }
                 break;
               case 2:
-                if (Get.currentRoute != RouteHelper.videos) {
-                  Get.offAndToNamed(RouteHelper.videos);
-                }
-                break;
-              case 3:
                 if (Get.currentRoute != RouteHelper.profile) {
                   Get.offAndToNamed(RouteHelper.profile);
                 }

@@ -132,4 +132,15 @@ final Map<String, String> enUs = <String, String>{
   'Best Quality Assurance': 'Best Quality Assurance',
   'Support': 'Support',
   '24/7 Dealer Support': '24/7 Dealer Support',
+  'My Profile': 'My Profile',
+  'Agro Company': 'Agro Company',
+  'Agro Dealer': 'Agro Dealer',
+  'Privacy Policy': 'Privacy Policy',
+  'Terms and Conditions': 'Terms and Conditions',
+  'Help and Support': 'Help and Support',
+  'Logout': 'Logout',
+  'Delete Account': 'Delete Account',
+  'This page is coming soon': 'This page is coming soon',
+  'Delete account support is coming soon':
+      'Delete account support is coming soon',
 };

@@ -60,32 +60,25 @@ class DealerProductRow extends StatelessWidget {
               ],
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                product.price,
-                style: interW600.copyWith(color: AppColors.color1F6D1A),
+          Gap(AppResponsive.value(5)),
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppResponsive.value(6),
+              vertical: AppResponsive.value(4),
+            ),
+            decoration: BoxDecoration(
+              color: AppColors.colorE8F5E9,
+              borderRadius: BorderRadius.circular(
+                AppResponsive.value(10, tablet: 20),
               ),
-              Gap(AppResponsive.value(5)),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: AppResponsive.value(6),
-                  vertical: AppResponsive.value(2),
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.colorE8F5E9,
-                  borderRadius: BorderRadius.circular(AppResponsive.value(5)),
-                ),
-                child: Text(
-                  'In Stock'.tr,
-                  style: companyProfileCategoryTitle.copyWith(
-                    fontSize: AppResponsive.font(8),
-                    color: AppColors.color1F6D1A,
-                  ),
-                ),
+            ),
+            child: Text(
+              'In Stock'.tr,
+              style: companyProfileCategoryTitle.copyWith(
+                fontSize: AppResponsive.font(12),
+                color: AppColors.color1F6D1A,
               ),
-            ],
+            ),
           ),
         ],
       ),

@@ -18,18 +18,27 @@ class DealerProductsSection extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Expanded(
-              child: Text('My Products'.tr, style: companyProfileSectionTitle),
+            Text(
+              'My Products'.tr,
+              style: interW600.copyWith(
+                fontSize: 18,
+                color: AppColors.color0F5238,
+              ),
             ),
+            const Spacer(),
             Text(
               'Manage'.tr,
-              style: interW600.copyWith(color: AppColors.color1F6D1A),
+              style: interW400.copyWith(
+                fontSize: 16,
+                color: AppColors.color1E3A8A,
+              ),
             ),
           ],
         ),
         Gap(AppResponsive.value(12, tablet: 14)),
         ListView.separated(
           shrinkWrap: true,
+          padding: EdgeInsets.zero,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: products.length,
           separatorBuilder: (context, index) =>

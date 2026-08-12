@@ -75,7 +75,7 @@ class CompleteCompanyProfileController extends GetxController {
 
       Loader.load(true);
       await profileRepo.completeFarmerProfile(params);
-      Get.offAllNamed(RouteHelper.home);
+      Get.offAllNamed(RouteHelper.companyHomeScreen);
     } on DioException catch (error) {
       Utility.showAPIError(error);
     } catch (error) {

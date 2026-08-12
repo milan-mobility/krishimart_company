@@ -127,3 +127,28 @@ TextStyle productUploadLabel = interW600.copyWith(
   fontSize: AppResponsive.font(13),
   color: AppColors.color404943,
 );
+
+TextStyle profileTitle = interW700.copyWith(
+  fontSize: AppResponsive.font(24),
+  color: AppColors.themeColor,
+);
+
+TextStyle profileName = interW700.copyWith(
+  fontSize: AppResponsive.font(19),
+  color: AppColors.color191C1C,
+);
+
+TextStyle profileRole = interW500.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.color717973,
+);
+
+TextStyle profileMenuLabel = interW600.copyWith(
+  fontSize: AppResponsive.font(15),
+  color: AppColors.color404943,
+);
+
+TextStyle profileDestructiveMenuLabel = interW600.copyWith(
+  fontSize: AppResponsive.font(15),
+  color: AppColors.roleDealer,
+);

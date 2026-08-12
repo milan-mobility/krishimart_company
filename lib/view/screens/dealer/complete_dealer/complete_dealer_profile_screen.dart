@@ -13,27 +13,30 @@ import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_p
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_text_field.dart';
 
-class CompleteDealerProfileScreen
-    extends GetView<CompleteDealerProfileController> {
+class CompleteDealerProfileScreen extends StatelessWidget {
   const CompleteDealerProfileScreen({super.key});
 
   @override
   Widget build(final BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.colorF7FAF7,
-      appBar: CommonAppbar(
-        title: 'Dealer Profile'.tr,
-        backgroundColor: AppColors.white,
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.notifications_none, color: AppColors.themeColor),
+    return GetBuilder<CompleteDealerProfileController>(
+      init: CompleteDealerProfileController(Get.find(), Get.find()),
+      builder: (final CompleteDealerProfileController controller) {
+        return Scaffold(
+          backgroundColor: AppColors.colorF7FAF7,
+          appBar: CommonAppbar(
+            title: 'Dealer Profile'.tr,
+            backgroundColor: AppColors.white,
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.notifications_none,
+                  color: AppColors.themeColor,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: GetBuilder<CompleteDealerProfileController>(
-        builder: (final CompleteDealerProfileController controller) {
-          return Form(
+          body: Form(
             key: controller.formKey,
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
@@ -223,50 +226,50 @@ class CompleteDealerProfileScreen
                 ),
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(10, tablet: 14),
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(12, tablet: 16),
           ),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: AppColors.themeColor.withValues(alpha: .08),
-                blurRadius: 12,
-                offset: const Offset(0, -3),
+          bottomNavigationBar: SafeArea(
+            top: false,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(10, tablet: 14),
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(12, tablet: 16),
               ),
-            ],
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: AppColors.themeColor.withValues(alpha: .08),
+                    blurRadius: 12,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  CommonButton(
+                    btnText: 'Save as Draft'.tr,
+                    btnBgColor: AppColors.white,
+                    btnTxtColor: AppColors.color1F6D1A,
+                    side: const BorderSide(color: AppColors.color1F6D1A),
+                    borderRadius: AppResponsive.value(10),
+                    onPressed: controller.saveDraft,
+                  ),
+                  Gap(AppResponsive.value(10, tablet: 12)),
+                  CommonButton(
+                    btnText: 'Submit Dealer Profile'.tr,
+                    borderRadius: AppResponsive.value(10),
+                    icon: Assets.svg.icNext,
+                    onPressed: controller.checkValidation,
+                  ),
+                ],
+              ),
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              CommonButton(
-                btnText: 'Save as Draft'.tr,
-                btnBgColor: AppColors.white,
-                btnTxtColor: AppColors.color1F6D1A,
-                side: const BorderSide(color: AppColors.color1F6D1A),
-                borderRadius: AppResponsive.value(10),
-                onPressed: controller.saveDraft,
-              ),
-              Gap(AppResponsive.value(10, tablet: 12)),
-              CommonButton(
-                btnText: 'Submit Dealer Profile'.tr,
-                borderRadius: AppResponsive.value(10),
-                icon: Assets.svg.icNext,
-                onPressed: controller.checkValidation,
-              ),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

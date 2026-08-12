@@ -12,25 +12,24 @@ import 'package:krishi_mart/view/screens/company/complete_profile/widgets/compan
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
 
-class CompleteCompanyProfileScreen
-    extends GetView<CompleteCompanyProfileController> {
+class CompleteCompanyProfileScreen extends StatelessWidget {
   const CompleteCompanyProfileScreen({super.key});
 
   @override
   Widget build(final BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.colorF7FAF7,
-      appBar: CommonAppbar(
-        title: 'Company Profile'.tr,
-        subtitle: 'Complete your company information'.tr,
-        backgroundColor: AppColors.themeColor,
-        txtColor: AppColors.white,
-        subtitleColor: AppColors.white.withValues(alpha: .75),
-        leadingIconColor: AppColors.white,
-      ),
-      body: GetBuilder<CompleteCompanyProfileController>(
-        builder: (final CompleteCompanyProfileController controller) {
-          return Form(
+    return GetBuilder<CompleteCompanyProfileController>(
+      builder: (final CompleteCompanyProfileController controller) {
+        return Scaffold(
+          backgroundColor: AppColors.colorF7FAF7,
+          appBar: CommonAppbar(
+            title: 'Company Profile'.tr,
+            subtitle: 'Complete your company information'.tr,
+            backgroundColor: AppColors.themeColor,
+            txtColor: AppColors.white,
+            subtitleColor: AppColors.white.withValues(alpha: .75),
+            leadingIconColor: AppColors.white,
+          ),
+          body: Form(
             key: controller.formKey,
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
@@ -154,36 +153,36 @@ class CompleteCompanyProfileScreen
                 ),
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(12, tablet: 16),
-            AppResponsive.value(16, tablet: 28),
-            AppResponsive.value(12, tablet: 16),
           ),
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: AppColors.themeColor.withValues(alpha: .08),
-                blurRadius: 12,
-                offset: const Offset(0, -3),
+          bottomNavigationBar: SafeArea(
+            top: false,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(12, tablet: 16),
+                AppResponsive.value(16, tablet: 28),
+                AppResponsive.value(12, tablet: 16),
               ),
-            ],
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: AppColors.themeColor.withValues(alpha: .08),
+                    blurRadius: 12,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
+              ),
+              child: CommonButton(
+                btnText: 'Save & Continue'.tr,
+                icon: Assets.svg.icNext,
+                borderRadius: AppResponsive.value(12, tablet: 14),
+                onPressed: controller.checkValidation,
+              ),
+            ),
           ),
-          child: CommonButton(
-            btnText: 'Save & Continue'.tr,
-            icon: Assets.svg.icNext,
-            borderRadius: AppResponsive.value(12, tablet: 14),
-            onPressed: controller.checkValidation,
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

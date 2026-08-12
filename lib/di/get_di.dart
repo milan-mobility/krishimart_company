@@ -5,7 +5,8 @@ import 'package:krishi_mart/data/network/dio_client.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
 import 'package:krishi_mart/data/repository/profile_repo.dart';
-import 'package:krishi_mart/view/screens/home/controller/home_controller.dart';
+import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> init() async {
@@ -25,5 +26,6 @@ Future<void> init() async {
   Get.lazyPut(() => AuthRepo(Get.find()), fenix: true);
 
   Get.lazyPut(() => LoaderController());
-  Get.lazyPut(() => HomeController(Get.find()));
+  Get.lazyPut(() => CompanyHomeController(Get.find()));
+  Get.lazyPut(() => DealerHomeController(Get.find()));
 }
