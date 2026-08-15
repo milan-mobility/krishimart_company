@@ -10,6 +10,7 @@ import '../../gen/assets.gen.dart';
 class CommonDropDownField<T> extends StatelessWidget {
   const CommonDropDownField({
     super.key,
+    this.height,
     this.selectedItem,
     required this.list,
     required this.onItemChange,
@@ -17,9 +18,9 @@ class CommonDropDownField<T> extends StatelessWidget {
     this.textColor = AppColors.color1A1A2D,
     this.showSearchBox = true,
     this.enabled = true,
-    this.height,
     this.hintText,
     this.showPrefixIcon = true,
+    this.fillColor = AppColors.colorECEEED,
   });
 
   final T? selectedItem;
@@ -27,6 +28,7 @@ class CommonDropDownField<T> extends StatelessWidget {
   final Function(T? item) onItemChange;
   final String Function(T? item) itemAsString;
   final Color textColor;
+  final Color? fillColor;
   final bool enabled;
   final bool showSearchBox;
   final double? height;
@@ -39,12 +41,12 @@ class CommonDropDownField<T> extends StatelessWidget {
       height: height ?? 50,
       padding: EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
+        color: fillColor,
         border: Border.all(
           color: AppColors.colorBFC9C1.withValues(alpha: .5),
           width: 1,
         ),
         borderRadius: BorderRadius.circular(5),
-        color: AppColors.colorECEEED,
       ),
       child: DropdownSearch<T>(
         items: list,
@@ -139,8 +141,8 @@ class CommonDropDownField<T> extends StatelessWidget {
                   item == null
                       ? hintText ?? ''
                       : itemAsString(item).capitalize ?? '',
-                  style: interW500.copyWith(
-                    fontSize: 16,
+                  style: interW400.copyWith(
+                    fontSize: 12,
                     color: item == null
                         ? AppColors.formHint
                         : enabled

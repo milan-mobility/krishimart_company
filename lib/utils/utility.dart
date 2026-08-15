@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -80,6 +81,23 @@ class Utility {
       if (xFileList.isNotNullOrEmpty()) {
         return images = xFileList.map((final XFile e) => e.path).toList();
       }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return images;
+  }
+
+  static Future<List<String>> getFile() async {
+    List<String> images = <String>[];
+    try {
+      List<PlatformFile> files = await FilePicker.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'pdf', 'jpeg', 'png'],
+      );
+      if (files.isNotNullOrEmpty()) {
+        images.add(files.first.path ?? '');
+      }
+      return images;
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -183,24 +201,17 @@ class Utility {
 
       // ✅ Handle structured API response
       if (data is Map) {
-        // 🔥 1. PRIORITY: Handle "errors" (Laravel-style validation)
-        final dynamic errors = data['errors'];
+        // Validation errors can be returned either as `errors` or inside
+        // `error.fields`, depending on the API endpoint.
+        final dynamic nestedError = data['error'];
+        final List<dynamic> validationErrors = <dynamic>[
+          data['errors'],
+          data['fields'],
+          if (nestedError is Map) nestedError['fields'],
+        ];
 
-        if (errors is Map && errors.isNotEmpty) {
-          final List<String> messages = [];
-
-          for (final value in errors.values) {
-            if (value is List && value.isNotEmpty) {
-              for (final item in value) {
-                if (item is String && item.isNotEmpty) {
-                  messages.add(item);
-                }
-              }
-            } else if (value is String && value.isNotEmpty) {
-              messages.add(value);
-            }
-          }
-
+        for (final dynamic validationError in validationErrors) {
+          final List<String> messages = _validationMessages(validationError);
           if (messages.isNotEmpty) {
             showErrorSnackBar(message: messages.join('\n'));
             return;
@@ -263,5 +274,23 @@ class Utility {
       final String message = DioExceptions.fromDioError(error).message;
       showErrorSnackBar(message: message);
     }
+  }
+
+  static List<String> _validationMessages(final dynamic fields) {
+    if (fields is! Map) return <String>[];
+
+    final List<String> messages = <String>[];
+    for (final dynamic value in fields.values) {
+      if (value is String && value.trim().isNotEmpty) {
+        messages.add(value);
+      } else if (value is List) {
+        messages.addAll(
+          value.whereType<String>().where(
+            (final String value) => value.trim().isNotEmpty,
+          ),
+        );
+      }
+    }
+    return messages;
   }
 }

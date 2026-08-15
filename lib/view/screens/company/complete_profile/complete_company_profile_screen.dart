@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
@@ -11,6 +12,7 @@ import 'package:krishi_mart/view/screens/company/complete_profile/widgets/compan
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_license_certificates_section.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
+import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_drop_down_field.dart';
 
 class CompleteCompanyProfileScreen extends StatelessWidget {
   const CompleteCompanyProfileScreen({super.key});
@@ -18,6 +20,11 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<CompleteCompanyProfileController>(
+      init: CompleteCompanyProfileController(
+        Get.find(),
+        Get.find(),
+        Get.find(),
+      ),
       builder: (final CompleteCompanyProfileController controller) {
         return Scaffold(
           backgroundColor: AppColors.colorF7FAF7,
@@ -113,33 +120,40 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.words,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: CompanyProfileTextField(
-                                  label: 'State',
-                                  hintText: 'Select state',
-                                  controller: controller.txtState,
-                                  isRequired: true,
-                                  textCapitalization: TextCapitalization.words,
-                                ),
-                              ),
-                              Gap(AppResponsive.value(12, tablet: 16)),
-                              Expanded(
-                                child: CompanyProfileTextField(
-                                  label: 'City',
-                                  hintText: 'Select city',
-                                  controller: controller.txtCity,
-                                  isRequired: true,
-                                  textCapitalization: TextCapitalization.words,
-                                ),
-                              ),
-                            ],
+                          GetBuilder<CommonController>(
+                            builder: (final CommonController commonController) {
+                              return Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: DealerProfileDropDownField(
+                                      label: 'State',
+                                      hintText: 'Select State',
+                                      items: commonController.states,
+                                      value: controller.selectedState,
+                                      onChanged: controller.selectState,
+                                    ),
+                                  ),
+                                  Gap(AppResponsive.value(14, tablet: 18)),
+                                  Expanded(
+                                    child: DealerProfileDropDownField(
+                                      label: 'District',
+                                      hintText: 'Select District',
+                                      items: commonController.districts,
+                                      value: controller.selectedDistrict,
+                                      onChanged: controller.selectDistrict,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           CompanyProfileTextField(
                             label: 'Pincode',
                             hintText: 'Enter pincode',
+                            maxLength: 6,
+                            minLength: 6,
+                            minLengthErrorText: 'Pincode must be 6 digits',
                             controller: controller.txtPincode,
                             isRequired: true,
                             keyboardType: TextInputType.number,

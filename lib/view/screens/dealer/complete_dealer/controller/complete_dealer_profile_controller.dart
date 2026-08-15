@@ -60,7 +60,7 @@ class CompleteDealerProfileController extends GetxController {
 
   Future<void> getDistricts() async {
     try {
-      final IdNameModel response = await profileRepo.getDistricts();
+      final IdNameModel response = await profileRepo.getDistricts(1);
       districts = response.data ?? <IdName>[];
       update();
     } on DioException catch (error) {

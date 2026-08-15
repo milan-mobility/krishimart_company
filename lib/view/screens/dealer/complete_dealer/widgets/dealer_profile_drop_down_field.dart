@@ -44,6 +44,7 @@ class DealerProfileDropDownField extends StatelessWidget {
         ),
         Gap(AppResponsive.value(6, tablet: 8)),
         CommonDropDownField<IdName>(
+          height: AppResponsive.value(45, tablet: 50),
           list: items,
           selectedItem: value,
           onItemChange: onChanged,
@@ -51,7 +52,7 @@ class DealerProfileDropDownField extends StatelessWidget {
           hintText: hintText.tr,
           showPrefixIcon: false,
           showSearchBox: false,
-          height: AppResponsive.value(52, tablet: 58),
+          fillColor: Colors.white,
           textColor: AppColors.color191C1C,
         ),
       ],

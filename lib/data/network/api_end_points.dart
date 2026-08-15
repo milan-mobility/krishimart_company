@@ -8,12 +8,21 @@ class Endpoints {
   static const String sendOTP = '${api}auth/otp/send';
   static const String verifyOTP = '${api}auth/otp/verify';
   static const String farmerProfile = '${api}farmer/profile';
-  static const String getDistricts = '${api}masters/districts';
+
+  static const String getStates = '${api}masters/states';
+  static String getDistricts(final int stateId) {
+    return '${api}masters/states/$stateId/districts';
+  }
 
   static String getTalukas(final int districtId) {
     return '${api}masters/districts/$districtId/talukas';
   }
+
   static String getVillages(final int talukaId) {
     return '${api}masters/talukas/$talukaId/villages';
   }
+
+  //Company
+  static const String createCompanyProfile = '${api}company/profile';
+  static const String getCompanyProfile = '${api}company/profile';
 }

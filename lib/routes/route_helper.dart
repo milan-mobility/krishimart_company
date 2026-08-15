@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:krishi_mart/view/screens/company/complete_profile/binding/complete_company_profile_binding.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/complete_company_profile_screen.dart';
 import 'package:krishi_mart/view/screens/company/home/company_home_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/add_product_screen.dart';
@@ -42,7 +41,6 @@ class RouteHelper {
     GetPage<dynamic>(
       name: completeCompanyProfile,
       page: () => getRoute(const CompleteCompanyProfileScreen()),
-      binding: CompleteCompanyProfileBinding(),
     ),
     GetPage<dynamic>(
       name: addProduct,

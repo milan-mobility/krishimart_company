@@ -45,7 +45,7 @@ class SplashController extends GetxController {
         }
       } else {
         if (sharedPref.getUserRole == UserType.company.name) {
-          Get.offAllNamed(RouteHelper.completeDealerProfile);
+          Get.offAllNamed(RouteHelper.completeCompanyProfile);
         } else {
           Get.offAllNamed(RouteHelper.completeDealerProfile);
         }

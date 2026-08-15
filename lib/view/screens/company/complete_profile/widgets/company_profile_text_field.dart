@@ -12,6 +12,12 @@ class CompanyProfileTextField extends StatelessWidget {
     required this.hintText,
     required this.controller,
     this.isRequired = false,
+    this.maxLength,
+    this.minLength,
+    this.minLengthErrorText,
+    this.readOnly = false,
+    this.onTap,
+    this.suffixIcon,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     super.key,
@@ -19,8 +25,14 @@ class CompanyProfileTextField extends StatelessWidget {
 
   final String label;
   final String hintText;
+  final int? maxLength;
+  final int? minLength;
+  final String? minLengthErrorText;
   final TextEditingController controller;
   final bool isRequired;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Widget? suffixIcon;
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
 
@@ -54,10 +66,18 @@ class CompanyProfileTextField extends StatelessWidget {
           textCapitalization: textCapitalization,
           fillColor: AppColors.white,
           borderColor: AppColors.formBorder,
+          maxLength: maxLength,
+          readOnly: readOnly,
+          onTap: onTap,
+          suffixIcon: suffixIcon,
           validator: isRequired
               ? (final String? value) {
                   if (value?.trim().isEmpty ?? true) {
                     return 'This field is required'.tr;
+                  }
+                  if (minLength != null && value!.trim().length < minLength!) {
+                    return minLengthErrorText?.tr ??
+                        'Please enter at least $minLength characters'.tr;
                   }
                   return null;
                 }

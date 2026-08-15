@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:krishi_mart/data/model/auth_model.dart';
+import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/pref_helper/pref_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

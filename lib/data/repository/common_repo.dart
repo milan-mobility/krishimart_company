@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:krishi_mart/data/model/id_name_model.dart';
-import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/api_end_points.dart';
 import 'package:krishi_mart/data/network/dio_client.dart';
 
-class ProfileRepo {
-  ProfileRepo(this._dioClient);
+class CommonRepo {
+  CommonRepo(this._dioClient);
 
   final DioClient _dioClient;
 
@@ -29,7 +28,7 @@ class ProfileRepo {
   Future<IdNameModel> getDistricts(final int stateId) async {
     try {
       final Response<dynamic> response = await _dioClient.get(
-        Endpoints.getTalukas(stateId),
+        Endpoints.getDistricts(stateId),
       );
 
       return IdNameModel.fromJson(response.data);
@@ -74,16 +73,13 @@ class ProfileRepo {
     }
   }
 
-  Future<UserProfileModel> completeFarmerProfile(
-    final Map<String, dynamic> params,
-  ) async {
+  Future<IdNameModel> getUserProfile(final int talukaId) async {
     try {
-      final Response<dynamic> response = await _dioClient.post(
-        Endpoints.createCompanyProfile,
-        data: params,
+      final Response<dynamic> response = await _dioClient.get(
+        Endpoints.getCompanyProfile,
       );
 
-      return UserProfileModel.fromJson(response.data);
+      return IdNameModel.fromJson(response.data);
     } on DioException catch (e) {
       debugPrint(e.toString());
       rethrow;

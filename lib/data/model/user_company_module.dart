@@ -1,0 +1,290 @@
+class UserProfileModel {
+  String? message;
+  UserModel? data;
+
+  UserProfileModel({this.message, this.data});
+
+  UserProfileModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    data = json['data'] != null ? UserModel.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
+}
+
+class UserModel {
+  User? user;
+  Profile? profile;
+  bool? profileCompleted;
+
+  UserModel({this.user, this.profile, this.profileCompleted});
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    profile = json['profile'] != null
+        ? Profile.fromJson(json['profile'])
+        : null;
+    profileCompleted = json['profile_completed'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    if (profile != null) {
+      data['profile'] = profile!.toJson();
+    }
+    data['profile_completed'] = profileCompleted;
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? name;
+  String? email;
+  String? mobile;
+  String? status;
+  String? role;
+  bool? isVerified;
+  String? profilePhotoUrl;
+
+  User({
+    this.id,
+    this.name,
+    this.email,
+    this.mobile,
+    this.status,
+    this.isVerified,
+    this.profilePhotoUrl,
+    this.role,
+  });
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    mobile = json['mobile'];
+    status = json['status'];
+    isVerified = json['is_verified'];
+    profilePhotoUrl = json['profile_photo_url'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['mobile'] = mobile;
+    data['status'] = status;
+    data['is_verified'] = isVerified;
+    data['profile_photo_url'] = profilePhotoUrl;
+    data['role'] = role;
+    return data;
+  }
+}
+
+class Profile {
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  int? userId;
+  String? companyName;
+  String? contactNumber;
+  String? cinNumber;
+  String? panNumber;
+  String? gstNumber;
+  String? website;
+  String? businessCategory;
+  String? logo;
+  String? licenseCertificate;
+  String? licenseStartDate;
+  String? licenseEndDate;
+  String? verificationStatus;
+  int? stateId;
+  int? districtId;
+  String? address;
+  String? addressLine2;
+  String? postalCode;
+  State? state;
+  District? district;
+  String? licenseCertificateUrl;
+
+  Profile({
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+    this.userId,
+    this.companyName,
+    this.contactNumber,
+    this.cinNumber,
+    this.panNumber,
+    this.gstNumber,
+    this.website,
+    this.businessCategory,
+    this.logo,
+    this.licenseCertificate,
+    this.licenseStartDate,
+    this.licenseEndDate,
+    this.verificationStatus,
+    this.stateId,
+    this.districtId,
+    this.address,
+    this.addressLine2,
+    this.postalCode,
+    this.state,
+    this.district,
+    this.licenseCertificateUrl,
+  });
+
+  Profile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    userId = json['user_id'];
+    companyName = json['company_name'];
+    contactNumber = json['contact_number'];
+    cinNumber = json['cin_number'];
+    panNumber = json['pan_number'];
+    gstNumber = json['gst_number'];
+    website = json['website'];
+    businessCategory = json['business_category'];
+    logo = json['logo'];
+    licenseCertificate = json['license_certificate'];
+    licenseStartDate = json['license_start_date'];
+    licenseEndDate = json['license_end_date'];
+    verificationStatus = json['verification_status'];
+    stateId = json['state_id'];
+    districtId = json['district_id'];
+    address = json['address'];
+    addressLine2 = json['address_line_2'];
+    postalCode = json['postal_code'];
+    state = json['state'] != null ? State.fromJson(json['state']) : null;
+    district = json['district'] != null
+        ? District.fromJson(json['district'])
+        : null;
+    licenseCertificateUrl = json['license_certificate_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['user_id'] = userId;
+    data['company_name'] = companyName;
+    data['contact_number'] = contactNumber;
+    data['cin_number'] = cinNumber;
+    data['pan_number'] = panNumber;
+    data['gst_number'] = gstNumber;
+    data['website'] = website;
+    data['business_category'] = businessCategory;
+    data['logo'] = logo;
+    data['license_certificate'] = licenseCertificate;
+    data['license_start_date'] = licenseStartDate;
+    data['license_end_date'] = licenseEndDate;
+    data['verification_status'] = verificationStatus;
+    data['state_id'] = stateId;
+    data['district_id'] = districtId;
+    data['address'] = address;
+    data['address_line_2'] = addressLine2;
+    data['postal_code'] = postalCode;
+    if (state != null) {
+      data['state'] = state!.toJson();
+    }
+    if (district != null) {
+      data['district'] = district!.toJson();
+    }
+    data['license_certificate_url'] = licenseCertificateUrl;
+    return data;
+  }
+}
+
+class State {
+  int? id;
+  String? name;
+  String? code;
+  String? createdAt;
+  String? updatedAt;
+  int? status;
+
+  State({
+    this.id,
+    this.name,
+    this.code,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+  });
+
+  State.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    code = json['code'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['code'] = code;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['status'] = status;
+    return data;
+  }
+}
+
+class District {
+  int? id;
+  int? stateId;
+  String? createdAt;
+  String? updatedAt;
+  String? name;
+  String? code;
+  int? status;
+
+  District({
+    this.id,
+    this.stateId,
+    this.createdAt,
+    this.updatedAt,
+    this.name,
+    this.code,
+    this.status,
+  });
+
+  District.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    stateId = json['state_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    name = json['name'];
+    code = json['code'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['state_id'] = stateId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['name'] = name;
+    data['code'] = code;
+    data['status'] = status;
+    return data;
+  }
+}

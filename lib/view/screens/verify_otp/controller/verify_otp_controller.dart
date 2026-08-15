@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/auth_model.dart';
+import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
@@ -81,7 +82,7 @@ class VerifyOtpController extends GetxController implements GetxService {
       Loader.load(false);
 
       if (authModel.data != null) {
-        UserModel? userModel = authModel.data;
+        UserDetailModel? userModel = authModel.data;
 
         sharedPref.saveAuthToken(userModel?.accessToken ?? '');
         sharedPref.saveUserInfo(userModel?.user ?? User());

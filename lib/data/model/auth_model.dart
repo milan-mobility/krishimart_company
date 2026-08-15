@@ -1,12 +1,14 @@
+import 'package:krishi_mart/data/model/user_company_module.dart';
+
 class AuthModel {
   String? message;
-  UserModel? data;
+  UserDetailModel? data;
 
   AuthModel({this.message, this.data});
 
   AuthModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? UserModel.fromJson(json['data']) : null;
+    data = json['data'] != null ? UserDetailModel.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -19,7 +21,7 @@ class AuthModel {
   }
 }
 
-class UserModel {
+class UserDetailModel {
   String? accessToken;
   String? tokenType;
   String? expiresAt;
@@ -27,7 +29,7 @@ class UserModel {
   String? profileStatus;
   User? user;
 
-  UserModel({
+  UserDetailModel({
     this.accessToken,
     this.tokenType,
     this.expiresAt,
@@ -35,7 +37,7 @@ class UserModel {
     this.profileStatus,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  UserDetailModel.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
     tokenType = json['token_type'];
     expiresAt = json['expires_at'];
@@ -55,34 +57,6 @@ class UserModel {
     if (user != null) {
       data['user'] = user!.toJson();
     }
-    return data;
-  }
-}
-
-class User {
-  int? id;
-  String? name;
-  String? mobile;
-  String? email;
-  String? role;
-
-  User({this.id, this.name, this.mobile, this.email, this.role});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    mobile = json['mobile'];
-    email = json['email'];
-    role = json['role'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['mobile'] = mobile;
-    data['email'] = email;
-    data['role'] = role;
     return data;
   }
 }
