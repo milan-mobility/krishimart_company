@@ -3,6 +3,9 @@ final Map<String, String> enUs = <String, String>{
   'Grow your dealer network': 'Grow your dealer network',
   'Manage your leads easily': 'Manage your leads easily',
   'Products': 'Products',
+  'Views': 'Views',
+  'Home': 'Home',
+  'Profile': 'Profile',
   'Leads': 'Leads',
   'My Products': 'My Products',
   'Manage': 'Manage',
@@ -143,4 +146,13 @@ final Map<String, String> enUs = <String, String>{
   'This page is coming soon': 'This page is coming soon',
   'Delete account support is coming soon':
       'Delete account support is coming soon',
+  'Product Reel': 'Product Reel',
+  'Upload Reel': 'Upload Reel',
+  'Compressing reel...': 'Compressing reel...',
+  'Opening gallery...': 'Opening gallery...',
+  'Video up to 30 seconds': 'Video up to 30 seconds',
+  'Reel ready': 'Reel ready',
+  'Change Language': 'Change Language',
+  'English': 'English',
+  'Gujarati': 'Gujarati',
 };

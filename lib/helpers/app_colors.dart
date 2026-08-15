@@ -45,4 +45,5 @@ class AppColors {
   static const Color dashboardBanner = Color(0xFFDDE5FF);
   static const Color color0F5238 = Color(0xFF0F5238);
   static const Color color1E3A8A = Color(0xFF1E3A8A);
+  static const Color color9CA3AF = Color(0xFF9CA3AF);
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/dealer_dashboard_product.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 
-class DealerHomeController extends GetxController {
+class DealerHomeController extends GetxController implements GetxService {
   DealerHomeController(this.sharedPref);
 
   final SharedPreferenceHelper sharedPref;

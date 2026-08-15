@@ -26,11 +26,6 @@ class LoginController extends GetxController {
         : UserType.company.name;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void checkValidation() {
     if (formKey.currentState?.validate() ?? false) {
       sendOTApiCall();

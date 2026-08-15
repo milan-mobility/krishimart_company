@@ -42,6 +42,9 @@ class ProfileScreen extends StatelessWidget {
                       ProfileMenuListWidget(
                         items: controller.menuItems,
                         onItemTap: controller.onMenuItemTap,
+                        languages: controller.languageOptions,
+                        selectedLanguageCode: controller.selectedLanguageCode,
+                        onLanguageSelected: controller.changeLanguage,
                       ),
                     ],
                   ),

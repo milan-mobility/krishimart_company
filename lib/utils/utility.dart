@@ -14,6 +14,7 @@ import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
 import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_compress/video_compress.dart';
 
 class Utility {
   static bool checkIsNetworkUrl(final String url) {
@@ -83,6 +84,34 @@ class Utility {
       debugPrint(e.toString());
     }
     return images;
+  }
+
+  static Future<String?> selectVideo() async {
+    try {
+      final XFile? video = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+        maxDuration: const Duration(seconds: 30),
+      );
+      if (video == null || video.path.isEmpty) return null;
+      return video.path;
+    } catch (error) {
+      debugPrint('Video selection failed: $error');
+      return null;
+    }
+  }
+
+  static Future<String?> compressVideo(final String videoPath) async {
+    try {
+      final MediaInfo? compressedVideo = await VideoCompress.compressVideo(
+        videoPath,
+        quality: VideoQuality.MediumQuality,
+        deleteOrigin: false,
+      );
+      return compressedVideo?.path;
+    } catch (error) {
+      debugPrint('Video compression failed: $error');
+      return null;
+    }
   }
 
   static Future<void> makeCall(final String phone) async {

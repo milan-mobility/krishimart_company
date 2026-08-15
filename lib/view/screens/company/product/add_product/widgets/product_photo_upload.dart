@@ -16,7 +16,10 @@ class ProductPhotoUpload extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('Photos'.tr, style: productFieldLabel),
+        Text(
+          'Photos'.tr,
+          style: interW500.copyWith(fontSize: 14, color: AppColors.color9CA3AF),
+        ),
         Gap(AppResponsive.value(6, tablet: 8)),
         InkWell(
           onTap: controller.selectPhotos,

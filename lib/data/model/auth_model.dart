@@ -24,15 +24,23 @@ class UserModel {
   String? tokenType;
   String? expiresAt;
   bool? hasProfileCompleted;
+  String? profileStatus;
   User? user;
 
-  UserModel({this.accessToken, this.tokenType, this.expiresAt, this.user});
+  UserModel({
+    this.accessToken,
+    this.tokenType,
+    this.expiresAt,
+    this.user,
+    this.profileStatus,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
     tokenType = json['token_type'];
     expiresAt = json['expires_at'];
     hasProfileCompleted = json['profile_completed'];
+    profileStatus = json['profile_status'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
@@ -42,6 +50,7 @@ class UserModel {
     data['token_type'] = tokenType;
     data['expires_at'] = expiresAt;
     data['profile_completed'] = hasProfileCompleted;
+    data['profile_status'] = profileStatus;
 
     if (user != null) {
       data['user'] = user!.toJson();

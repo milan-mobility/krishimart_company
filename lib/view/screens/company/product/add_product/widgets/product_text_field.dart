@@ -27,7 +27,10 @@ class ProductTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(label.tr, style: productFieldLabel),
+        Text(
+          label.tr,
+          style: interW500.copyWith(fontSize: 14, color: AppColors.color9CA3AF),
+        ),
         Gap(AppResponsive.value(6, tablet: 8)),
         CommonTextField(
           controller: controller,

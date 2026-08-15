@@ -3,6 +3,9 @@ final Map<String, String> gu = <String, String>{
   'Grow your dealer network': 'તમારું ડીલર નેટવર્ક વધારો',
   'Manage your leads easily': 'તમારા લીડ્સ સરળતાથી મેનેજ કરો',
   'Products': 'ઉત્પાદનો',
+  'Views': 'વ્યૂઝ',
+  'Home': 'હોમ',
+  'Profile': 'પ્રોફાઇલ',
   'Leads': 'લીડ્સ',
   'My Products': 'મારા ઉત્પાદનો',
   'Manage': 'મેનેજ કરો',
@@ -143,4 +146,13 @@ final Map<String, String> gu = <String, String>{
   'This page is coming soon': 'આ પેજ ટૂંક સમયમાં આવશે',
   'Delete account support is coming soon':
       'એકાઉન્ટ કાઢી નાખવાની સુવિધા ટૂંક સમયમાં આવશે',
+  'Product Reel': 'પ્રોડક્ટ રીલ',
+  'Upload Reel': 'રીલ અપલોડ કરો',
+  'Compressing reel...': 'રીલ કોમ્પ્રેસ થઈ રહી છે...',
+  'Opening gallery...': 'ગેલેરી ખોલી રહ્યા છીએ...',
+  'Video up to 30 seconds': '30 સેકન્ડ સુધીનો વિડિયો',
+  'Reel ready': 'રીલ તૈયાર છે',
+  'Change Language': 'ભાષા બદલો',
+  'English': 'અંગ્રેજી',
+  'Gujarati': 'ગુજરાતી',
 };

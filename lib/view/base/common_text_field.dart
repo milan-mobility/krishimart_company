@@ -103,7 +103,7 @@ class CommonTextField extends StatelessWidget {
           (final String value) => FocusScope.of(context).nextFocus(),
       onChanged: onChange,
       controller: controller,
-      cursorHeight: cursorHeight ?? null,
+      cursorHeight: cursorHeight,
       cursorColor: Colors.black,
       cursorWidth: AppResponsive.space(1),
       maxLength: maxLength,
