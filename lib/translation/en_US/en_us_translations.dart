@@ -175,4 +175,6 @@ final Map<String, String> enUs = <String, String>{
   'Product deleted successfully': 'Product deleted successfully',
   'Something went wrong!': 'Something went wrong!',
   'Yes,Delete': 'Yes,Delete',
+  'Are you sure you want to logout?': 'Are you sure you want to logout?',
+  'Yes,Logout': 'Yes,Logout',
 };

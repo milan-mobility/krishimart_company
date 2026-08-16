@@ -116,6 +116,40 @@ class VerifyOtpController extends GetxController implements GetxService {
     }
   }
 
+  Future<void> resendOtpApiCall() async {
+    final bool isInternetAvailable = await ConnectionUtils.isNetworkConnected();
+    if (!isInternetAvailable) {
+      showErrorSnackBar(
+        title: MessageConstant.netWorkTitle,
+        message: MessageConstant.networkError,
+      );
+      return;
+    }
+
+    try {
+      final Map<String, dynamic> params = <String, dynamic>{
+        'mobile': mobile,
+        'role': userRole,
+      };
+
+      Loader.load(true);
+      final bool response = await authRepo.resendOTP(params);
+      Loader.load(false);
+
+      if (response) {
+        showSuccessSnackBar(message: 'Otp send successfully'.tr);
+      } else {
+        showErrorSnackBar(message: 'Something went Wrong!');
+      }
+    } on DioException catch (e) {
+      Utility.showAPIError(e);
+    } catch (e) {
+      debugPrint('EXCEPTION=>${e.toString()}');
+    } finally {
+      Loader.load(false);
+    }
+  }
+
   void countDownStart() {
     start = 60;
     _timer?.cancel();

@@ -115,7 +115,7 @@ class VerifyOtpScreen extends StatelessWidget {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   controller.clearOtpField();
-                                  // controller.resenOtpApiColl();
+                                  controller.resendOtpApiCall();
                                 },
                             ),
                           ],

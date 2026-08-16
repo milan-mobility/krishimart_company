@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/profile_language_option.dart';
 import 'package:krishi_mart/data/model/profile_menu_item.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
-import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/utils/utility.dart';
+import 'package:krishi_mart/view/base/confirmation_bottom_sheet.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 
 class ProfileController extends GetxController {
@@ -79,9 +80,28 @@ class ProfileController extends GetxController {
       case ProfileMenuAction.changeLanguage:
         return;
       case ProfileMenuAction.logout:
-        await _logout();
+        Get.bottomSheet(
+          ConfirmationBottomSheet(
+            title: 'Logout'.tr,
+            description: 'Are you sure you want to logout?'.tr,
+            onPositive: () {
+              Utility.logout();
+            },
+            txtPositive: 'Yes,Logout'.tr,
+          ),
+        );
         return;
       case ProfileMenuAction.deleteAccount:
+        Get.bottomSheet(
+          ConfirmationBottomSheet(
+            title: 'Delete'.tr,
+            description: 'Are you sure you want to delete your account?'.tr,
+            onPositive: () {
+              //Delete api call
+            },
+            txtPositive: 'Yes,Delte'.tr,
+          ),
+        );
         showErrorSnackBar(message: 'Delete account support is coming soon'.tr);
         return;
       case ProfileMenuAction.privacyPolicy:
@@ -90,10 +110,5 @@ class ProfileController extends GetxController {
         showSuccessSnackBar(message: 'This page is coming soon'.tr);
         return;
     }
-  }
-
-  Future<void> _logout() async {
-    await _sharedPreferenceHelper.clear();
-    await Get.offAllNamed(RouteHelper.login);
   }
 }

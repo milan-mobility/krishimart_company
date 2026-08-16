@@ -10,6 +10,7 @@ class Endpoints {
   //Auth
   static const String sendOTP = '${api}auth/otp/send';
   static const String verifyOTP = '${api}auth/otp/verify';
+  static const String resendOTP = '${api}auth/otp/resend';
 
   //Farmer
   static const String farmerProfile = '${api}farmer/profile';
