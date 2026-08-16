@@ -6,11 +6,12 @@ import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
+import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/controller/add_product_controller.dart';
+import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_dropdown_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_form_card.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_photo_upload.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_reel_upload.dart';
-import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_text_field.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
@@ -18,6 +19,7 @@ class AddProductScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<AddProductController>(
+      init: AddProductController(Get.find()),
       builder: (final AddProductController controller) {
         return Scaffold(
           backgroundColor: AppColors.productSurface,
@@ -50,50 +52,84 @@ class AddProductScreen extends StatelessWidget {
                           children: <Widget>[
                             Text('Add Product'.tr, style: productFormTitle),
                             Gap(AppResponsive.value(20, tablet: 24)),
-                            ProductTextField(
+                            CompanyProfileTextField(
                               label: 'Product Name',
                               hintText: 'e.g. Ampigo 150 ZC',
                               controller: controller.txtProductName,
+                              textStyle: interW500.copyWith(
+                                fontSize: 14,
+                                color: AppColors.color9CA3AF,
+                              ),
+                              isRequired: true,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            CompanyProfileTextField(
                               label: 'Company',
                               hintText: 'e.g. Syngenta',
                               controller: controller.txtCompany,
+                              textStyle: interW500.copyWith(
+                                fontSize: 14,
+                                color: AppColors.color9CA3AF,
+                              ),
+                              isRequired: true,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            ProductDropdownField(
                               label: 'Category',
-                              hintText: 'e.g. Pesticide',
-                              controller: controller.txtCategory,
+                              hintText: 'Select category',
+                              items: controller.commonController.categories,
+                              selectedItem: controller.selectedCategory,
+                              itemAsString: (final item) => item.name ?? '',
+                              onChanged: controller.selectCategory,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            CompanyProfileTextField(
                               label: 'Description',
                               hintText: 'Product details...',
                               controller: controller.txtDescription,
+                              textStyle: interW500.copyWith(
+                                fontSize: 14,
+                                color: AppColors.color9CA3AF,
+                              ),
                               maxLines: 3,
+                              isRequired: true,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            CompanyProfileTextField(
                               label: 'Dose',
                               hintText: 'e.g. 80ml/acre',
                               controller: controller.txtDose,
+                              textStyle: interW500.copyWith(
+                                fontSize: 14,
+                                color: AppColors.color9CA3AF,
+                              ),
+                              isRequired: true,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            ProductDropdownField(
                               label: 'Crops',
-                              hintText: 'e.g. Cotton, Chilli',
-                              controller: controller.txtCrops,
+                              hintText: 'Select crop',
+                              items: controller.commonController.crops,
+                              selectedItem: controller.selectedCrop,
+                              itemAsString: (final item) => item.name ?? '',
+                              onChanged: controller.selectCrop,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductPhotoUpload(controller: controller),
+                            ProductPhotoUpload(
+                              onPhotoSelect: () {
+                                controller.selectPhotos();
+                              },
+                            ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductTextField(
+                            CompanyProfileTextField(
                               label: 'YouTube Video Link',
                               hintText: 'https://youtube.com/...',
                               controller: controller.txtYoutubeLink,
                               keyboardType: TextInputType.url,
+                              textStyle: interW500.copyWith(
+                                fontSize: 14,
+                                color: AppColors.color9CA3AF,
+                              ),
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
                             ProductReelUpload(controller: controller),

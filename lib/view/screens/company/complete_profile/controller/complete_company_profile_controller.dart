@@ -113,6 +113,7 @@ class CompleteCompanyProfileController extends GetxController {
         sharedPref.saveHasProfileCompleted(
           userModel?.profileCompleted ?? false,
         );
+        await commonController.getCompanyUserDetail();
         Get.offAllNamed(RouteHelper.companyHomeScreen);
       }
     } on DioException catch (error) {

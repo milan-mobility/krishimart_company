@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/view/base/bottom_navigation_bar.dart';
@@ -26,7 +27,19 @@ class CompanyHomeScreen extends StatelessWidget {
           builder: (final CompanyHomeController controller) {
             return Column(
               children: <Widget>[
-                DealerHomeHeader(dealerName: controller.dealerName),
+                GetBuilder<CommonController>(
+                  builder: (final CommonController commonController) {
+                    return DealerHomeHeader(
+                      dealerName:
+                          commonController
+                              .userProfileModel
+                              ?.data
+                              ?.profile
+                              ?.companyName ??
+                          '',
+                    );
+                  },
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.all(

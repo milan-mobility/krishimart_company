@@ -62,6 +62,7 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.done,
                       maxLength: 10,
+                      hintText: 'Mobile number'.tr,
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: AppColors.colorEFECFF,

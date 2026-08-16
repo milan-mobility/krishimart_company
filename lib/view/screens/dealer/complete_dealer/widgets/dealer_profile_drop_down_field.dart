@@ -31,7 +31,10 @@ class DealerProfileDropDownField extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: label.tr,
-            style: companyProfileFieldLabel,
+            style: interW500.copyWith(
+              fontSize: 14,
+              color: AppColors.color9CA3AF,
+            ),
             children: <InlineSpan>[
               TextSpan(
                 text: ' *',

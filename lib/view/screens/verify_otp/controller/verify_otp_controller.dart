@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/model/auth_model.dart';
 import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
@@ -93,6 +94,7 @@ class VerifyOtpController extends GetxController implements GetxService {
 
         if (userModel?.hasProfileCompleted ?? true) {
           if (sharedPref.getUserRole == UserType.company.name) {
+            await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
             Get.offAllNamed(RouteHelper.dealerHome);

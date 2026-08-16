@@ -1,10 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:krishi_mart/data/model/product_list_item.dart';
+import 'package:krishi_mart/data/model/product_model.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
+import 'package:krishi_mart/helpers/extensions/string_ext.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/view/base/placeholder_image.dart';
 import 'package:krishi_mart/view/screens/company/product/list/widgets/product_row_action.dart';
 
 class ProductRow extends StatelessWidget {
@@ -15,7 +18,7 @@ class ProductRow extends StatelessWidget {
     super.key,
   });
 
-  final ProductListItem product;
+  final Product product;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
@@ -38,26 +41,47 @@ class ProductRow extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Container(
-            width: AppResponsive.value(52, tablet: 62),
-            height: AppResponsive.value(52, tablet: 62),
-            decoration: BoxDecoration(
-              color: AppColors.productImageBackground,
-              borderRadius: BorderRadius.circular(AppResponsive.value(11)),
-            ),
-            child: Icon(
-              Icons.science_outlined,
-              color: AppColors.color1F6D1A,
-              size: AppResponsive.value(28, tablet: 32),
-            ),
-          ),
+          (product.primaryImage?.image.isNotNullAndEmpty() == true)
+              ? CachedNetworkImage(
+                  imageUrl: (product.primaryImage!.image ?? '').imageUrl(),
+                  imageBuilder:
+                      (
+                        final BuildContext context,
+                        final ImageProvider<Object> imageProvider,
+                      ) => Container(
+                        width: AppResponsive.value(52, tablet: 62),
+                        height: AppResponsive.value(52, tablet: 62),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            AppResponsive.value(11),
+                          ),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                  placeholder: (final BuildContext context, final String url) =>
+                      PlaceholderImage(
+                        width: AppResponsive.value(52, tablet: 62),
+                        height: AppResponsive.value(52, tablet: 62),
+                      ),
+                  errorWidget: (context, url, error) => PlaceholderImage(
+                    width: AppResponsive.value(52, tablet: 62),
+                    height: AppResponsive.value(52, tablet: 62),
+                  ),
+                )
+              : PlaceholderImage(
+                  width: AppResponsive.value(52, tablet: 62),
+                  height: AppResponsive.value(52, tablet: 62),
+                ),
           Gap(AppResponsive.value(11, tablet: 14)),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  product.name,
+                  product.name ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: interW700.copyWith(
@@ -66,7 +90,10 @@ class ProductRow extends StatelessWidget {
                   ),
                 ),
                 Gap(AppResponsive.value(3, tablet: 5)),
-                Text(product.company, style: companyProfileUploadDescription),
+                Text(
+                  product.brand?.name ?? '',
+                  style: companyProfileUploadDescription,
+                ),
                 Gap(AppResponsive.value(4, tablet: 6)),
                 Row(
                   children: <Widget>[
@@ -77,7 +104,7 @@ class ProductRow extends StatelessWidget {
                     ),
                     Gap(AppResponsive.value(4)),
                     Text(
-                      '${product.views} ${'views'.tr}',
+                      '${product.views ?? 0} ${'views'.tr}',
                       style: companyProfileUploadDescription,
                     ),
                   ],

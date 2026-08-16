@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/complete_company_profile_screen.dart';
 import 'package:krishi_mart/view/screens/company/home/company_home_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/add_product_screen.dart';
-import 'package:krishi_mart/view/screens/company/product/add_product/binding/product_binding.dart';
 import 'package:krishi_mart/view/screens/company/product/list/product_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/complete_dealer_profile_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/home/dealer_home_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/add_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/login/login_screen.dart';
 import 'package:krishi_mart/view/screens/profile/profile_screen.dart';
 import 'package:krishi_mart/view/screens/splash/splash_screen.dart';
@@ -26,6 +26,7 @@ class RouteHelper {
   static const String completeDealerProfile = '/completeDealerProfile';
   static const String dealerHome = '/dealer-home';
   static const String companyHomeScreen = '/companyHomeScreen';
+  static const String addDealerProduct = '/addDealerProduct';
 
   static const String videos = '/videos';
   static const String profile = '/profile';
@@ -45,7 +46,6 @@ class RouteHelper {
     GetPage<dynamic>(
       name: addProduct,
       page: () => getRoute(const AddProductScreen()),
-      binding: ProductBinding(),
     ),
     GetPage<dynamic>(
       name: productList,
@@ -64,6 +64,10 @@ class RouteHelper {
     GetPage<dynamic>(
       name: profile,
       page: () => getRoute(const ProfileScreen()),
+    ),
+    GetPage<dynamic>(
+      name: addDealerProduct,
+      page: () => getRoute(const AddDealerProductScreen()),
     ),
     GetPage<dynamic>(
       name: companyHomeScreen,

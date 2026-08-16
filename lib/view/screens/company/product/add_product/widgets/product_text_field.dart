@@ -38,7 +38,7 @@ class ProductTextField extends StatelessWidget {
           hintStyle: companyProfileHint,
           maxLines: maxLines,
           keyboardType: keyboardType,
-          fillColor: AppColors.productSurface,
+          fillColor: AppColors.white,
           borderColor: AppColors.productUploadBorder,
           validator: (final String? value) {
             if (value?.trim().isEmpty ?? true) {

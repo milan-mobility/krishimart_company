@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/app_enums.dart';
@@ -29,6 +30,9 @@ class SplashController extends GetxController {
       await Future.delayed(interval);
     }
 
+    sharedPref.saveUserRole(UserType.company.name);
+    sharedPref.saveHasProfileCompleted(true);
+
     //temporay
     // Get.offAllNamed(RouteHelper.dealerHome);
 
@@ -36,6 +40,7 @@ class SplashController extends GetxController {
       if (sharedPref.hasProfileCompleted) {
         if (sharedPref.isLoggedIn) {
           if (sharedPref.getUserRole == UserType.company.name) {
+            await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
             Get.offAllNamed(RouteHelper.dealerHome);

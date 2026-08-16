@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
-import 'package:krishi_mart/view/screens/company/product/add_product/controller/add_product_controller.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_reel_preview.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/controller/add_dealer_product_controller.dart';
 
-class ProductReelUpload extends StatelessWidget {
-  const ProductReelUpload({required this.controller, super.key});
+class ProductDealerReelUpload extends StatelessWidget {
+  const ProductDealerReelUpload({required this.controller, super.key});
 
-  final AddProductController controller;
+  final AddDealerProductController controller;
 
   @override
   Widget build(final BuildContext context) {

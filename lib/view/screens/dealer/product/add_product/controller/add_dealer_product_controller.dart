@@ -8,13 +8,14 @@ import 'package:krishi_mart/data/model/id_name_model.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:video_player/video_player.dart';
 
-class AddProductController extends GetxController {
-  AddProductController(this.commonController);
+class AddDealerProductController extends GetxController {
+  AddDealerProductController(this.commonController);
 
   final CommonController commonController;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtProductName = TextEditingController();
   final TextEditingController txtCompany = TextEditingController();
+  final TextEditingController txtFarmerName = TextEditingController();
   final TextEditingController txtDescription = TextEditingController();
   final TextEditingController txtDose = TextEditingController();
   final TextEditingController txtYoutubeLink = TextEditingController();
@@ -28,6 +29,8 @@ class AddProductController extends GetxController {
   IdName? selectedCrop;
 
   bool get isProcessingReel => isSelectingReel || isCompressingReel;
+
+  int selectedProductTab = 0;
 
   @override
   void onInit() {
@@ -127,10 +130,16 @@ class AddProductController extends GetxController {
     }
   }
 
+  void selectedTab(final int selectTab) {
+    selectedProductTab = selectTab;
+    update();
+  }
+
   @override
   void onClose() {
     txtProductName.dispose();
     txtCompany.dispose();
+    txtFarmerName.dispose();
     txtDescription.dispose();
     txtDose.dispose();
     txtYoutubeLink.dispose();

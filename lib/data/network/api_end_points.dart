@@ -5,11 +5,28 @@ class Endpoints {
 
   static const String api = 'api/v1/';
 
+  static const String imageUrl = '${baseUrl}storage/';
+
+  //Auth
   static const String sendOTP = '${api}auth/otp/send';
   static const String verifyOTP = '${api}auth/otp/verify';
+
+  //Farmer
   static const String farmerProfile = '${api}farmer/profile';
 
+  //Company
+  static const String createCompanyProfile = '${api}company/profile';
+  static const String getCompanyProfile = '${api}company/profile';
+  static const String createProduct = '${api}company/products';
+  static const String productList = '${api}company/products';
+
+  static String deleteProduct(final int productId) {
+    return '${api}company/products/$productId';
+  }
+
+  //Common
   static const String getStates = '${api}masters/states';
+
   static String getDistricts(final int stateId) {
     return '${api}masters/states/$stateId/districts';
   }
@@ -22,7 +39,6 @@ class Endpoints {
     return '${api}masters/talukas/$talukaId/villages';
   }
 
-  //Company
-  static const String createCompanyProfile = '${api}company/profile';
-  static const String getCompanyProfile = '${api}company/profile';
+  static const String categories = '${api}categories';
+  static const String crops = '${api}masters/crops';
 }

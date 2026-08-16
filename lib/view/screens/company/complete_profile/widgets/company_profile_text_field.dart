@@ -18,6 +18,8 @@ class CompanyProfileTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.suffixIcon,
+    this.maxLines = 1,
+    this.textStyle,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     super.key,
@@ -31,9 +33,11 @@ class CompanyProfileTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isRequired;
   final bool readOnly;
+  final int maxLines;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final TextStyle? textStyle;
   final TextCapitalization textCapitalization;
 
   @override
@@ -44,7 +48,7 @@ class CompanyProfileTextField extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: label.tr,
-            style: companyProfileFieldLabel,
+            style: textStyle ?? companyProfileFieldLabel,
             children: isRequired
                 ? <InlineSpan>[
                     TextSpan(
@@ -66,6 +70,7 @@ class CompanyProfileTextField extends StatelessWidget {
           textCapitalization: textCapitalization,
           fillColor: AppColors.white,
           borderColor: AppColors.formBorder,
+          maxLines: maxLines,
           maxLength: maxLength,
           readOnly: readOnly,
           onTap: onTap,
