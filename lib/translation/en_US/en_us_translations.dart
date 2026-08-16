@@ -71,7 +71,7 @@ final Map<String, String> enUs = <String, String>{
   'Shop No, Building, Street name...': 'Shop No, Building, Street name...',
   'Language Preference': 'Language Preference',
   'Select Language': 'Select Language',
-  'License Details (Optional)': 'License Details (Optional)',
+  'License Details': 'License Details',
   'Pesticide License Number': 'Pesticide License Number',
   'Fertilizer License Number': 'Fertilizer License Number',
   'Seeds License Number': 'Seeds License Number',

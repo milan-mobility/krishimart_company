@@ -120,4 +120,20 @@ class CommonRepo {
       rethrow;
     }
   }
+
+  Future<UserProfileModel> getDealerData() async {
+    try {
+      final Response<dynamic> response = await _dioClient.get(
+        Endpoints.getDealerData,
+      );
+
+      return UserProfileModel.fromJson(response.data);
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

@@ -33,7 +33,7 @@ class DealerHomeController extends GetxController implements GetxService {
   Timer? _bannerTimer;
   int currentBanner = 0;
 
-  String get dealerName => sharedPref.getUserInfo?.name ?? 'Dealer';
+  String get dealerName => sharedPref.getUserInfo?.name ?? '';
 
   @override
   void onInit() {

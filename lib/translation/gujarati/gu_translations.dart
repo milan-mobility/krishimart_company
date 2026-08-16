@@ -71,7 +71,7 @@ final Map<String, String> gu = <String, String>{
   'Shop No, Building, Street name...': 'દુકાન નં., બિલ્ડિંગ, શેરીનું નામ...',
   'Language Preference': 'ભાષા પસંદગી',
   'Select Language': 'ભાષા પસંદ કરો',
-  'License Details (Optional)': 'લાઇસન્સ વિગતો (વૈકલ્પિક)',
+  'License Details': 'લાઇસન્સ વિગતો',
   'Pesticide License Number': 'જંતુનાશક લાઇસન્સ નંબર',
   'Fertilizer License Number': 'ખાતર લાઇસન્સ નંબર',
   'Seeds License Number': 'બીજ લાઇસન્સ નંબર',

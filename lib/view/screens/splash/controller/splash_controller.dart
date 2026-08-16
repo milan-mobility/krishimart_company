@@ -30,9 +30,6 @@ class SplashController extends GetxController {
       await Future.delayed(interval);
     }
 
-    sharedPref.saveUserRole(UserType.company.name);
-    sharedPref.saveHasProfileCompleted(true);
-
     //temporay
     // Get.offAllNamed(RouteHelper.dealerHome);
 
@@ -43,6 +40,7 @@ class SplashController extends GetxController {
             await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
+            await Get.find<CommonController>().getDealerData();
             Get.offAllNamed(RouteHelper.dealerHome);
           }
         } else {

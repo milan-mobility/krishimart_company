@@ -15,6 +15,9 @@ class DealerProfileTextField extends StatelessWidget {
     this.maxLines = 1,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
+    this.readOnly = false,
+    this.onTap,
+    this.suffixIcon,
     super.key,
   });
 
@@ -25,6 +28,9 @@ class DealerProfileTextField extends StatelessWidget {
   final int maxLines;
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Widget? suffixIcon;
 
   @override
   Widget build(final BuildContext context) {
@@ -54,6 +60,9 @@ class DealerProfileTextField extends StatelessWidget {
           hintStyle: companyProfileHint,
           keyboardType: keyboardType,
           textCapitalization: textCapitalization,
+          readOnly: readOnly,
+          onTap: onTap,
+          suffixIcon: suffixIcon,
           maxLines: maxLines,
           fillColor: AppColors.colorF7FAF7,
           borderColor: AppColors.formBorder,

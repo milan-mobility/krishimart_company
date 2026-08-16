@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
@@ -9,7 +10,7 @@ import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/controller/complete_dealer_profile_controller.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_drop_down_field.dart';
-import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_progress_header.dart';
+import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_license_date_field.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_text_field.dart';
 
@@ -19,7 +20,7 @@ class CompleteDealerProfileScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<CompleteDealerProfileController>(
-      init: CompleteDealerProfileController(Get.find(), Get.find()),
+      init: CompleteDealerProfileController(Get.find(), Get.find(), Get.find()),
       builder: (final CompleteDealerProfileController controller) {
         return Scaffold(
           backgroundColor: AppColors.colorF7FAF7,
@@ -52,8 +53,6 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const DealerProfileProgressHeader(),
-                    Gap(AppResponsive.value(28, tablet: 34)),
                     Text(
                       'AgriGrow Dealer Registration'.tr,
                       style: userRoleWelcome.copyWith(
@@ -82,6 +81,25 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.words,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateField(
+                            label: 'Pesticide License Issue Date',
+                            hintText: 'Select issue date',
+                            controller: controller.txtPesticideLicenseIssueDate,
+                            onDateSelected:
+                                controller.setPesticideLicenseIssueDate,
+                            isExpiryDate: false,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateField(
+                            label: 'Pesticide License Expire Date',
+                            hintText: 'Select expire date',
+                            controller:
+                                controller.txtPesticideLicenseExpireDate,
+                            onDateSelected:
+                                controller.setPesticideLicenseExpireDate,
+                            isExpiryDate: true,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Dealer Name',
                             hintText: 'Full name of the proprietor',
@@ -96,56 +114,71 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                     DealerProfileSectionCard(
                       title: 'Location Details',
                       icon: Icons.location_on_outlined,
-                      trailing: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppResponsive.value(9),
-                          vertical: AppResponsive.value(5),
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.colorA4F792,
-                          borderRadius: BorderRadius.circular(
-                            AppResponsive.value(16),
-                          ),
-                        ),
-                        child: Text(
-                          'Auto-fill'.tr,
-                          style: companyProfileCategoryTitle.copyWith(
-                            color: AppColors.color1F6D1A,
-                          ),
-                        ),
-                      ),
+                      trailing: SizedBox(),
                       child: Column(
                         children: <Widget>[
-                          DealerProfileDropDownField(
-                            label: 'State',
-                            hintText: 'Select State',
-                            items: controller.states,
-                            value: controller.selectedState,
-                            onChanged: controller.selectState,
+                          GetBuilder<CommonController>(
+                            builder: (final CommonController commonController) {
+                              return Column(
+                                children: <Widget>[
+                                  DealerProfileDropDownField(
+                                    label: 'State',
+                                    hintText: 'Select State',
+                                    fillColor: AppColors.productSurface,
+                                    items: commonController.states,
+                                    value: controller.selectedState,
+                                    onChanged: controller.selectState,
+                                  ),
+                                  Gap(AppResponsive.value(14, tablet: 18)),
+                                  DealerProfileDropDownField(
+                                    label: 'District',
+                                    hintText: 'Select District',
+                                    fillColor: AppColors.productSurface,
+                                    items: commonController.districts,
+                                    value: controller.selectedDistrict,
+                                    onChanged: controller.selectDistrict,
+                                  ),
+                                  Gap(AppResponsive.value(14, tablet: 18)),
+                                  DealerProfileDropDownField(
+                                    label: 'Taluk',
+                                    hintText: 'Select Taluk',
+                                    fillColor: AppColors.productSurface,
+                                    items: commonController.talukas,
+                                    value: controller.selectedTaluka,
+                                    onChanged: controller.selectTaluka,
+                                  ),
+                                  Gap(AppResponsive.value(14, tablet: 18)),
+                                  DealerProfileDropDownField(
+                                    label: 'Village',
+                                    hintText: 'Select Village',
+                                    fillColor: AppColors.productSurface,
+                                    items: commonController.villages,
+                                    value: controller.selectedVillage,
+                                    onChanged: controller.selectVillage,
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerProfileDropDownField(
-                            label: 'District',
-                            hintText: 'Select District',
-                            items: controller.districts,
-                            value: controller.selectedDistrict,
-                            onChanged: controller.selectDistrict,
+                          DealerLicenseDateField(
+                            label: 'Fertilizer License Issue Date',
+                            hintText: 'Select issue date',
+                            controller:
+                                controller.txtFertilizerLicenseIssueDate,
+                            onDateSelected:
+                                controller.setFertilizerLicenseIssueDate,
+                            isExpiryDate: false,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerProfileDropDownField(
-                            label: 'Taluk',
-                            hintText: 'Select Taluk',
-                            items: controller.talukas,
-                            value: controller.selectedTaluka,
-                            onChanged: controller.selectTaluka,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerProfileDropDownField(
-                            label: 'Village',
-                            hintText: 'Select Village',
-                            items: controller.villages,
-                            value: controller.selectedVillage,
-                            onChanged: controller.selectVillage,
+                          DealerLicenseDateField(
+                            label: 'Fertilizer License Expire Date',
+                            hintText: 'Select expire date',
+                            controller:
+                                controller.txtFertilizerLicenseExpireDate,
+                            onDateSelected:
+                                controller.setFertilizerLicenseExpireDate,
+                            isExpiryDate: true,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
@@ -161,19 +194,7 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                     ),
                     Gap(AppResponsive.value(18, tablet: 22)),
                     DealerProfileSectionCard(
-                      title: 'Language Preference',
-                      icon: Icons.translate,
-                      child: DealerProfileDropDownField(
-                        label: 'Select Language',
-                        hintText: 'Select Language',
-                        items: controller.languages,
-                        value: controller.selectedLanguage,
-                        onChanged: controller.selectLanguage,
-                      ),
-                    ),
-                    Gap(AppResponsive.value(18, tablet: 22)),
-                    DealerProfileSectionCard(
-                      title: 'License Details (Optional)',
+                      title: 'License Details',
                       icon: Icons.description_outlined,
                       child: Column(
                         children: <Widget>[
@@ -182,6 +203,23 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             hintText: 'PL-XXXX-XXXX',
                             controller: controller.txtPesticideLicense,
                             textCapitalization: TextCapitalization.characters,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateField(
+                            label: 'Seeds License Issue Date',
+                            hintText: 'Select issue date',
+                            controller: controller.txtSeedsLicenseIssueDate,
+                            onDateSelected: controller.setSeedsLicenseIssueDate,
+                            isExpiryDate: false,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateField(
+                            label: 'Seeds License Expire Date',
+                            hintText: 'Select expire date',
+                            controller: controller.txtSeedsLicenseExpireDate,
+                            onDateSelected:
+                                controller.setSeedsLicenseExpireDate,
+                            isExpiryDate: true,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
@@ -246,25 +284,11 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  CommonButton(
-                    btnText: 'Save as Draft'.tr,
-                    btnBgColor: AppColors.white,
-                    btnTxtColor: AppColors.color1F6D1A,
-                    side: const BorderSide(color: AppColors.color1F6D1A),
-                    borderRadius: AppResponsive.value(10),
-                    onPressed: controller.saveDraft,
-                  ),
-                  Gap(AppResponsive.value(10, tablet: 12)),
-                  CommonButton(
-                    btnText: 'Submit Dealer Profile'.tr,
-                    borderRadius: AppResponsive.value(10),
-                    icon: Assets.svg.icNext,
-                    onPressed: controller.checkValidation,
-                  ),
-                ],
+              child: CommonButton(
+                btnText: 'Submit Dealer Profile'.tr,
+                borderRadius: AppResponsive.value(10),
+                icon: Assets.svg.icNext,
+                onPressed: controller.checkValidation,
               ),
             ),
           ),

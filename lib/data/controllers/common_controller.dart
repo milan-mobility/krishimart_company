@@ -16,9 +16,13 @@ class CommonController extends GetxController implements GetxService {
 
   List<IdName> states = <IdName>[];
   List<IdName> districts = <IdName>[];
+  List<IdName> talukas = <IdName>[];
+  List<IdName> villages = <IdName>[];
   List<IdName> crops = <IdName>[];
   List<Category> categories = <Category>[];
   int _districtRequestId = 0;
+  int _talukaRequestId = 0;
+  int _villageRequestId = 0;
   bool _hasLoadedCrops = false;
   bool _hasLoadedCategories = false;
   Future<void>? _cropsRequest;
@@ -45,7 +49,11 @@ class CommonController extends GetxController implements GetxService {
 
   Future<void> getDistricts(final int? stateId) async {
     final int requestId = ++_districtRequestId;
+    ++_talukaRequestId;
+    ++_villageRequestId;
     districts = <IdName>[];
+    talukas = <IdName>[];
+    villages = <IdName>[];
     update();
 
     if (stateId == null) {
@@ -58,6 +66,54 @@ class CommonController extends GetxController implements GetxService {
         return;
       }
       districts = response.data ?? <IdName>[];
+      update();
+    } on DioException catch (error) {
+      Utility.showAPIError(error);
+    } catch (error) {
+      debugPrint('EXCEPTION=>${error.toString()}');
+    }
+  }
+
+  Future<void> getTalukas(final int? districtId) async {
+    final int requestId = ++_talukaRequestId;
+    ++_villageRequestId;
+    talukas = <IdName>[];
+    villages = <IdName>[];
+    update();
+
+    if (districtId == null) {
+      return;
+    }
+
+    try {
+      final IdNameModel response = await commonRepo.getTalukas(districtId);
+      if (requestId != _talukaRequestId) {
+        return;
+      }
+      talukas = response.data ?? <IdName>[];
+      update();
+    } on DioException catch (error) {
+      Utility.showAPIError(error);
+    } catch (error) {
+      debugPrint('EXCEPTION=>${error.toString()}');
+    }
+  }
+
+  Future<void> getVillages(final int? talukaId) async {
+    final int requestId = ++_villageRequestId;
+    villages = <IdName>[];
+    update();
+
+    if (talukaId == null) {
+      return;
+    }
+
+    try {
+      final IdNameModel response = await commonRepo.getVillages(talukaId);
+      if (requestId != _villageRequestId) {
+        return;
+      }
+      villages = response.data ?? <IdName>[];
       update();
     } on DioException catch (error) {
       Utility.showAPIError(error);
@@ -109,6 +165,17 @@ class CommonController extends GetxController implements GetxService {
   Future<void> getCompanyUserDetail() async {
     try {
       userProfileModel = await commonRepo.getUserProfile();
+      update();
+    } on DioException catch (error) {
+      Utility.showAPIError(error);
+    } catch (error) {
+      debugPrint('EXCEPTION=>${error.toString()}');
+    }
+  }
+
+  Future<void> getDealerData() async {
+    try {
+      userProfileModel = await commonRepo.getDealerData();
       update();
     } on DioException catch (error) {
       Utility.showAPIError(error);

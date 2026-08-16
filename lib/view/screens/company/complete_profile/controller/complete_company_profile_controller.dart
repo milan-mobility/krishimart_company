@@ -107,7 +107,7 @@ class CompleteCompanyProfileController extends GetxController {
 
       Loader.load(true);
       final UserProfileModel userProfileModel = await profileRepo
-          .completeFarmerProfile(params);
+          .completeCompanyProfile(params);
       if (userProfileModel.data != null) {
         final UserModel? userModel = userProfileModel.data;
         sharedPref.saveHasProfileCompleted(

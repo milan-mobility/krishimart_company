@@ -74,12 +74,31 @@ class ProfileRepo {
     }
   }
 
-  Future<UserProfileModel> completeFarmerProfile(
+  Future<UserProfileModel> completeCompanyProfile(
     final Map<String, dynamic> params,
   ) async {
     try {
       final Response<dynamic> response = await _dioClient.post(
         Endpoints.createCompanyProfile,
+        data: params,
+      );
+
+      return UserProfileModel.fromJson(response.data);
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<UserProfileModel> completeDealerProfile(
+    final Map<String, dynamic> params,
+  ) async {
+    try {
+      final Response<dynamic> response = await _dioClient.post(
+        Endpoints.saveDealerProfile,
         data: params,
       );
 
