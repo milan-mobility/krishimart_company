@@ -132,6 +132,13 @@ class Product {
   Brand? category;
   Brand? crop;
   PrimaryImage? primaryImage;
+  String? demoFarmerName;
+  int? talukaId;
+  int? villageId;
+  bool? isDemo;
+  String? youtubeVideoLink;
+  Company? company;
+  List<Crops>? crops;
 
   Product({
     this.id,
@@ -164,6 +171,13 @@ class Product {
     this.category,
     this.crop,
     this.primaryImage,
+    this.demoFarmerName,
+    this.talukaId,
+    this.villageId,
+    this.isDemo,
+    this.youtubeVideoLink,
+    this.company,
+    this.crops,
   });
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -201,6 +215,20 @@ class Product {
     primaryImage = json['images'] != null
         ? PrimaryImage.fromJson(json['primary_image'])
         : null;
+    demoFarmerName = json['demo_farmer_name'];
+    talukaId = json['taluka_id'];
+    villageId = json['village_id'];
+    isDemo = json['is_demo'];
+    youtubeVideoLink = json['youtube_video_link'];
+    company = json['company'] != null
+        ? new Company.fromJson(json['company'])
+        : null;
+    if (json['crops'] != null) {
+      crops = <Crops>[];
+      json['crops'].forEach((v) {
+        crops!.add(new Crops.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -243,6 +271,84 @@ class Product {
     if (primaryImage != null) {
       data['images'] = primaryImage!.toJson();
     }
+    data['youtube_video_link'] = youtubeVideoLink;
+    if (primaryImage != null) {
+      data['primary_image'] = primaryImage!.toJson();
+    }
+    if (company != null) {
+      data['company'] = company!.toJson();
+    }
+    if (crops != null) {
+      data['crops'] = crops!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Company {
+  int? id;
+  String? companyName;
+
+  Company({this.id, this.companyName});
+
+  Company.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    companyName = json['company_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['company_name'] = companyName;
+    return data;
+  }
+}
+
+class Crops {
+  int? id;
+  String? name;
+  Pivot? pivot;
+
+  Crops({this.id, this.name, this.pivot});
+
+  Crops.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    if (pivot != null) {
+      data['pivot'] = pivot!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pivot {
+  int? productId;
+  int? cropId;
+  String? createdAt;
+  String? updatedAt;
+
+  Pivot({this.productId, this.cropId, this.createdAt, this.updatedAt});
+
+  Pivot.fromJson(Map<String, dynamic> json) {
+    productId = json['product_id'];
+    cropId = json['crop_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['product_id'] = productId;
+    data['crop_id'] = cropId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

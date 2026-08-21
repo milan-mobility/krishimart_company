@@ -85,6 +85,15 @@ final Map<String, String> enUs = <String, String>{
       'Please add issue and expiry dates for each entered license',
   'License expiry date must be after the issue date':
       'License expiry date must be after the issue date',
+  'Select crops': 'Select crops',
+  'Done': 'Done',
+  'Please add at least one product image':
+      'Please add at least one product image',
+  'Switch to Demo Product?': 'Switch to Demo Product?',
+  'All entered details, selected photos, and reel will be removed.':
+      'All entered details, selected photos, and reel will be removed.',
+  'Cancel': 'Cancel',
+  'Continue': 'Continue',
   'Issue Date': 'Issue Date',
   'Expire Date': 'Expire Date',
   'Please add issue and expire dates for the seeds license':

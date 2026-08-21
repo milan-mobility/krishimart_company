@@ -11,6 +11,10 @@ import 'package:krishi_mart/view/screens/company/product/add_product/widgets/pro
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_form_card.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_photo_upload.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/controller/add_dealer_product_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/dealer_product_crop_selector.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/dealer_product_image_grid.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/dealer_product_type_tabs.dart';
+import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_drop_down_field.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/product_dealer_reel_upload.dart';
 
 class AddDealerProductScreen extends StatelessWidget {
@@ -19,7 +23,7 @@ class AddDealerProductScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<AddDealerProductController>(
-      init: AddDealerProductController(Get.find()),
+      init: AddDealerProductController(Get.find(), Get.find(), Get.find()),
       builder: (final AddDealerProductController controller) {
         return Scaffold(
           backgroundColor: AppColors.productSurface,
@@ -34,74 +38,10 @@ class AddDealerProductScreen extends StatelessWidget {
             child: Column(
               children: [
                 Gap(AppResponsive.value(10, tablet: 12, largeTablet: 15)),
-                Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColors.roleCompany, width: 1),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () => controller.selectedTab(0),
-                          child: Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: controller.selectedProductTab == 0
-                                  ? AppColors.themeColor
-                                  : Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Add Product'.tr,
-                                style: interW500.copyWith(
-                                  fontSize: 16,
-                                  color: controller.selectedProductTab == 0
-                                      ? AppColors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Expanded(
-                        child: InkWell(
-                          onTap: () => controller.selectedTab(1),
-                          child: Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: controller.selectedProductTab != 0
-                                  ? AppColors.themeColor
-                                  : Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomRight: Radius.circular(10),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Demo Product'.tr,
-                                style: interW500.copyWith(
-                                  fontSize: 16,
-                                  color: controller.selectedProductTab != 0
-                                      ? AppColors.white
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                DealerProductTypeTabs(
+                  selectedTab: controller.selectedProductTab,
+                  onNormalProductSelected: controller.selectNormalProduct,
+                  onDemoProductConfirmed: controller.switchToDemoProduct,
                 ),
                 Gap(AppResponsive.value(10, tablet: 12, largeTablet: 15)),
                 Expanded(
@@ -156,6 +96,24 @@ class AddDealerProductScreen extends StatelessWidget {
                                       ),
                                       isRequired: true,
                                     ),
+                                    Gap(AppResponsive.value(14, tablet: 18)),
+                                    DealerProfileDropDownField(
+                                      label: 'Taluk',
+                                      hintText: 'Select Taluk',
+                                      items:
+                                          controller.commonController.talukas,
+                                      value: controller.selectedDemoTaluka,
+                                      onChanged: controller.selectDemoTaluka,
+                                    ),
+                                    Gap(AppResponsive.value(14, tablet: 18)),
+                                    DealerProfileDropDownField(
+                                      label: 'Village',
+                                      hintText: 'Select Village',
+                                      items:
+                                          controller.commonController.villages,
+                                      value: controller.selectedDemoVillage,
+                                      onChanged: controller.selectDemoVillage,
+                                    ),
                                   ],
                                   Gap(AppResponsive.value(14, tablet: 18)),
                                   ProductDropdownField(
@@ -178,6 +136,7 @@ class AddDealerProductScreen extends StatelessWidget {
                                       color: AppColors.color9CA3AF,
                                     ),
                                     maxLines: 3,
+                                    minLength: 3,
                                     isRequired: true,
                                   ),
                                   Gap(AppResponsive.value(14, tablet: 18)),
@@ -192,21 +151,22 @@ class AddDealerProductScreen extends StatelessWidget {
                                     isRequired: true,
                                   ),
                                   Gap(AppResponsive.value(14, tablet: 18)),
-                                  ProductDropdownField(
-                                    label: 'Crops',
-                                    hintText: 'Select crop',
-                                    items: controller.commonController.crops,
-                                    selectedItem: controller.selectedCrop,
-                                    itemAsString: (final item) =>
-                                        item.name ?? '',
-                                    onChanged: controller.selectCrop,
+                                  DealerProductCropSelector(
+                                    crops: controller.commonController.crops,
+                                    selectedCrops: controller.selectedCrops,
+                                    onChanged: controller.selectCrops,
                                   ),
                                   Gap(AppResponsive.value(14, tablet: 18)),
                                   ProductPhotoUpload(
-                                    onPhotoSelect: () {
-                                      controller.selectPhotos();
-                                    },
+                                    onPhotoSelect: controller.selectPhotos,
                                   ),
+                                  if (controller.photoPaths.isNotEmpty) ...[
+                                    Gap(AppResponsive.value(14, tablet: 18)),
+                                    DealerProductImageGrid(
+                                      imagePaths: controller.photoPaths,
+                                      onRemove: controller.removePhotoAt,
+                                    ),
+                                  ],
                                   Gap(AppResponsive.value(14, tablet: 18)),
                                   CompanyProfileTextField(
                                     label: 'YouTube Video Link',

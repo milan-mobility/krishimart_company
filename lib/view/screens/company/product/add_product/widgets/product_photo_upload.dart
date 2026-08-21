@@ -21,7 +21,7 @@ class ProductPhotoUpload extends StatelessWidget {
         ),
         Gap(AppResponsive.value(6, tablet: 8)),
         InkWell(
-          onTap: () => onPhotoSelect,
+          onTap: onPhotoSelect,
           borderRadius: BorderRadius.circular(AppResponsive.value(10)),
           child: Container(
             width: double.infinity,

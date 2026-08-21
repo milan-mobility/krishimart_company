@@ -36,7 +36,7 @@ class DealerHomeScreen extends StatelessWidget {
                               .userProfileModel
                               ?.data
                               ?.profile
-                              ?.companyName ??
+                              ?.shopName ??
                           '',
                     );
                   },

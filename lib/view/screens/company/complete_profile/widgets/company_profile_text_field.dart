@@ -71,6 +71,7 @@ class CompanyProfileTextField extends StatelessWidget {
           fillColor: AppColors.white,
           borderColor: AppColors.formBorder,
           maxLines: maxLines,
+          minLines: maxLines,
           maxLength: maxLength,
           readOnly: readOnly,
           onTap: onTap,

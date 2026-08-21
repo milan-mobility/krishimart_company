@@ -85,6 +85,15 @@ final Map<String, String> gu = <String, String>{
       'દરેક દાખલ કરેલ લાઇસન્સ માટે ઇશ્યૂ અને સમાપ્તિ તારીખ ઉમેરો',
   'License expiry date must be after the issue date':
       'લાઇસન્સની સમાપ્તિ તારીખ ઇશ્યૂ તારીખ પછીની હોવી જોઈએ',
+  'Select crops': 'પાક પસંદ કરો',
+  'Done': 'પૂર્ણ',
+  'Please add at least one product image':
+      'ઓછામાં ઓછી એક પ્રોડક્ટ ઇમેજ ઉમેરો',
+  'Switch to Demo Product?': 'ડેમો પ્રોડક્ટ પર સ્વિચ કરવું છે?',
+  'All entered details, selected photos, and reel will be removed.':
+      'દાખલ કરેલી બધી વિગતો, પસંદ કરેલ ફોટા અને રીલ દૂર કરવામાં આવશે.',
+  'Cancel': 'રદ કરો',
+  'Continue': 'ચાલુ રાખો',
   'Issue Date': 'ઇશ્યૂ તારીખ',
   'Expire Date': 'સમાપ્તિ તારીખ',
   'Please add issue and expire dates for the seeds license':

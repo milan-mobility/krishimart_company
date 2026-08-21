@@ -27,6 +27,12 @@ class Endpoints {
   //Dealer
   static const String saveDealerProfile = '${api}dealer/profile';
   static const String getDealerData = '${api}dealer/profile';
+  static const String dealerProductList = '${api}dealer/products';
+  static const String createDealerProduct = '${api}dealer/products';
+  static const String demoProducts = '${api}dealer/demo-products';
+  static String deleteDealerProduct(final int productId) {
+    return '${api}dealer/products/$productId';
+  }
 
   //Common
   static const String getStates = '${api}masters/states';

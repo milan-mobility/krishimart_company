@@ -91,7 +91,7 @@ class ProductRow extends StatelessWidget {
                 ),
                 Gap(AppResponsive.value(3, tablet: 5)),
                 Text(
-                  product.brand?.name ?? '',
+                  product.company?.companyName ?? '',
                   style: companyProfileUploadDescription,
                 ),
                 Gap(AppResponsive.value(4, tablet: 6)),

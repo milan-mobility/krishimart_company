@@ -28,6 +28,7 @@ class ProductListController extends GetxController {
   Future<List<Product>> _fetchProductsPage(final int pageKey) async {
     final ProductModel response = await productRepo.getProducts(
       <String, dynamic>{'page': pageKey, 'per_page': 5},
+      sharedPref.getUserRole,
     );
     _hasNextPage = response.data?.nextPageUrl != null;
     return response.data?.data ?? <Product>[];
@@ -50,7 +51,10 @@ class ProductListController extends GetxController {
 
     try {
       Loader.load(true);
-      final bool value = await productRepo.deleteProduct(productId);
+      final bool value = await productRepo.deleteProduct(
+        productId,
+        sharedPref.getUserRole,
+      );
       if (value) {
         Get.back();
         await refreshProducts();

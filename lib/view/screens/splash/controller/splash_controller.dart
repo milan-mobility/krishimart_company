@@ -40,7 +40,7 @@ class SplashController extends GetxController {
             await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
-            await Get.find<CommonController>().getDealerData();
+            Get.find<CommonController>().getDealerData();
             Get.offAllNamed(RouteHelper.dealerHome);
           }
         } else {

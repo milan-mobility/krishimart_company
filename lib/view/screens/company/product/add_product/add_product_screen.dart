@@ -19,7 +19,7 @@ class AddProductScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<AddProductController>(
-      init: AddProductController(Get.find()),
+      init: AddProductController(Get.find(), Get.find()),
       builder: (final AddProductController controller) {
         return Scaffold(
           backgroundColor: AppColors.productSurface,
