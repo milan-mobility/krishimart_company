@@ -92,10 +92,11 @@ class Utility {
     try {
       List<PlatformFile> files = await FilePicker.pickFiles(
         type: FileType.custom,
+        compressionQuality: 70,
         allowedExtensions: ['jpg', 'pdf', 'jpeg', 'png'],
       );
       if (files.isNotNullOrEmpty()) {
-        images.add(files.first.path ?? '');
+        images.addAll(files.map((e) => e.path ?? '').toList());
       }
       return images;
     } catch (e) {

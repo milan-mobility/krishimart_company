@@ -75,6 +75,22 @@ final Map<String, String> enUs = <String, String>{
   'Pesticide License Number': 'Pesticide License Number',
   'Fertilizer License Number': 'Fertilizer License Number',
   'Seeds License Number': 'Seeds License Number',
+  'Selected Certificates': 'Selected Certificates',
+  'Remove certificate': 'Remove certificate',
+  'Please add at least one license detail':
+      'Please add at least one license detail',
+  'Please add a certificate for the license details':
+      'Please add a certificate for the license details',
+  'Please add issue and expiry dates for each entered license':
+      'Please add issue and expiry dates for each entered license',
+  'License expiry date must be after the issue date':
+      'License expiry date must be after the issue date',
+  'Issue Date': 'Issue Date',
+  'Expire Date': 'Expire Date',
+  'Please add issue and expire dates for the seeds license':
+      'Please add issue and expire dates for the seeds license',
+  'Seeds license expire date must be after the issue date':
+      'Seeds license expire date must be after the issue date',
   'Referral Information (Optional)': 'Referral Information (Optional)',
   'Referral Person Name': 'Referral Person Name',
   'Referral Mobile Number': 'Referral Mobile Number',

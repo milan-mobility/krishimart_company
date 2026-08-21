@@ -99,7 +99,7 @@ class ProfileRepo {
     try {
       final Response<dynamic> response = await _dioClient.post(
         Endpoints.saveDealerProfile,
-        data: params,
+        data: FormData.fromMap(params),
       );
 
       return UserProfileModel.fromJson(response.data);

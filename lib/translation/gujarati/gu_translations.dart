@@ -75,6 +75,22 @@ final Map<String, String> gu = <String, String>{
   'Pesticide License Number': 'જંતુનાશક લાઇસન્સ નંબર',
   'Fertilizer License Number': 'ખાતર લાઇસન્સ નંબર',
   'Seeds License Number': 'બીજ લાઇસન્સ નંબર',
+  'Selected Certificates': 'પસંદ કરેલ પ્રમાણપત્રો',
+  'Remove certificate': 'પ્રમાણપત્ર દૂર કરો',
+  'Please add at least one license detail':
+      'ઓછામાં ઓછી એક લાઇસન્સ વિગતો ઉમેરો',
+  'Please add a certificate for the license details':
+      'લાઇસન્સ વિગતો માટે પ્રમાણપત્ર ઉમેરો',
+  'Please add issue and expiry dates for each entered license':
+      'દરેક દાખલ કરેલ લાઇસન્સ માટે ઇશ્યૂ અને સમાપ્તિ તારીખ ઉમેરો',
+  'License expiry date must be after the issue date':
+      'લાઇસન્સની સમાપ્તિ તારીખ ઇશ્યૂ તારીખ પછીની હોવી જોઈએ',
+  'Issue Date': 'ઇશ્યૂ તારીખ',
+  'Expire Date': 'સમાપ્તિ તારીખ',
+  'Please add issue and expire dates for the seeds license':
+      'બીજ લાઇસન્સ માટે ઇશ્યૂ અને સમાપ્તિ તારીખ ઉમેરો',
+  'Seeds license expire date must be after the issue date':
+      'બીજ લાઇસન્સની સમાપ્તિ તારીખ ઇશ્યૂ તારીખ પછીની હોવી જોઈએ',
   'Referral Information (Optional)': 'રેફરલ માહિતી (વૈકલ્પિક)',
   'Referral Person Name': 'રેફરલ વ્યક્તિનું નામ',
   'Referral Mobile Number': 'રેફરલ મોબાઇલ નંબર',

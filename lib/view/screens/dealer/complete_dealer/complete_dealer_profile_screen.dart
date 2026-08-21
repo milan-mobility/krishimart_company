@@ -9,8 +9,9 @@ import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/controller/complete_dealer_profile_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_certificate_list.dart';
+import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_license_date_row.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_drop_down_field.dart';
-import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_license_date_field.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_text_field.dart';
 
@@ -81,25 +82,6 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.words,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Pesticide License Issue Date',
-                            hintText: 'Select issue date',
-                            controller: controller.txtPesticideLicenseIssueDate,
-                            onDateSelected:
-                                controller.setPesticideLicenseIssueDate,
-                            isExpiryDate: false,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Pesticide License Expire Date',
-                            hintText: 'Select expire date',
-                            controller:
-                                controller.txtPesticideLicenseExpireDate,
-                            onDateSelected:
-                                controller.setPesticideLicenseExpireDate,
-                            isExpiryDate: true,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Dealer Name',
                             hintText: 'Full name of the proprietor',
@@ -111,6 +93,9 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                       ),
                     ),
                     Gap(AppResponsive.value(18, tablet: 22)),
+
+                    if (controller.certificatesPath.isNotEmpty)
+                      Gap(AppResponsive.value(18, tablet: 22)),
                     DealerProfileSectionCard(
                       title: 'Location Details',
                       icon: Icons.location_on_outlined,
@@ -161,26 +146,6 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             },
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Fertilizer License Issue Date',
-                            hintText: 'Select issue date',
-                            controller:
-                                controller.txtFertilizerLicenseIssueDate,
-                            onDateSelected:
-                                controller.setFertilizerLicenseIssueDate,
-                            isExpiryDate: false,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Fertilizer License Expire Date',
-                            hintText: 'Select expire date',
-                            controller:
-                                controller.txtFertilizerLicenseExpireDate,
-                            onDateSelected:
-                                controller.setFertilizerLicenseExpireDate,
-                            isExpiryDate: true,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Detailed Address',
                             hintText: 'Shop No, Building, Street name...',
@@ -205,21 +170,16 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.characters,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Seeds License Issue Date',
-                            hintText: 'Select issue date',
-                            controller: controller.txtSeedsLicenseIssueDate,
-                            onDateSelected: controller.setSeedsLicenseIssueDate,
-                            isExpiryDate: false,
-                          ),
-                          Gap(AppResponsive.value(14, tablet: 18)),
-                          DealerLicenseDateField(
-                            label: 'Seeds License Expire Date',
-                            hintText: 'Select expire date',
-                            controller: controller.txtSeedsLicenseExpireDate,
-                            onDateSelected:
-                                controller.setSeedsLicenseExpireDate,
-                            isExpiryDate: true,
+                          DealerLicenseDateRow(
+                            issueDateController:
+                                controller.txtPesticideLicenseIssueDate,
+                            expireDateController:
+                                controller.txtPesticideLicenseExpireDate,
+                            onIssueDateSelected:
+                                controller.setPesticideLicenseIssueDate,
+                            onExpireDateSelected:
+                                controller.setPesticideLicenseExpireDate,
+                            issueDate: controller.pesticideLicenseIssueDate,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
@@ -229,14 +189,79 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             textCapitalization: TextCapitalization.characters,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateRow(
+                            issueDateController:
+                                controller.txtFertilizerLicenseIssueDate,
+                            expireDateController:
+                                controller.txtFertilizerLicenseExpireDate,
+                            onIssueDateSelected:
+                                controller.setFertilizerLicenseIssueDate,
+                            onExpireDateSelected:
+                                controller.setFertilizerLicenseExpireDate,
+                            issueDate: controller.fertilizerLicenseIssueDate,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Seeds License Number',
                             hintText: 'SL-XXXX-XXXX',
                             controller: controller.txtSeedsLicense,
                             textCapitalization: TextCapitalization.characters,
                           ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerLicenseDateRow(
+                            issueDateController:
+                                controller.txtSeedsLicenseIssueDate,
+                            expireDateController:
+                                controller.txtSeedsLicenseExpireDate,
+                            onIssueDateSelected:
+                                controller.setSeedsLicenseIssueDate,
+                            onExpireDateSelected:
+                                controller.setSeedsLicenseExpireDate,
+                            issueDate: controller.seedsLicenseIssueDate,
+                          ),
                         ],
                       ),
+                    ),
+                    Gap(AppResponsive.value(18, tablet: 22)),
+                    InkWell(
+                      onTap: controller.selectCertificates,
+                      borderRadius: BorderRadius.circular(
+                        AppResponsive.value(10),
+                      ),
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppResponsive.value(18),
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.formBorder,
+                            style: BorderStyle.solid,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            AppResponsive.value(10),
+                          ),
+                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Icon(
+                              Icons.cloud_upload_outlined,
+                              color: AppColors.categorySelected,
+                              size: AppResponsive.value(28, tablet: 32),
+                            ),
+                            Gap(AppResponsive.value(4, tablet: 6)),
+                            Text(
+                              'PNG, JPG, PDF (Max 10MB each)'.tr,
+                              style: companyProfileUploadDescription,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Gap(AppResponsive.value(18, tablet: 22)),
+                    DealerCertificateList(
+                      certificatePaths: controller.certificatesPath,
+                      onRemove: controller.removeCertificateAt,
                     ),
                     Gap(AppResponsive.value(18, tablet: 22)),
                     DealerProfileSectionCard(

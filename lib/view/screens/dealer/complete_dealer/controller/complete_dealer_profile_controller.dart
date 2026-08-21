@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -47,10 +49,15 @@ class CompleteDealerProfileController extends GetxController {
   final TextEditingController txtReferralName = TextEditingController();
   final TextEditingController txtReferralMobile = TextEditingController();
 
+  List<String> certificatesPath = [];
+
   IdName? selectedState;
   IdName? selectedDistrict;
   IdName? selectedTaluka;
   IdName? selectedVillage;
+  DateTime? pesticideLicenseIssueDate;
+  DateTime? fertilizerLicenseIssueDate;
+  DateTime? seedsLicenseIssueDate;
 
   @override
   void onInit() {
@@ -68,6 +75,19 @@ class CompleteDealerProfileController extends GetxController {
       showErrorSnackBar(message: 'Please complete all required fields'.tr);
       return;
     }
+    if (!_hasAtLeastOneLicense()) {
+      showErrorSnackBar(message: 'Please add at least one license detail'.tr);
+      return;
+    }
+    if (certificatesPath.isEmpty) {
+      showErrorSnackBar(
+        message: 'Please add a certificate for the license details'.tr,
+      );
+      return;
+    }
+    if (!_hasValidSeedsLicenseDates()) {
+      return;
+    }
     saveDealerProfile();
   }
 
@@ -83,8 +103,9 @@ class CompleteDealerProfileController extends GetxController {
 
     try {
       final Map<String, dynamic> params = <String, dynamic>{
-        'name': txtDealerName.text.trim(),
+        '_method': 'PUT',
         'shop_name': txtAgroName.text.trim(),
+        'owner_name': txtDealerName.text.trim(),
         'state_id': selectedState?.id,
         'district_id': selectedDistrict?.id,
         'taluka_id': selectedTaluka?.id,
@@ -93,19 +114,26 @@ class CompleteDealerProfileController extends GetxController {
         'pesticide_license_number': txtPesticideLicense.text.trim(),
         'pesticide_license_issue_date': txtPesticideLicenseIssueDate.text
             .trim(),
-        'pesticide_license_expire_date': txtPesticideLicenseExpireDate.text
+        'pesticide_license_expiry_date': txtPesticideLicenseExpireDate.text
             .trim(),
         'fertilizer_license_number': txtFertilizerLicense.text.trim(),
         'fertilizer_license_issue_date': txtFertilizerLicenseIssueDate.text
             .trim(),
-        'fertilizer_license_expire_date': txtFertilizerLicenseExpireDate.text
+        'fertilizer_license_expiry_date': txtFertilizerLicenseExpireDate.text
             .trim(),
         'seeds_license_number': txtSeedsLicense.text.trim(),
         'seeds_license_issue_date': txtSeedsLicenseIssueDate.text.trim(),
-        'seeds_license_expire_date': txtSeedsLicenseExpireDate.text.trim(),
+        'seeds_license_expiry_date': txtSeedsLicenseExpireDate.text.trim(),
         'referral_person_name': txtReferralName.text.trim(),
         'referral_mobile_number': txtReferralMobile.text.trim(),
       };
+      for (int index = 0; index < certificatesPath.length; index++) {
+        final String certificatePath = certificatesPath[index];
+        params['license_documents[$index]'] = await dio.MultipartFile.fromFile(
+          certificatePath,
+          filename: certificatePath.split(Platform.pathSeparator).last,
+        );
+      }
 
       Loader.load(true);
 
@@ -119,7 +147,7 @@ class CompleteDealerProfileController extends GetxController {
         await commonController.getDealerData();
         Get.offAllNamed(RouteHelper.dealerHome);
       }
-    } on DioException catch (error) {
+    } on dio.DioException catch (error) {
       Utility.showAPIError(error);
     } catch (error) {
       debugPrint('EXCEPTION=>${error.toString()}');
@@ -158,7 +186,20 @@ class CompleteDealerProfileController extends GetxController {
   }
 
   void setPesticideLicenseIssueDate(final DateTime date) {
+    pesticideLicenseIssueDate = date;
     _setDate(txtPesticideLicenseIssueDate, date);
+    update();
+  }
+
+  Future<void> selectCertificates() async {
+    final List<String> selectedPaths = await Utility.getFile();
+    certificatesPath.addAll(selectedPaths);
+    update();
+  }
+
+  void removeCertificateAt(final int index) {
+    certificatesPath.removeAt(index);
+    update();
   }
 
   void setPesticideLicenseExpireDate(final DateTime date) {
@@ -166,7 +207,9 @@ class CompleteDealerProfileController extends GetxController {
   }
 
   void setFertilizerLicenseIssueDate(final DateTime date) {
+    fertilizerLicenseIssueDate = date;
     _setDate(txtFertilizerLicenseIssueDate, date);
+    update();
   }
 
   void setFertilizerLicenseExpireDate(final DateTime date) {
@@ -174,7 +217,9 @@ class CompleteDealerProfileController extends GetxController {
   }
 
   void setSeedsLicenseIssueDate(final DateTime date) {
+    seedsLicenseIssueDate = date;
     _setDate(txtSeedsLicenseIssueDate, date);
+    update();
   }
 
   void setSeedsLicenseExpireDate(final DateTime date) {
@@ -183,6 +228,42 @@ class CompleteDealerProfileController extends GetxController {
 
   void _setDate(final TextEditingController controller, final DateTime date) {
     controller.text = DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  bool _hasValidSeedsLicenseDates() {
+    if (txtSeedsLicense.text.trim().isEmpty) {
+      return true;
+    }
+
+    final DateTime? issueDate = _parseDate(txtSeedsLicenseIssueDate.text);
+    final DateTime? expireDate = _parseDate(txtSeedsLicenseExpireDate.text);
+    if (issueDate == null || expireDate == null) {
+      showErrorSnackBar(
+        message: 'Please add issue and expire dates for the seeds license'.tr,
+      );
+      return false;
+    }
+    if (!expireDate.isAfter(issueDate)) {
+      showErrorSnackBar(
+        message: 'Seeds license expire date must be after the issue date'.tr,
+      );
+      return false;
+    }
+    return true;
+  }
+
+  bool _hasAtLeastOneLicense() {
+    return txtPesticideLicense.text.trim().isNotEmpty ||
+        txtFertilizerLicense.text.trim().isNotEmpty ||
+        txtSeedsLicense.text.trim().isNotEmpty;
+  }
+
+  DateTime? _parseDate(final String value) {
+    try {
+      return DateFormat('yyyy-MM-dd').parseStrict(value);
+    } on FormatException {
+      return null;
+    }
   }
 
   Future<void> _loadLocationData() async {

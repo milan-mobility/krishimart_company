@@ -56,7 +56,7 @@ class DealerProfileDropDownField extends StatelessWidget {
           itemAsString: (final IdName? item) => item?.name ?? '',
           hintText: hintText.tr,
           showPrefixIcon: false,
-          showSearchBox: false,
+          showSearchBox: true,
           fillColor: fillColor ?? Colors.white,
           textColor: AppColors.color191C1C,
         ),

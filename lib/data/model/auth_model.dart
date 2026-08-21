@@ -34,6 +34,7 @@ class UserDetailModel {
     this.tokenType,
     this.expiresAt,
     this.user,
+    this.hasProfileCompleted,
     this.profileStatus,
   });
 
