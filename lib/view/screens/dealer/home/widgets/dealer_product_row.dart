@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
-import 'package:krishi_mart/data/model/dealer_dashboard_product.dart';
+import 'package:krishi_mart/data/model/product_model.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
@@ -9,7 +8,7 @@ import 'package:krishi_mart/helpers/styles.dart';
 class DealerProductRow extends StatelessWidget {
   const DealerProductRow({required this.product, super.key});
 
-  final DealerDashboardProduct product;
+  final Product product;
 
   @override
   Widget build(final BuildContext context) {
@@ -49,12 +48,14 @@ class DealerProductRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  product.name,
+                  product.name ?? '',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: interW700.copyWith(color: AppColors.color1A1A2D),
                 ),
                 Gap(AppResponsive.value(3)),
                 Text(
-                  '${product.category.tr} • ${product.quantity}',
+                  '${product.category?.name ?? ''} • ${product.dose ?? ''}',
                   style: userRoleOptionDescription,
                 ),
               ],
@@ -73,7 +74,7 @@ class DealerProductRow extends StatelessWidget {
               ),
             ),
             child: Text(
-              'In Stock'.tr,
+              product.status ?? '',
               style: companyProfileCategoryTitle.copyWith(
                 fontSize: AppResponsive.font(12),
                 color: AppColors.color1F6D1A,

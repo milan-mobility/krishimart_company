@@ -77,8 +77,7 @@ final Map<String, String> gu = <String, String>{
   'Seeds License Number': 'બીજ લાઇસન્સ નંબર',
   'Selected Certificates': 'પસંદ કરેલ પ્રમાણપત્રો',
   'Remove certificate': 'પ્રમાણપત્ર દૂર કરો',
-  'Please add at least one license detail':
-      'ઓછામાં ઓછી એક લાઇસન્સ વિગતો ઉમેરો',
+  'Please add at least one license detail': 'ઓછામાં ઓછી એક લાઇસન્સ વિગતો ઉમેરો',
   'Please add a certificate for the license details':
       'લાઇસન્સ વિગતો માટે પ્રમાણપત્ર ઉમેરો',
   'Please add issue and expiry dates for each entered license':
@@ -87,9 +86,9 @@ final Map<String, String> gu = <String, String>{
       'લાઇસન્સની સમાપ્તિ તારીખ ઇશ્યૂ તારીખ પછીની હોવી જોઈએ',
   'Select crops': 'પાક પસંદ કરો',
   'Done': 'પૂર્ણ',
-  'Please add at least one product image':
-      'ઓછામાં ઓછી એક પ્રોડક્ટ ઇમેજ ઉમેરો',
+  'Please add at least one product image': 'ઓછામાં ઓછી એક પ્રોડક્ટ ઇમેજ ઉમેરો',
   'Switch to Demo Product?': 'ડેમો પ્રોડક્ટ પર સ્વિચ કરવું છે?',
+  'Switch Product Type?': 'પ્રોડક્ટનો પ્રકાર બદલવો છે?',
   'All entered details, selected photos, and reel will be removed.':
       'દાખલ કરેલી બધી વિગતો, પસંદ કરેલ ફોટા અને રીલ દૂર કરવામાં આવશે.',
   'Cancel': 'રદ કરો',
@@ -191,11 +190,18 @@ final Map<String, String> gu = <String, String>{
   'Delete account support is coming soon':
       'એકાઉન્ટ કાઢી નાખવાની સુવિધા ટૂંક સમયમાં આવશે',
   'Product Reel': 'પ્રોડક્ટ રીલ',
+  'Retry': 'ફરી પ્રયાસ કરો',
+  'View All': 'બધું જુઓ',
   'Upload Reel': 'રીલ અપલોડ કરો',
+  'Replace Reel': 'રીલ બદલો',
   'Compressing reel...': 'રીલ કોમ્પ્રેસ થઈ રહી છે...',
   'Opening gallery...': 'ગેલેરી ખોલી રહ્યા છીએ...',
   'Video up to 30 seconds': '30 સેકન્ડ સુધીનો વિડિયો',
   'Reel ready': 'રીલ તૈયાર છે',
+  'Delete Image': 'છબી કાઢી નાખો',
+  'Are you sure you want to delete this image?':
+      'શું તમે ખરેખર આ છબી કાઢી નાખવા માંગો છો?',
+  'Unable to delete image': 'છબી કાઢી શકાઈ નથી',
   'Change Language': 'ભાષા બદલો',
   'English': 'અંગ્રેજી',
   'Gujarati': 'ગુજરાતી',

@@ -55,15 +55,6 @@ class CompleteCompanyProfileController extends GetxController {
   }
 
   void checkValidation() {
-    // final bool hasLocation = selectedState != null && selectedDistrict != null;
-    // final bool hasLicenseCertificate = certificatePaths.isNotEmpty;
-    // if (!(formKey.currentState?.validate() ?? false) ||
-    //     !hasLocation ||
-    //     !hasLicenseCertificate) {
-    //   showErrorSnackBar(message: 'Please complete all required fields'.tr);
-    //   return;
-    // }
-
     final bool hasLocation = selectedState != null && selectedDistrict != null;
     if (!(formKey.currentState?.validate() ?? false) ||
         !hasLocation ||

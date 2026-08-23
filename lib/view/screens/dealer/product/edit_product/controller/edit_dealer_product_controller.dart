@@ -9,8 +9,10 @@ import 'package:krishi_mart/data/model/id_name_model.dart';
 import 'package:krishi_mart/data/model/product_model.dart';
 import 'package:krishi_mart/data/network/api_end_points.dart';
 import 'package:krishi_mart/data/network/connection.dart';
+import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
+import 'package:krishi_mart/utils/app_enums.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
@@ -21,12 +23,14 @@ class EditDealerProductController extends GetxController {
   EditDealerProductController(
     this.commonController,
     this.productRepo,
+    this.sharedPref,
     this.product,
     this.updateEndpoint,
   );
 
   final CommonController commonController;
   final ProductRepo productRepo;
+  final SharedPreferenceHelper sharedPref;
   final Product product;
   final String? updateEndpoint;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -37,7 +41,7 @@ class EditDealerProductController extends GetxController {
   final TextEditingController txtDose = TextEditingController();
   final TextEditingController txtYoutubeLink = TextEditingController();
   final List<String> photoPaths = <String>[];
-  final List<String> existingImageUrls = <String>[];
+  final List<PrimaryImage> existingImages = <PrimaryImage>[];
   String? reelPath;
   VideoPlayerController? reelPreviewController;
   bool isLoadingExistingReel = false;
@@ -55,6 +59,9 @@ class EditDealerProductController extends GetxController {
   bool get hasExistingServerReel =>
       (product.reelVideoUrl?.trim().isNotEmpty ?? false) &&
       !hasRemovedExistingReel;
+  String get _updateEndpoint => sharedPref.getUserRole == UserType.dealer.name
+      ? Endpoints.updateDealerProduct(product.id ?? 0)
+      : updateEndpoint ?? Endpoints.updateCompanyProduct(product.id ?? 0);
 
   @override
   void onInit() {
@@ -65,16 +72,17 @@ class EditDealerProductController extends GetxController {
     txtDescription.text = product.description ?? '';
     txtDose.text = product.dose ?? '';
     txtYoutubeLink.text = product.youtubeVideoLink ?? '';
-    existingImageUrls.addAll(
-      (product.images ?? <PrimaryImage>[])
-          .map((final PrimaryImage image) => image.imageUrl ?? image.image)
-          .whereType<String>()
-          .map(_remoteMediaUrl),
+    existingImages.addAll(
+      (product.images ?? <PrimaryImage>[]).where(
+        (final PrimaryImage image) =>
+            (image.imageUrl ?? image.image)?.isNotEmpty ?? false,
+      ),
     );
-    if (existingImageUrls.isEmpty && product.primaryImage != null) {
+    if (existingImages.isEmpty && product.primaryImage != null) {
       final PrimaryImage image = product.primaryImage!;
-      final String? imageUrl = image.imageUrl ?? image.image;
-      if (imageUrl != null) existingImageUrls.add(_remoteMediaUrl(imageUrl));
+      if ((image.imageUrl ?? image.image)?.isNotEmpty ?? false) {
+        existingImages.add(image);
+      }
     }
     _initializeExistingReel();
     _loadOptionsAndPrefill();
@@ -180,9 +188,42 @@ class EditDealerProductController extends GetxController {
     update();
   }
 
-  void removeExistingPhotoAt(final int index) {
-    existingImageUrls.removeAt(index);
-    update();
+  String remoteMediaUrl(final String path) => _remoteMediaUrl(path);
+
+  Future<void> deleteExistingImage(final PrimaryImage image) async {
+    final int? productId = product.id;
+    final int? imageId = image.id;
+    if (productId == null || imageId == null) {
+      showErrorSnackBar(message: 'Unable to delete image'.tr);
+      return;
+    }
+    if (!await ConnectionUtils.isNetworkConnected()) {
+      showErrorSnackBar(
+        title: MessageConstant.netWorkTitle,
+        message: MessageConstant.networkError,
+      );
+      return;
+    }
+
+    try {
+      Loader.load(true);
+      final bool deleted = await productRepo.deleteProductImage(
+        role: sharedPref.getUserRole,
+        productId: productId,
+        imageId: imageId,
+      );
+      if (deleted) {
+        existingImages.removeWhere(
+          (final PrimaryImage item) => item.id == imageId,
+        );
+        await Get.find<ProductListController>().refreshProducts();
+        update();
+      }
+    } on dio.DioException catch (error) {
+      Utility.showAPIError(error);
+    } finally {
+      Loader.load(false);
+    }
   }
 
   Future<void> selectReel() async {
@@ -296,7 +337,7 @@ class EditDealerProductController extends GetxController {
       Loader.load(true);
       final bool updated = await productRepo.updateProduct(
         params,
-        updateEndpoint ?? Endpoints.updateDealerProduct(product.id ?? 0),
+        _updateEndpoint,
       );
       if (updated) {
         await Get.find<ProductListController>().refreshProducts();

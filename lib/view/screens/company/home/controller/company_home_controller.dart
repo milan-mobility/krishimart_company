@@ -1,65 +1,55 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:krishi_mart/data/model/dealer_dashboard_product.dart';
+import 'package:krishi_mart/data/model/dashbord_model.dart';
+import 'package:krishi_mart/data/model/product_model.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
+import 'package:krishi_mart/data/repository/dashboard_repo.dart';
 
 class CompanyHomeController extends GetxController implements GetxService {
-  CompanyHomeController(this.sharedPref);
+  CompanyHomeController(this.sharedPref, this.dashboardRepo);
 
   final SharedPreferenceHelper sharedPref;
-  final PageController bannerPageController = PageController();
-  final List<String> bannerTitles = <String>[
-    'Boost your product visibility',
-    'Grow your dealer network',
-    'Manage your leads easily',
-  ];
-  final List<DealerDashboardProduct> products = <DealerDashboardProduct>[
-    const DealerDashboardProduct(
-      name: 'Ampligo',
-      category: 'Insecticide',
-      quantity: '1 Ltr',
-      price: '₹1,250',
-    ),
-    const DealerDashboardProduct(
-      name: 'Urea Gold',
-      category: 'Fertilizer',
-      quantity: '50Kg',
-      price: '₹266',
-    ),
-  ];
+  final DashboardRepo dashboardRepo;
+  Dashboard? dashboard;
+  bool isLoading = false;
+  bool hasError = false;
 
-  Timer? _bannerTimer;
-  int currentBanner = 0;
+  List<Product> get recentProducts => dashboard?.recentProducts ?? <Product>[];
+
+  int get totalViews =>
+      dashboard?.totalViews ??
+      recentProducts.fold<int>(
+        0,
+        (final int total, final Product product) =>
+            total + (product.views ?? 0),
+      );
+
+  String get companyName =>
+      dashboard?.company?.companyName ?? sharedPref.getUserInfo?.name ?? '';
 
   @override
   void onInit() {
     super.onInit();
-    _startBannerAutoSlide();
+    getCompanyDashboard();
   }
 
-  void _startBannerAutoSlide() {
-    _bannerTimer = Timer.periodic(const Duration(seconds: 4), (_) {
-      if (!bannerPageController.hasClients) return;
-      final int nextPage = (currentBanner + 1) % bannerTitles.length;
-      bannerPageController.animateToPage(
-        nextPage,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  void onBannerChanged(final int index) {
-    currentBanner = index;
+  Future<void> getCompanyDashboard() async {
+    isLoading = true;
+    hasError = false;
     update();
-  }
 
-  @override
-  void onClose() {
-    _bannerTimer?.cancel();
-    bannerPageController.dispose();
-    super.onClose();
+    try {
+      final DashboardModel response = await dashboardRepo.getCompanyDashboard(
+        sharedPref.getUserRole,
+      );
+      dashboard = response.data;
+    } on DioException {
+      hasError = true;
+    } catch (_) {
+      hasError = true;
+    } finally {
+      isLoading = false;
+      update();
+    }
   }
 }

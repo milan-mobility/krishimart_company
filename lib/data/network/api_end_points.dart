@@ -20,12 +20,29 @@ class Endpoints {
   static const String getCompanyProfile = '${api}company/profile';
   static const String createProduct = '${api}company/products';
   static const String productList = '${api}company/products';
+
+  static String getDashboard(final String role) {
+    return '$api$role/dashboard';
+  }
+
+  static String getBanners(final String role) {
+    return '${api}banners?audience=$role';
+  }
+
   static String deleteProduct(final int productId) {
     return '${api}company/products/$productId';
   }
 
   static String updateCompanyProduct(final int productId) {
     return '${api}company/products/$productId';
+  }
+
+  static String deleteProductImage({
+    required final String role,
+    required final int productId,
+    required final int imageId,
+  }) {
+    return '$api$role/products/$productId/images/$imageId';
   }
 
   //Dealer

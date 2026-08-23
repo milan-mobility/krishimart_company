@@ -6,6 +6,7 @@ import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
+import 'package:krishi_mart/view/base/confirmation_bottom_sheet.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_dropdown_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_form_card.dart';
@@ -30,6 +31,7 @@ class EditDealerProductScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     return GetBuilder<EditDealerProductController>(
       init: EditDealerProductController(
+        Get.find(),
         Get.find(),
         Get.find(),
         product,
@@ -121,11 +123,26 @@ class EditDealerProductScreen extends StatelessWidget {
                   ),
                   Gap(AppResponsive.value(14)),
                   ProductPhotoUpload(onPhotoSelect: controller.selectPhotos),
-                  if (controller.existingImageUrls.isNotEmpty) ...<Widget>[
+                  if (controller.existingImages.isNotEmpty) ...<Widget>[
                     Gap(AppResponsive.value(14)),
                     ExistingProductImageGrid(
-                      imageUrls: controller.existingImageUrls,
-                      onRemove: controller.removeExistingPhotoAt,
+                      images: controller.existingImages,
+                      imageUrlBuilder: controller.remoteMediaUrl,
+                      onRemove: (final PrimaryImage image) {
+                        Get.bottomSheet(
+                          ConfirmationBottomSheet(
+                            title: 'Delete Image'.tr,
+                            description:
+                                'Are you sure you want to delete this image?'
+                                    .tr,
+                            onPositive: () {
+                              Get.back();
+                              controller.deleteExistingImage(image);
+                            },
+                            txtPositive: 'Yes,Delete'.tr,
+                          ),
+                        );
+                      },
                     ),
                   ],
                   if (controller.photoPaths.isNotEmpty) ...<Widget>[

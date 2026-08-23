@@ -13,6 +13,7 @@ import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
+import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
 import 'package:krishi_mart/view/screens/company/product/list/controller/product_controller.dart';
 import 'package:video_player/video_player.dart';
 
@@ -34,7 +35,7 @@ class AddProductController extends GetxController {
   bool isSelectingReel = false;
   bool isCompressingReel = false;
   Category? selectedCategory;
-  IdName? selectedCrop;
+  final List<IdName> selectedCrops = <IdName>[];
 
   bool get isProcessingReel => isSelectingReel || isCompressingReel;
 
@@ -57,13 +58,23 @@ class AddProductController extends GetxController {
     update();
   }
 
-  void selectCrop(final IdName? crop) {
-    selectedCrop = crop;
+  void selectCrops(final List<IdName> crops) {
+    selectedCrops
+      ..clear()
+      ..addAll(crops);
     update();
   }
 
   Future<void> selectPhotos() async {
-    photoPaths = await Utility.getPhotos();
+    final List<String> selectedPaths = await Utility.getPhotos();
+    photoPaths.addAll(
+      selectedPaths.where((final String path) => !photoPaths.contains(path)),
+    );
+    update();
+  }
+
+  void removePhotoAt(final int index) {
+    photoPaths.removeAt(index);
     update();
   }
 
@@ -128,7 +139,7 @@ class AddProductController extends GetxController {
   Future<void> saveProduct() async {
     if (!(formKey.currentState?.validate() ?? false) ||
         selectedCategory == null ||
-        selectedCrop == null) {
+        selectedCrops.isEmpty) {
       showErrorSnackBar(message: 'Please complete all required fields'.tr);
       return;
     }
@@ -151,12 +162,14 @@ class AddProductController extends GetxController {
         'company_name': txtCompany.text.trim(),
         'name': txtProductName.text.trim(),
         'category_id': selectedCategory?.id,
-        'crop_ids[0]': selectedCrop?.id,
         'description': txtDescription.text.trim(),
         'dose': txtDose.text.trim(),
         if (txtYoutubeLink.text.trim().isNotEmpty)
           'youtube_video_link': txtYoutubeLink.text.trim(),
       };
+      for (int index = 0; index < selectedCrops.length; index++) {
+        params['crop_ids[$index]'] = selectedCrops[index].id;
+      }
       for (int index = 0; index < photoPaths.length; index++) {
         final String imagePath = photoPaths[index];
         params['images[$index]'] = await dio.MultipartFile.fromFile(
@@ -177,7 +190,10 @@ class AddProductController extends GetxController {
         Endpoints.createProduct,
       );
       if (response) {
-        await Get.find<ProductListController>().refreshProducts();
+        if (Get.isRegistered<CompanyHomeController>()) {
+          Get.find<CompanyHomeController>().getCompanyDashboard();
+        }
+        Get.find<ProductListController>().refreshProducts();
         Get.back();
       }
     } on dio.DioException catch (error) {

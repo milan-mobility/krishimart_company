@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
-import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/view/base/confirmation_bottom_sheet.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/dealer_product_type_tab.dart';
 
 class DealerProductTypeTabs extends StatelessWidget {
   const DealerProductTypeTabs({
     required this.selectedTab,
-    required this.onNormalProductSelected,
-    required this.onDemoProductConfirmed,
+    required this.hasEnteredProductData,
+    required this.onProductTypeSelected,
     super.key,
   });
 
   final int selectedTab;
-  final VoidCallback onNormalProductSelected;
-  final Future<void> Function() onDemoProductConfirmed;
+  final bool hasEnteredProductData;
+  final Future<void> Function(int productTab) onProductTypeSelected;
 
   @override
   Widget build(final BuildContext context) {
@@ -31,7 +30,7 @@ class DealerProductTypeTabs extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: onNormalProductSelected,
+              onTap: () => _selectProductType(context, 0),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(AppResponsive.value(10)),
                 bottomLeft: Radius.circular(AppResponsive.value(10)),
@@ -45,7 +44,7 @@ class DealerProductTypeTabs extends StatelessWidget {
           ),
           Expanded(
             child: InkWell(
-              onTap: () => _confirmDemoProduct(context),
+              onTap: () => _selectProductType(context, 1),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(AppResponsive.value(10)),
                 bottomRight: Radius.circular(AppResponsive.value(10)),
@@ -62,52 +61,28 @@ class DealerProductTypeTabs extends StatelessWidget {
     );
   }
 
-  Future<void> _confirmDemoProduct(final BuildContext context) async {
-    if (selectedTab == 1) return;
+  Future<void> _selectProductType(
+    final BuildContext context,
+    final int productTab,
+  ) async {
+    if (selectedTab == productTab) return;
+    if (!hasEnteredProductData) {
+      await onProductTypeSelected(productTab);
+      return;
+    }
 
-    await showModalBottomSheet<void>(
-      context: context,
-      builder: (final BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(AppResponsive.value(20)),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Switch to Demo Product?'.tr, style: productFormTitle),
-                Gap(AppResponsive.value(8)),
-                Text(
-                  'All entered details, selected photos, and reel will be removed.'
-                      .tr,
-                  style: companyProfileUploadDescription,
-                ),
-                Gap(AppResponsive.value(20)),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: Text('Cancel'.tr),
-                      ),
-                    ),
-                    Gap(AppResponsive.value(12)),
-                    Expanded(
-                      child: FilledButton(
-                        onPressed: () async {
-                          await onDemoProductConfirmed();
-                          if (context.mounted) Navigator.of(context).pop();
-                        },
-                        child: Text('Continue'.tr),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
+    Get.bottomSheet(
+      ConfirmationBottomSheet(
+        title: 'Switch Product Type?'.tr,
+        description:
+            'All entered details, selected photos, and reel will be removed.'
+                .tr,
+        onPositive: () async {
+          Get.back();
+          await onProductTypeSelected(productTab);
+        },
+        txtPositive: 'Continue'.tr,
+      ),
     );
   }
 }

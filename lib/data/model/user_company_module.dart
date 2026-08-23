@@ -216,12 +216,16 @@ class Profile {
     seedsLicenseNumber = json['seeds_license_number'];
     seedsLicenseIssueDate = json['seeds_license_issue_date'];
     seedsLicenseExpiryDate = json['seeds_license_expiry_date'];
-    licenseDocuments = json['license_documents'].cast<String>();
+    if (json['license_documents'] != null) {
+      licenseDocuments = json['license_documents'].cast<String>();
+    }
     taluka = json['taluka'] != null ? Taluka.fromJson(json['taluka']) : null;
     village = json['village'] != null
         ? Village.fromJson(json['village'])
         : null;
-    licenseDocumentUrls = json['license_document_urls'].cast<String>();
+    if (json['license_document_urls'] != null) {
+      licenseDocumentUrls = json['license_document_urls'].cast<String>();
+    }
   }
 
   Map<String, dynamic> toJson() {

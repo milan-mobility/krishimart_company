@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/model/category_model.dart';
 import 'package:krishi_mart/data/model/id_name_model.dart';
-import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/network/api_end_points.dart';
+import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
@@ -51,6 +51,19 @@ class AddDealerProductController extends GetxController {
   int selectedProductTab = 0;
 
   bool get isDemoProduct => selectedProductTab == 1;
+  bool get hasEnteredProductData =>
+      txtProductName.text.trim().isNotEmpty ||
+      txtCompany.text.trim().isNotEmpty ||
+      txtFarmerName.text.trim().isNotEmpty ||
+      txtDescription.text.trim().isNotEmpty ||
+      txtDose.text.trim().isNotEmpty ||
+      txtYoutubeLink.text.trim().isNotEmpty ||
+      photoPaths.isNotEmpty ||
+      reelPath != null ||
+      selectedCategory != null ||
+      selectedCrops.isNotEmpty ||
+      selectedDemoTaluka != null ||
+      selectedDemoVillage != null;
 
   String get _productEndpoint =>
       isDemoProduct ? Endpoints.demoProducts : Endpoints.createDealerProduct;
@@ -248,12 +261,8 @@ class AddDealerProductController extends GetxController {
     update();
   }
 
-  void selectNormalProduct() {
-    selectedProductTab = 0;
-    update();
-  }
-
-  Future<void> switchToDemoProduct() async {
+  Future<void> switchProductType(final int productTab) async {
+    if (selectedProductTab == productTab) return;
     formKey.currentState?.reset();
     txtProductName.clear();
     txtCompany.clear();
@@ -267,7 +276,7 @@ class AddDealerProductController extends GetxController {
     selectedDemoTaluka = null;
     selectedDemoVillage = null;
     await removeReel();
-    selectedProductTab = 1;
+    selectedProductTab = productTab;
     update();
   }
 

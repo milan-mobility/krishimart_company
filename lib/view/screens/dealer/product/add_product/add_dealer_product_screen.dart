@@ -40,8 +40,8 @@ class AddDealerProductScreen extends StatelessWidget {
                 Gap(AppResponsive.value(10, tablet: 12, largeTablet: 15)),
                 DealerProductTypeTabs(
                   selectedTab: controller.selectedProductTab,
-                  onNormalProductSelected: controller.selectNormalProduct,
-                  onDemoProductConfirmed: controller.switchToDemoProduct,
+                  hasEnteredProductData: controller.hasEnteredProductData,
+                  onProductTypeSelected: controller.switchProductType,
                 ),
                 Gap(AppResponsive.value(10, tablet: 12, largeTablet: 15)),
                 Expanded(

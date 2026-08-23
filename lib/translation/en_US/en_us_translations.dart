@@ -90,6 +90,7 @@ final Map<String, String> enUs = <String, String>{
   'Please add at least one product image':
       'Please add at least one product image',
   'Switch to Demo Product?': 'Switch to Demo Product?',
+  'Switch Product Type?': 'Switch Product Type?',
   'All entered details, selected photos, and reel will be removed.':
       'All entered details, selected photos, and reel will be removed.',
   'Cancel': 'Cancel',
@@ -191,7 +192,10 @@ final Map<String, String> enUs = <String, String>{
   'Delete account support is coming soon':
       'Delete account support is coming soon',
   'Product Reel': 'Product Reel',
+  'Retry': 'Retry',
+  'View All': 'View All',
   'Upload Reel': 'Upload Reel',
+  'Replace Reel': 'Replace Reel',
   'Compressing reel...': 'Compressing reel...',
   'Opening gallery...': 'Opening gallery...',
   'Video up to 30 seconds': 'Video up to 30 seconds',
@@ -202,6 +206,10 @@ final Map<String, String> enUs = <String, String>{
 
   //Manually
   'Delete Product': 'Delete Product',
+  'Delete Image': 'Delete Image',
+  'Are you sure you want to delete this image?':
+      'Are you sure you want to delete this image?',
+  'Unable to delete image': 'Unable to delete image',
   'Are you sure you want to delete this product?':
       'Are you sure you want to delete this product?',
   'Product deleted successfully': 'Product deleted successfully',

@@ -8,8 +8,10 @@ import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/controller/add_product_controller.dart';
+import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_crop_selector.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_dropdown_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_form_card.dart';
+import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_image_grid.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_photo_upload.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_reel_upload.dart';
 
@@ -106,20 +108,22 @@ class AddProductScreen extends StatelessWidget {
                               isRequired: true,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
-                            ProductDropdownField(
-                              label: 'Crops',
-                              hintText: 'Select crop',
-                              items: controller.commonController.crops,
-                              selectedItem: controller.selectedCrop,
-                              itemAsString: (final item) => item.name ?? '',
-                              onChanged: controller.selectCrop,
+                            ProductCropSelector(
+                              crops: controller.commonController.crops,
+                              selectedCrops: controller.selectedCrops,
+                              onChanged: controller.selectCrops,
                             ),
                             Gap(AppResponsive.value(14, tablet: 18)),
                             ProductPhotoUpload(
-                              onPhotoSelect: () {
-                                controller.selectPhotos();
-                              },
+                              onPhotoSelect: controller.selectPhotos,
                             ),
+                            if (controller.photoPaths.isNotEmpty) ...[
+                              Gap(AppResponsive.value(14, tablet: 18)),
+                              ProductImageGrid(
+                                imagePaths: controller.photoPaths,
+                                onRemove: controller.removePhotoAt,
+                              ),
+                            ],
                             Gap(AppResponsive.value(14, tablet: 18)),
                             CompanyProfileTextField(
                               label: 'YouTube Video Link',

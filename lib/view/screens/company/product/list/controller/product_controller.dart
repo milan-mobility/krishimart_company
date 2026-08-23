@@ -31,7 +31,7 @@ class ProductListController extends GetxController {
 
   Future<List<Product>> _fetchProductsPage(final int pageKey) async {
     final ProductModel response = await productRepo.getProducts(
-      <String, dynamic>{'page': pageKey, 'per_page': 5},
+      <String, dynamic>{'page': pageKey, 'per_page': 15},
       sharedPref.getUserRole,
     );
     _hasNextPage = response.data?.nextPageUrl != null;
