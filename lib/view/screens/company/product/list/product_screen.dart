@@ -63,6 +63,7 @@ class ProductListScreen extends StatelessWidget {
                             ) {
                               return ProductRow(
                                 product: product,
+                                sharedPref: controller.sharedPref,
                                 onEdit: () => controller.editProduct(product),
                                 onDelete: () {
                                   Get.bottomSheet(

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/product_model.dart';
+import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/extensions/string_ext.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/utils/app_enums.dart';
 import 'package:krishi_mart/view/base/placeholder_image.dart';
 import 'package:krishi_mart/view/screens/company/product/list/widgets/product_row_action.dart';
 
@@ -15,12 +17,14 @@ class ProductRow extends StatelessWidget {
     required this.product,
     required this.onEdit,
     required this.onDelete,
+    required this.sharedPref,
     super.key,
   });
 
   final Product product;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final SharedPreferenceHelper sharedPref;
 
   @override
   Widget build(final BuildContext context) {
@@ -91,7 +95,9 @@ class ProductRow extends StatelessWidget {
                 ),
                 Gap(AppResponsive.value(3, tablet: 5)),
                 Text(
-                  product.companyName ?? '',
+                  sharedPref.getUserRole == UserType.company.name
+                      ? product.company?.companyName ?? ''
+                      : product.companyName ?? '',
                   style: companyProfileUploadDescription,
                 ),
                 Gap(AppResponsive.value(4, tablet: 6)),

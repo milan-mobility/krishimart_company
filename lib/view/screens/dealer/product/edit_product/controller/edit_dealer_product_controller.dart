@@ -67,7 +67,10 @@ class EditDealerProductController extends GetxController {
   void onInit() {
     super.onInit();
     txtProductName.text = product.name ?? '';
-    txtCompany.text = product.companyName ?? product.brand?.name ?? '';
+    final String? topLevelCompanyName = product.companyName?.trim();
+    txtCompany.text = topLevelCompanyName?.isNotEmpty == true
+        ? topLevelCompanyName!
+        : product.company?.companyName ?? product.brand?.name ?? '';
     txtFarmerName.text = product.demoFarmerName ?? '';
     txtDescription.text = product.description ?? '';
     txtDose.text = product.dose ?? '';
@@ -122,8 +125,13 @@ class EditDealerProductController extends GetxController {
       commonController.getCategories(),
       commonController.getCrops(),
     ]);
+    final int? categoryId = product.categoryId ?? product.category?.id;
     for (final Category category in commonController.categories) {
-      if (category.id == product.categoryId) selectedCategory = category;
+      if (category.id == categoryId ||
+          (categoryId == null && category.name == product.category?.name)) {
+        selectedCategory = category;
+        break;
+      }
     }
     selectedCrops.addAll(
       (product.crops ?? <Crops>[]).map(
