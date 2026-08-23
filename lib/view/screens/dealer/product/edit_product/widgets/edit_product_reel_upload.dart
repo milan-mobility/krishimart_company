@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/view/base/confirmation_bottom_sheet.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_reel_preview.dart';
 import 'package:krishi_mart/view/screens/dealer/product/edit_product/controller/edit_dealer_product_controller.dart';
 
@@ -28,7 +29,7 @@ class EditProductReelUpload extends StatelessWidget {
           ProductReelPreview(
             videoController: controller.reelPreviewController!,
             onTogglePlayback: controller.toggleReelPlayback,
-            onRemove: controller.removeReel,
+            onRemove: () => _confirmReelRemoval(),
           ),
         ] else if (controller.isLoadingExistingReel)
           Container(
@@ -59,7 +60,7 @@ class EditProductReelUpload extends StatelessWidget {
                   style: companyProfileUploadDescription,
                 ),
                 TextButton(
-                  onPressed: controller.removeReel,
+                  onPressed: _confirmReelRemoval,
                   child: Text('Remove reel'.tr),
                 ),
               ],
@@ -112,6 +113,20 @@ class EditProductReelUpload extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+
+  void _confirmReelRemoval() {
+    Get.bottomSheet(
+      ConfirmationBottomSheet(
+        title: 'Delete Reel'.tr,
+        description: 'Are you sure you want to delete this reel?'.tr,
+        onPositive: () {
+          Get.back();
+          controller.removeReel();
+        },
+        txtPositive: 'Yes,Delete'.tr,
+      ),
     );
   }
 }

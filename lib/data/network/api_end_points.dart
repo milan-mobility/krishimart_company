@@ -45,6 +45,10 @@ class Endpoints {
     return '$api$role/products/$productId/images/$imageId';
   }
 
+  static String deleteProductReel({required final int productId}) {
+    return '${api}products/$productId/reel';
+  }
+
   //Dealer
   static const String saveDealerProfile = '${api}dealer/profile';
   static const String getDealerData = '${api}dealer/profile';

@@ -199,9 +199,13 @@ final Map<String, String> gu = <String, String>{
   'Video up to 30 seconds': '30 સેકન્ડ સુધીનો વિડિયો',
   'Reel ready': 'રીલ તૈયાર છે',
   'Delete Image': 'છબી કાઢી નાખો',
+  'Delete Reel': 'રીલ કાઢી નાખો',
   'Are you sure you want to delete this image?':
       'શું તમે ખરેખર આ છબી કાઢી નાખવા માંગો છો?',
+  'Are you sure you want to delete this reel?':
+      'શું તમે ખરેખર આ રીલ કાઢી નાખવા માંગો છો?',
   'Unable to delete image': 'છબી કાઢી શકાઈ નથી',
+  'Unable to delete reel': 'રીલ કાઢી શકાઈ નથી',
   'Change Language': 'ભાષા બદલો',
   'English': 'અંગ્રેજી',
   'Gujarati': 'ગુજરાતી',

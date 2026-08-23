@@ -108,4 +108,19 @@ class ProductRepo {
       rethrow;
     }
   }
+
+  Future<bool> deleteProductReel({required final int productId}) async {
+    try {
+      final Response<dynamic> response = await _dioClient.delete(
+        Endpoints.deleteProductReel(productId: productId),
+      );
+      return response.statusCode == 200 || response.statusCode == 204;
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

@@ -286,7 +286,32 @@ class EditDealerProductController extends GetxController {
 
   Future<void> removeReel() async {
     if (hasExistingServerReel) {
-      hasRemovedExistingReel = true;
+      final int? productId = product.id;
+      if (productId == null) {
+        showErrorSnackBar(message: 'Unable to delete reel'.tr);
+        return;
+      }
+      if (!await ConnectionUtils.isNetworkConnected()) {
+        showErrorSnackBar(
+          title: MessageConstant.netWorkTitle,
+          message: MessageConstant.networkError,
+        );
+        return;
+      }
+      try {
+        Loader.load(true);
+        final bool deleted = await productRepo.deleteProductReel(
+          productId: productId,
+        );
+        if (!deleted) return;
+        hasRemovedExistingReel = true;
+        await Get.find<ProductListController>().refreshProducts();
+      } on dio.DioException catch (error) {
+        Utility.showAPIError(error);
+        return;
+      } finally {
+        Loader.load(false);
+      }
     }
     await reelPreviewController?.dispose();
     reelPreviewController = null;

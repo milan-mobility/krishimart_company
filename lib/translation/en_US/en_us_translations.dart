@@ -207,9 +207,13 @@ final Map<String, String> enUs = <String, String>{
   //Manually
   'Delete Product': 'Delete Product',
   'Delete Image': 'Delete Image',
+  'Delete Reel': 'Delete Reel',
   'Are you sure you want to delete this image?':
       'Are you sure you want to delete this image?',
+  'Are you sure you want to delete this reel?':
+      'Are you sure you want to delete this reel?',
   'Unable to delete image': 'Unable to delete image',
+  'Unable to delete reel': 'Unable to delete reel',
   'Are you sure you want to delete this product?':
       'Are you sure you want to delete this product?',
   'Product deleted successfully': 'Product deleted successfully',
