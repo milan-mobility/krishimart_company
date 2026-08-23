@@ -94,6 +94,12 @@ final Map<String, String> gu = <String, String>{
       'દાખલ કરેલી બધી વિગતો, પસંદ કરેલ ફોટા અને રીલ દૂર કરવામાં આવશે.',
   'Cancel': 'રદ કરો',
   'Continue': 'ચાલુ રાખો',
+  'Upload new reel': 'નવી રીલ અપલોડ કરો',
+  'Unable to load reel preview': 'રીલ પ્રિવ્યૂ લોડ થઈ શક્યો નથી',
+  'Remove the existing reel before uploading a new one':
+      'નવી રીલ અપલોડ કરતાં પહેલાં હાલની રીલ દૂર કરો',
+  'Remove reel': 'રીલ દૂર કરો',
+  'Certificate selected': 'પ્રમાણપત્ર પસંદ કરેલ છે',
   'Issue Date': 'ઇશ્યૂ તારીખ',
   'Expire Date': 'સમાપ્તિ તારીખ',
   'Please add issue and expire dates for the seeds license':
@@ -116,6 +122,7 @@ final Map<String, String> gu = <String, String>{
   'Enter company name': 'કંપનીનું નામ દાખલ કરો',
   'GST Number': 'GST નંબર',
   'Enter GST number': 'GST નંબર દાખલ કરો',
+  'Enter a valid GSTIN': 'માન્ય 15-અક્ષરનો GSTIN દાખલ કરો',
   'CIN Number': 'CIN નંબર',
   'Enter CIN number': 'CIN નંબર દાખલ કરો',
   'PAN Number': 'PAN નંબર',

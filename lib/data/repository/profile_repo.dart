@@ -80,7 +80,7 @@ class ProfileRepo {
     try {
       final Response<dynamic> response = await _dioClient.post(
         Endpoints.createCompanyProfile,
-        data: params,
+        data: FormData.fromMap(params),
       );
 
       return UserProfileModel.fromJson(response.data);

@@ -177,7 +177,7 @@ class AddProductController extends GetxController {
         Endpoints.createProduct,
       );
       if (response) {
-        Get.find<ProductListController>().pagingController.refresh();
+        await Get.find<ProductListController>().refreshProducts();
         Get.back();
       }
     } on dio.DioException catch (error) {

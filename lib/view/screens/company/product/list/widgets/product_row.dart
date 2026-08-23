@@ -41,9 +41,9 @@ class ProductRow extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          (product.primaryImage?.image.isNotNullAndEmpty() == true)
+          (product.primaryImage?.imageUrl.isNotNullAndEmpty() == true)
               ? CachedNetworkImage(
-                  imageUrl: (product.primaryImage!.image ?? '').imageUrl(),
+                  imageUrl: product.primaryImage!.imageUrl!,
                   imageBuilder:
                       (
                         final BuildContext context,
@@ -91,7 +91,7 @@ class ProductRow extends StatelessWidget {
                 ),
                 Gap(AppResponsive.value(3, tablet: 5)),
                 Text(
-                  product.company?.companyName ?? '',
+                  product.companyName ?? '',
                   style: companyProfileUploadDescription,
                 ),
                 Gap(AppResponsive.value(4, tablet: 6)),

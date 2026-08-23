@@ -30,6 +30,22 @@ class ProductRepo {
     }
   }
 
+  Future<bool> updateProduct(
+    final Map<String, dynamic> params,
+    final String endpoint,
+  ) async {
+    try {
+      final Response<dynamic> response = await _dioClient.post(
+        endpoint,
+        data: FormData.fromMap(params),
+      );
+      return response.statusCode == 200 || response.statusCode == 201;
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
   Future<ProductModel> getProducts(
     final Map<String, dynamic> params,
     final String role,

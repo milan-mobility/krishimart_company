@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krishi_mart/data/model/product_model.dart';
+import 'package:krishi_mart/data/network/api_end_points.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
+import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/utils/app_enums.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
+import 'package:krishi_mart/view/screens/dealer/product/edit_product/edit_dealer_product_screen.dart';
 
 class ProductListController extends GetxController {
   ProductListController(this.sharedPref, this.productRepo);
@@ -72,7 +76,16 @@ class ProductListController extends GetxController {
   }
 
   void editProduct(final Product product) {
-    Get.snackbar('Edit Product'.tr, '${product.name} ${'is ready to edit'.tr}');
+    if (sharedPref.getUserRole == UserType.dealer.name) {
+      Get.toNamed(RouteHelper.editDealerProduct, arguments: product);
+    } else {
+      Get.to(
+        () => EditDealerProductScreen(
+          product: product,
+          updateEndpoint: Endpoints.updateCompanyProduct(product.id ?? 0),
+        ),
+      );
+    }
   }
 
   @override

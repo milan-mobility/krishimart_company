@@ -132,6 +132,7 @@ class Product {
   Brand? category;
   Brand? crop;
   PrimaryImage? primaryImage;
+  List<PrimaryImage>? images;
   String? demoFarmerName;
   int? talukaId;
   int? villageId;
@@ -139,6 +140,7 @@ class Product {
   String? youtubeVideoLink;
   Company? company;
   List<Crops>? crops;
+  String? companyName;
 
   Product({
     this.id,
@@ -171,6 +173,7 @@ class Product {
     this.category,
     this.crop,
     this.primaryImage,
+    this.images,
     this.demoFarmerName,
     this.talukaId,
     this.villageId,
@@ -178,6 +181,7 @@ class Product {
     this.youtubeVideoLink,
     this.company,
     this.crops,
+    this.companyName,
   });
 
   Product.fromJson(Map<String, dynamic> json) {
@@ -207,26 +211,33 @@ class Product {
     deletedAt = json['deleted_at'];
     createdBy = json['created_by'];
     reelVideoUrl = json['reel_video_url'];
+    companyName = json['company_name'];
     brand = json['brand'] != null ? Brand.fromJson(json['brand']) : null;
     category = json['category'] != null
         ? Brand.fromJson(json['category'])
         : null;
     crop = json['crop'] != null ? Brand.fromJson(json['crop']) : null;
-    primaryImage = json['images'] != null
+    primaryImage = json['primary_image'] != null
         ? PrimaryImage.fromJson(json['primary_image'])
         : null;
+    if (json['images'] is List<dynamic>) {
+      images = (json['images'] as List<dynamic>)
+          .whereType<Map<String, dynamic>>()
+          .map(PrimaryImage.fromJson)
+          .toList();
+    }
     demoFarmerName = json['demo_farmer_name'];
     talukaId = json['taluka_id'];
     villageId = json['village_id'];
     isDemo = json['is_demo'];
     youtubeVideoLink = json['youtube_video_link'];
     company = json['company'] != null
-        ? new Company.fromJson(json['company'])
+        ? Company.fromJson(json['company'])
         : null;
     if (json['crops'] != null) {
       crops = <Crops>[];
       json['crops'].forEach((v) {
-        crops!.add(new Crops.fromJson(v));
+        crops!.add(Crops.fromJson(v));
       });
     }
   }
@@ -234,6 +245,7 @@ class Product {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['company_id'] = companyId;
@@ -259,6 +271,7 @@ class Product {
     data['deleted_at'] = deletedAt;
     data['created_by'] = createdBy;
     data['reel_video_url'] = reelVideoUrl;
+    data['company_name'] = companyName;
     if (brand != null) {
       data['brand'] = brand!.toJson();
     }
@@ -270,6 +283,11 @@ class Product {
     }
     if (primaryImage != null) {
       data['images'] = primaryImage!.toJson();
+    }
+    if (images != null) {
+      data['images'] = images!
+          .map((final PrimaryImage image) => image.toJson())
+          .toList();
     }
     data['youtube_video_link'] = youtubeVideoLink;
     if (primaryImage != null) {
@@ -297,7 +315,7 @@ class Company {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['company_name'] = companyName;
     return data;
@@ -314,11 +332,11 @@ class Crops {
   Crops.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     if (pivot != null) {
@@ -344,7 +362,7 @@ class Pivot {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product_id'] = productId;
     data['crop_id'] = cropId;
     data['created_at'] = createdAt;

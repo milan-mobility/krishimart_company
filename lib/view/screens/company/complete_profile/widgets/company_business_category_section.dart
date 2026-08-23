@@ -27,32 +27,16 @@ class CompanyBusinessCategorySection extends StatelessWidget {
           ),
           Gap(AppResponsive.value(9, tablet: 12)),
           Row(
-            children: <Widget>[
-              CompanyCategoryTile(
-                title: 'Fertilizer',
-                icon: Icons.grass_outlined,
-                isSelected: controller.selectedCategory == 'Fertilizer',
-                onTap: () => controller.selectCategory('Fertilizer'),
-              ),
-              CompanyCategoryTile(
-                title: 'Pesticide',
-                icon: Icons.water_drop_outlined,
-                isSelected: controller.selectedCategory == 'Pesticide',
-                onTap: () => controller.selectCategory('Pesticide'),
-              ),
-              CompanyCategoryTile(
-                title: 'Seeds',
-                icon: Icons.spa_outlined,
-                isSelected: controller.selectedCategory == 'Seeds',
-                onTap: () => controller.selectCategory('Seeds'),
-              ),
-              CompanyCategoryTile(
-                title: 'PGR',
-                icon: Icons.science_outlined,
-                isSelected: controller.selectedCategory == 'PGR',
-                onTap: () => controller.selectCategory('PGR'),
-              ),
-            ],
+            children: controller.commonController.categories
+                .map(
+                  (final category) => CompanyCategoryTile(
+                    title: category.name ?? '',
+                    icon: Icons.category_outlined,
+                    isSelected: controller.isCategorySelected(category),
+                    onTap: () => controller.toggleCategory(category),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),

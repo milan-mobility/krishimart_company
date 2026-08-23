@@ -94,6 +94,12 @@ final Map<String, String> enUs = <String, String>{
       'All entered details, selected photos, and reel will be removed.',
   'Cancel': 'Cancel',
   'Continue': 'Continue',
+  'Upload new reel': 'Upload new reel',
+  'Unable to load reel preview': 'Unable to load reel preview',
+  'Remove the existing reel before uploading a new one':
+      'Remove the existing reel before uploading a new one',
+  'Remove reel': 'Remove reel',
+  'Certificate selected': 'Certificate selected',
   'Issue Date': 'Issue Date',
   'Expire Date': 'Expire Date',
   'Please add issue and expire dates for the seeds license':
@@ -116,6 +122,7 @@ final Map<String, String> enUs = <String, String>{
   'Enter company name': 'Enter company name',
   'GST Number': 'GST Number',
   'Enter GST number': 'Enter GST number',
+  'Enter a valid GSTIN': 'Enter a valid 15-character GSTIN',
   'CIN Number': 'CIN Number',
   'Enter CIN number': 'Enter CIN number',
   'PAN Number': 'PAN Number',

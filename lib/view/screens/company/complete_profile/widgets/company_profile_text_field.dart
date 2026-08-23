@@ -22,6 +22,7 @@ class CompanyProfileTextField extends StatelessWidget {
     this.textStyle,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
+    this.additionalValidator,
     super.key,
   });
 
@@ -39,6 +40,7 @@ class CompanyProfileTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextStyle? textStyle;
   final TextCapitalization textCapitalization;
+  final String? Function(String? value)? additionalValidator;
 
   @override
   Widget build(final BuildContext context) {
@@ -76,16 +78,16 @@ class CompanyProfileTextField extends StatelessWidget {
           readOnly: readOnly,
           onTap: onTap,
           suffixIcon: suffixIcon,
-          validator: isRequired
+          validator: isRequired || additionalValidator != null
               ? (final String? value) {
-                  if (value?.trim().isEmpty ?? true) {
+                  if (isRequired && (value?.trim().isEmpty ?? true)) {
                     return 'This field is required'.tr;
                   }
                   if (minLength != null && value!.trim().length < minLength!) {
                     return minLengthErrorText?.tr ??
                         'Please enter at least $minLength characters'.tr;
                   }
-                  return null;
+                  return additionalValidator?.call(value);
                 }
               : null,
         ),

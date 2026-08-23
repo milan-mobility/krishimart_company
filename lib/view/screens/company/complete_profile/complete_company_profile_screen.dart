@@ -69,7 +69,20 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
                             hintText: 'Enter GST number',
                             controller: controller.txtGstNumber,
                             isRequired: true,
+                            maxLength: 15,
                             textCapitalization: TextCapitalization.characters,
+                            additionalValidator: (final String? value) {
+                              final String gstin =
+                                  value?.trim().toUpperCase() ?? '';
+                              final RegExp gstinPattern = RegExp(
+                                r'^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$',
+                              );
+
+                              if (!gstinPattern.hasMatch(gstin)) {
+                                return 'Enter a valid GSTIN'.tr;
+                              }
+                              return null;
+                            },
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           CompanyProfileTextField(

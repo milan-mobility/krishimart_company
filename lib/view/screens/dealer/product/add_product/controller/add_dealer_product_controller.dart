@@ -93,6 +93,7 @@ class AddDealerProductController extends GetxController {
         'name': txtProductName.text.trim(),
         'category_id': selectedCategory?.id,
         'description': txtDescription.text.trim(),
+        'dose': txtDose.text.trim(),
         if (isDemoProduct) ...<String, dynamic>{
           'farmer_name': txtFarmerName.text.trim(),
           'taluka_id': selectedDemoTaluka?.id,
@@ -125,7 +126,7 @@ class AddDealerProductController extends GetxController {
         _productEndpoint,
       );
       if (response) {
-        Get.find<ProductListController>().pagingController.refresh();
+        await Get.find<ProductListController>().refreshProducts();
         Get.back();
       } else {}
     } on dio.DioException catch (error) {

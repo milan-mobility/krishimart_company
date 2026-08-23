@@ -104,7 +104,6 @@ class Profile {
   String? panNumber;
   String? gstNumber;
   String? website;
-  String? businessCategory;
   String? logo;
   String? licenseCertificate;
   String? licenseStartDate;
@@ -120,7 +119,6 @@ class Profile {
   String? licenseCertificateUrl;
   String? shopName;
   String? ownerName;
-
   Taluka? taluka;
   Village? village;
   List<String>? licenseDocumentUrls;
@@ -150,7 +148,6 @@ class Profile {
     this.panNumber,
     this.gstNumber,
     this.website,
-    this.businessCategory,
     this.logo,
     this.shopName,
     this.ownerName,
@@ -193,7 +190,6 @@ class Profile {
     panNumber = json['pan_number'];
     gstNumber = json['gst_number'];
     website = json['website'];
-    businessCategory = json['business_category'];
     logo = json['logo'];
     licenseCertificate = json['license_certificate'];
     licenseStartDate = json['license_start_date'];
@@ -240,7 +236,6 @@ class Profile {
     data['pan_number'] = panNumber;
     data['gst_number'] = gstNumber;
     data['website'] = website;
-    data['business_category'] = businessCategory;
     data['logo'] = logo;
     data['shop_name'] = shopName;
     data['owner_name'] = ownerName;

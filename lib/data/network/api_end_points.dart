@@ -24,6 +24,10 @@ class Endpoints {
     return '${api}company/products/$productId';
   }
 
+  static String updateCompanyProduct(final int productId) {
+    return '${api}company/products/$productId';
+  }
+
   //Dealer
   static const String saveDealerProfile = '${api}dealer/profile';
   static const String getDealerData = '${api}dealer/profile';
@@ -31,6 +35,10 @@ class Endpoints {
   static const String createDealerProduct = '${api}dealer/products';
   static const String demoProducts = '${api}dealer/demo-products';
   static String deleteDealerProduct(final int productId) {
+    return '${api}dealer/products/$productId';
+  }
+
+  static String updateDealerProduct(final int productId) {
     return '${api}dealer/products/$productId';
   }
 

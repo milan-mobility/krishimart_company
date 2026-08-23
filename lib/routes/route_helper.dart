@@ -7,6 +7,7 @@ import 'package:krishi_mart/view/screens/company/product/list/product_screen.dar
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/complete_dealer_profile_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/home/dealer_home_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/add_dealer_product_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/product/edit_product/edit_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/login/login_screen.dart';
 import 'package:krishi_mart/view/screens/profile/profile_screen.dart';
 import 'package:krishi_mart/view/screens/splash/splash_screen.dart';
@@ -27,6 +28,7 @@ class RouteHelper {
   static const String dealerHome = '/dealer-home';
   static const String companyHomeScreen = '/companyHomeScreen';
   static const String addDealerProduct = '/addDealerProduct';
+  static const String editDealerProduct = '/editDealerProduct';
 
   static const String videos = '/videos';
   static const String profile = '/profile';
@@ -68,6 +70,11 @@ class RouteHelper {
     GetPage<dynamic>(
       name: addDealerProduct,
       page: () => getRoute(const AddDealerProductScreen()),
+    ),
+    GetPage<dynamic>(
+      name: editDealerProduct,
+      page: () =>
+          getRoute(EditDealerProductScreen(product: Get.arguments as dynamic)),
     ),
     GetPage<dynamic>(
       name: companyHomeScreen,

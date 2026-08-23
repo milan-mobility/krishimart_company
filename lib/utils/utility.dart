@@ -51,7 +51,7 @@ class Utility {
     if (Get.isRegistered<DealerHomeController>()) {
       Get.delete<DealerHomeController>(force: true);
     }
-    Get.offAllNamed(RouteHelper.login);
+    Get.offAllNamed(RouteHelper.userRole);
   }
 
   static Future<String> convertBase64(final File imageFile) async {
