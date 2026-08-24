@@ -6,6 +6,7 @@ import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
+import 'package:krishi_mart/view/base/youtube_video_preview.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_dropdown_field.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_form_card.dart';
@@ -16,6 +17,7 @@ import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/deal
 import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/dealer_product_type_tabs.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_drop_down_field.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/widgets/product_dealer_reel_upload.dart';
+import 'package:krishi_mart/utils/youtube_url_validator.dart';
 
 class AddDealerProductScreen extends StatelessWidget {
   const AddDealerProductScreen({super.key});
@@ -173,11 +175,25 @@ class AddDealerProductScreen extends StatelessWidget {
                                     hintText: 'https://youtube.com/...',
                                     controller: controller.txtYoutubeLink,
                                     keyboardType: TextInputType.url,
+                                    onChanged: controller.onYoutubeLinkChanged,
+                                    additionalValidator:
+                                        (final String? value) =>
+                                            YouTubeUrlValidator.isValidOrEmpty(
+                                              value ?? '',
+                                            )
+                                            ? null
+                                            : 'Enter a valid YouTube video link'
+                                                  .tr,
                                     textStyle: interW500.copyWith(
                                       fontSize: 14,
                                       color: AppColors.color9CA3AF,
                                     ),
                                   ),
+                                  if (controller.youtubeVideoId
+                                      case final String videoId) ...[
+                                    Gap(AppResponsive.value(14, tablet: 18)),
+                                    YouTubeVideoPreview(videoId: videoId),
+                                  ],
                                   Gap(AppResponsive.value(14, tablet: 18)),
                                   ProductDealerReelUpload(
                                     controller: controller,

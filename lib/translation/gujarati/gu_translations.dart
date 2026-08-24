@@ -42,6 +42,8 @@ final Map<String, String> gu = <String, String>{
   'Photos selected': 'ફોટા પસંદ કર્યા',
   'JPG, PNG up to 5MB': 'JPG, PNG 5MB સુધી',
   'YouTube Video Link': 'YouTube વિડિયો લિંક',
+  'YouTube Preview': 'YouTube પૂર્વાવલોકન',
+  'Enter a valid YouTube video link': 'માન્ય YouTube વિડિયો લિંક દાખલ કરો',
   'https://youtube.com/...': 'https://youtube.com/...',
   'Save Product': 'ઉત્પાદન સાચવો',
   'Product saved': 'ઉત્પાદન સાચવ્યું',

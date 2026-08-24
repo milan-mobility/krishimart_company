@@ -42,6 +42,8 @@ final Map<String, String> enUs = <String, String>{
   'Photos selected': 'Photos selected',
   'JPG, PNG up to 5MB': 'JPG, PNG up to 5MB',
   'YouTube Video Link': 'YouTube Video Link',
+  'YouTube Preview': 'YouTube Preview',
+  'Enter a valid YouTube video link': 'Enter a valid YouTube video link',
   'https://youtube.com/...': 'https://youtube.com/...',
   'Save Product': 'Save Product',
   'Product saved': 'Product saved',

@@ -12,6 +12,7 @@ import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
+import 'package:krishi_mart/utils/youtube_url_validator.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:krishi_mart/view/screens/company/product/list/controller/product_controller.dart';
@@ -47,6 +48,8 @@ class AddDealerProductController extends GetxController {
   IdName? selectedDemoVillage;
 
   bool get isProcessingReel => isSelectingReel || isCompressingReel;
+  String? get youtubeVideoId =>
+      YouTubeUrlValidator.videoIdFromUrl(txtYoutubeLink.text);
 
   int selectedProductTab = 0;
 
@@ -176,6 +179,8 @@ class AddDealerProductController extends GetxController {
       ..addAll(crops);
     update();
   }
+
+  void onYoutubeLinkChanged(final String _) => update();
 
   Future<void> selectDemoTaluka(final IdName? taluka) async {
     selectedDemoTaluka = taluka;

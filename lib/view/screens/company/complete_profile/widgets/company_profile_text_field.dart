@@ -23,6 +23,7 @@ class CompanyProfileTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
     this.additionalValidator,
+    this.onChanged,
     super.key,
   });
 
@@ -41,6 +42,7 @@ class CompanyProfileTextField extends StatelessWidget {
   final TextStyle? textStyle;
   final TextCapitalization textCapitalization;
   final String? Function(String? value)? additionalValidator;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(final BuildContext context) {
@@ -77,6 +79,7 @@ class CompanyProfileTextField extends StatelessWidget {
           maxLength: maxLength,
           readOnly: readOnly,
           onTap: onTap,
+          onChange: onChanged,
           suffixIcon: suffixIcon,
           validator: isRequired || additionalValidator != null
               ? (final String? value) {

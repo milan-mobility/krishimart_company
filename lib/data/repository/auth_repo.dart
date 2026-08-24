@@ -63,4 +63,24 @@ class AuthRepo {
       rethrow;
     }
   }
+
+  Future<bool> deleteAccount(final Map<String, dynamic> params) async {
+    try {
+      final Response<dynamic> response = await _dioClient.delete(
+        Endpoints.deleteAccount,
+        data: params,
+      );
+
+      return response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 202 ||
+          response.statusCode == 204;
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
 }

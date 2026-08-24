@@ -118,6 +118,11 @@ TextStyle productFormTitle = interW700.copyWith(
   color: AppColors.color1A1A2D,
 );
 
+TextStyle youtubePreviewTitle = interW600.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.themeColor,
+);
+
 TextStyle productFieldLabel = interW600.copyWith(
   fontSize: AppResponsive.font(10),
   color: AppColors.color717973,

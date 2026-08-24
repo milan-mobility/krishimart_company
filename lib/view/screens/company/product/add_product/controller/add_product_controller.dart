@@ -11,6 +11,7 @@ import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
+import 'package:krishi_mart/utils/youtube_url_validator.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
@@ -38,6 +39,8 @@ class AddProductController extends GetxController {
   final List<IdName> selectedCrops = <IdName>[];
 
   bool get isProcessingReel => isSelectingReel || isCompressingReel;
+  String? get youtubeVideoId =>
+      YouTubeUrlValidator.videoIdFromUrl(txtYoutubeLink.text);
 
   @override
   void onInit() {
@@ -64,6 +67,8 @@ class AddProductController extends GetxController {
       ..addAll(crops);
     update();
   }
+
+  void onYoutubeLinkChanged(final String _) => update();
 
   Future<void> selectPhotos() async {
     final List<String> selectedPaths = await Utility.getPhotos();

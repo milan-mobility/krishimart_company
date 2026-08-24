@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: AppColors.productSurface,
         bottomNavigationBar: const BottomNavigation(selectedIndex: 2),
         body: GetBuilder<ProfileController>(
-          init: ProfileController(Get.find()),
+          init: ProfileController(Get.find(), Get.find()),
           builder: (final ProfileController controller) {
             return SafeArea(
               child: ConstrainedBox(
