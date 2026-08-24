@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/model/auth_model.dart';
 import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
@@ -93,8 +94,10 @@ class VerifyOtpController extends GetxController implements GetxService {
 
         if (userModel?.hasProfileCompleted ?? true) {
           if (sharedPref.getUserRole == UserType.company.name) {
+            await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
+            await Get.find<CommonController>().getDealerData();
             Get.offAllNamed(RouteHelper.dealerHome);
           }
         } else {
@@ -104,6 +107,40 @@ class VerifyOtpController extends GetxController implements GetxService {
             Get.offAllNamed(RouteHelper.completeDealerProfile);
           }
         }
+      }
+    } on DioException catch (e) {
+      Utility.showAPIError(e);
+    } catch (e) {
+      debugPrint('EXCEPTION=>${e.toString()}');
+    } finally {
+      Loader.load(false);
+    }
+  }
+
+  Future<void> resendOtpApiCall() async {
+    final bool isInternetAvailable = await ConnectionUtils.isNetworkConnected();
+    if (!isInternetAvailable) {
+      showErrorSnackBar(
+        title: MessageConstant.netWorkTitle,
+        message: MessageConstant.networkError,
+      );
+      return;
+    }
+
+    try {
+      final Map<String, dynamic> params = <String, dynamic>{
+        'mobile': mobile,
+        'role': userRole,
+      };
+
+      Loader.load(true);
+      final bool response = await authRepo.resendOTP(params);
+      Loader.load(false);
+
+      if (response) {
+        showSuccessSnackBar(message: 'Otp send successfully'.tr);
+      } else {
+        showErrorSnackBar(message: 'Something went Wrong!');
       }
     } on DioException catch (e) {
       Utility.showAPIError(e);

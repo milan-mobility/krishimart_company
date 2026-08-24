@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
-import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
 
 class DealerBannerCarousel extends StatelessWidget {
@@ -13,6 +12,8 @@ class DealerBannerCarousel extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    if (controller.banners.isEmpty) return const SizedBox.shrink();
+
     return Container(
       padding: EdgeInsets.all(AppResponsive.value(10, tablet: 14)),
       decoration: BoxDecoration(
@@ -34,36 +35,28 @@ class DealerBannerCarousel extends StatelessWidget {
             height: AppResponsive.value(138, tablet: 164),
             child: PageView.builder(
               controller: controller.bannerPageController,
-              itemCount: controller.bannerTitles.length,
+              itemCount: controller.banners.length,
               onPageChanged: controller.onBannerChanged,
               itemBuilder: (final BuildContext context, final int index) {
-                return Container(
-                  padding: EdgeInsets.all(AppResponsive.value(18, tablet: 22)),
-                  decoration: BoxDecoration(
-                    color: AppColors.dashboardBanner,
-                    borderRadius: BorderRadius.circular(
-                      AppResponsive.value(9, tablet: 12),
-                    ),
+                final String? imageUrl = controller.banners[index].imageUrl;
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    AppResponsive.value(9, tablet: 12),
                   ),
-                  alignment: Alignment.bottomLeft,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          controller.bannerTitles[index].tr,
-                          style: interW700.copyWith(
-                            fontSize: AppResponsive.font(16),
-                            color: AppColors.color1F6D1A,
+                  child: imageUrl == null || imageUrl.isEmpty
+                      ? const ColoredBox(color: AppColors.dashboardBanner)
+                      : CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          placeholder: (context, url) => const ColoredBox(
+                            color: AppColors.dashboardBanner,
                           ),
+                          errorWidget: (context, url, error) =>
+                              const ColoredBox(
+                                color: AppColors.dashboardBanner,
+                              ),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: AppColors.color1F6D1A,
-                        size: AppResponsive.value(20),
-                      ),
-                    ],
-                  ),
                 );
               },
             ),
@@ -71,7 +64,7 @@ class DealerBannerCarousel extends StatelessWidget {
           Gap(AppResponsive.value(10, tablet: 12)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List<Widget>.generate(controller.bannerTitles.length, (
+            children: List<Widget>.generate(controller.banners.length, (
               final int index,
             ) {
               return AnimatedContainer(

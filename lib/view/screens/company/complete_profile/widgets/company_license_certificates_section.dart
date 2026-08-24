@@ -9,6 +9,7 @@ import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/controller/complete_company_profile_controller.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
+import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_certificate_preview.dart';
 
 class CompanyLicenseCertificatesSection extends StatelessWidget {
   const CompanyLicenseCertificatesSection({
@@ -78,7 +79,7 @@ class CompanyLicenseCertificatesSection extends StatelessWidget {
                   Text(
                     controller.certificatePaths.isEmpty
                         ? 'Upload Certificates'.tr
-                        : '${controller.certificatePaths.length} ${'Certificates selected'.tr}',
+                        : 'Certificate selected'.tr,
                     style: companyProfileUploadTitle,
                   ),
                   Gap(AppResponsive.value(4, tablet: 6)),
@@ -90,6 +91,13 @@ class CompanyLicenseCertificatesSection extends StatelessWidget {
               ),
             ),
           ),
+          if (controller.certificatePaths.isNotEmpty) ...<Widget>[
+            Gap(AppResponsive.value(12, tablet: 14)),
+            CompanyCertificatePreview(
+              certificatePath: controller.certificatePaths,
+              onRemove: controller.removeCertificate,
+            ),
+          ],
           Gap(AppResponsive.value(11, tablet: 14)),
           Row(
             children: <Widget>[

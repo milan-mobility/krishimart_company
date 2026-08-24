@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/app_enums.dart';
@@ -33,22 +34,24 @@ class SplashController extends GetxController {
     // Get.offAllNamed(RouteHelper.dealerHome);
 
     if (sharedPref.isRoleSelected) {
-      if (sharedPref.hasProfileCompleted) {
-        if (sharedPref.isLoggedIn) {
+      if (sharedPref.isLoggedIn) {
+        if (sharedPref.hasProfileCompleted) {
           if (sharedPref.getUserRole == UserType.company.name) {
+            await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
+            Get.find<CommonController>().getDealerData();
             Get.offAllNamed(RouteHelper.dealerHome);
           }
         } else {
-          Get.offAllNamed(RouteHelper.login);
+          if (sharedPref.getUserRole == UserType.company.name) {
+            Get.offAllNamed(RouteHelper.completeCompanyProfile);
+          } else {
+            Get.offAllNamed(RouteHelper.completeDealerProfile);
+          }
         }
       } else {
-        if (sharedPref.getUserRole == UserType.company.name) {
-          Get.offAllNamed(RouteHelper.completeCompanyProfile);
-        } else {
-          Get.offAllNamed(RouteHelper.completeDealerProfile);
-        }
+        Get.offAllNamed(RouteHelper.login);
       }
     } else {
       Get.offAllNamed(RouteHelper.userRole);

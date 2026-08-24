@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
-import 'package:krishi_mart/view/screens/company/product/add_product/controller/add_product_controller.dart';
 
 class ProductPhotoUpload extends StatelessWidget {
-  const ProductPhotoUpload({required this.controller, super.key});
+  const ProductPhotoUpload({required this.onPhotoSelect, super.key});
 
-  final AddProductController controller;
+  final VoidCallback onPhotoSelect;
 
   @override
   Widget build(final BuildContext context) {
@@ -22,13 +21,13 @@ class ProductPhotoUpload extends StatelessWidget {
         ),
         Gap(AppResponsive.value(6, tablet: 8)),
         InkWell(
-          onTap: controller.selectPhotos,
+          onTap: onPhotoSelect,
           borderRadius: BorderRadius.circular(AppResponsive.value(10)),
           child: Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: AppResponsive.value(20)),
             decoration: BoxDecoration(
-              color: AppColors.productSurface,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(AppResponsive.value(10)),
               border: Border.all(color: AppColors.productUploadBorder),
             ),
@@ -40,12 +39,7 @@ class ProductPhotoUpload extends StatelessWidget {
                   size: AppResponsive.value(24, tablet: 28),
                 ),
                 Gap(AppResponsive.value(7, tablet: 9)),
-                Text(
-                  controller.photoPaths.isEmpty
-                      ? 'Upload Photos'.tr
-                      : '${controller.photoPaths.length} ${'Photos selected'.tr}',
-                  style: productUploadLabel,
-                ),
+                Text('Upload Photos'.tr, style: productUploadLabel),
                 Gap(AppResponsive.value(3, tablet: 5)),
                 Text(
                   'JPG, PNG up to 5MB'.tr,

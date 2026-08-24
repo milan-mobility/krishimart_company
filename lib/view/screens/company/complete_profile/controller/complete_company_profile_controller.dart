@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:krishi_mart/data/controllers/common_controller.dart';
+import 'package:krishi_mart/data/model/category_model.dart';
 import 'package:krishi_mart/data/model/id_name_model.dart';
 import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
@@ -44,7 +45,7 @@ class CompleteCompanyProfileController extends GetxController {
   IdName? selectedState;
   IdName? selectedDistrict;
 
-  String selectedCategory = 'pesticide';
+  final List<Category> selectedCategories = <Category>[];
   String certificatePaths = '';
 
   @override
@@ -54,17 +55,10 @@ class CompleteCompanyProfileController extends GetxController {
   }
 
   void checkValidation() {
-    // final bool hasLocation = selectedState != null && selectedDistrict != null;
-    // final bool hasLicenseCertificate = certificatePaths.isNotEmpty;
-    // if (!(formKey.currentState?.validate() ?? false) ||
-    //     !hasLocation ||
-    //     !hasLicenseCertificate) {
-    //   showErrorSnackBar(message: 'Please complete all required fields'.tr);
-    //   return;
-    // }
-
     final bool hasLocation = selectedState != null && selectedDistrict != null;
-    if (!(formKey.currentState?.validate() ?? false) || !hasLocation) {
+    if (!(formKey.currentState?.validate() ?? false) ||
+        !hasLocation ||
+        selectedCategories.isEmpty) {
       showErrorSnackBar(message: 'Please complete all required fields'.tr);
       return;
     }
@@ -88,8 +82,8 @@ class CompleteCompanyProfileController extends GetxController {
         'gst_number': txtGstNumber.text.trim(),
         'cin_number': txtCinNumber.text.trim(),
         'pan_number': txtPanNumber.text.trim(),
-        'tan_number': txtTanNumber.text.trim(),
-        'business_category': selectedCategory,
+        if (txtTanNumber.text.isNotEmpty)
+          'tan_number': txtTanNumber.text.trim(),
         'address_line_1': txtAddressLine1.text.trim(),
         'address_line_2': txtAddressLine2.text.trim(),
         'state_id': selectedState?.id,
@@ -104,15 +98,19 @@ class CompleteCompanyProfileController extends GetxController {
             filename: certificatePaths.split(Platform.pathSeparator).last,
           ),
       };
+      for (int index = 0; index < selectedCategories.length; index++) {
+        params['business_category_ids[$index]'] = selectedCategories[index].id;
+      }
 
       Loader.load(true);
       final UserProfileModel userProfileModel = await profileRepo
-          .completeFarmerProfile(params);
+          .completeCompanyProfile(params);
       if (userProfileModel.data != null) {
         final UserModel? userModel = userProfileModel.data;
         sharedPref.saveHasProfileCompleted(
           userModel?.profileCompleted ?? false,
         );
+        await commonController.getCompanyUserDetail();
         Get.offAllNamed(RouteHelper.companyHomeScreen);
       }
     } on DioException catch (error) {
@@ -136,18 +134,40 @@ class CompleteCompanyProfileController extends GetxController {
     update();
   }
 
-  void _loadOtherData() async {
-    await commonController.getStates();
+  Future<void> _loadOtherData() async {
+    await Future.wait<void>(<Future<void>>[
+      commonController.getStates(),
+      commonController.getCategories(),
+    ]);
+    update();
   }
 
-  void selectCategory(final String category) {
-    selectedCategory = category;
+  void toggleCategory(final Category category) {
+    final int selectedIndex = selectedCategories.indexWhere(
+      (final Category item) => item.id == category.id,
+    );
+    if (selectedIndex >= 0) {
+      selectedCategories.removeAt(selectedIndex);
+    } else {
+      selectedCategories.add(category);
+    }
     update();
+  }
+
+  bool isCategorySelected(final Category category) {
+    return selectedCategories.any(
+      (final Category item) => item.id == category.id,
+    );
   }
 
   Future<void> selectCertificates() async {
     final List<String> selectedPaths = await Utility.getFile();
     certificatePaths = selectedPaths.isEmpty ? '' : selectedPaths.first;
+    update();
+  }
+
+  void removeCertificate() {
+    certificatePaths = '';
     update();
   }
 

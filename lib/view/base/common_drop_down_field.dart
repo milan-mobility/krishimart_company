@@ -1,8 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
+import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 
 import '../../gen/assets.gen.dart';
@@ -134,7 +136,7 @@ class CommonDropDownField<T> extends StatelessWidget {
             children: [
               if (showPrefixIcon) ...<Widget>[
                 SvgPicture.asset(Assets.svg.icFormLocation),
-                const SizedBox(width: 8),
+                Gap(AppResponsive.space(8)),
               ],
               Expanded(
                 child: Text(
@@ -142,7 +144,7 @@ class CommonDropDownField<T> extends StatelessWidget {
                       ? hintText ?? ''
                       : itemAsString(item).capitalize ?? '',
                   style: interW400.copyWith(
-                    fontSize: 12,
+                    fontSize: 14,
                     color: item == null
                         ? AppColors.formHint
                         : enabled

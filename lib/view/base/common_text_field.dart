@@ -123,7 +123,7 @@ class CommonTextField extends StatelessWidget {
         filled: true,
         fillColor: fillColor ?? AppColors.colorECEEED,
         contentPadding: EdgeInsetsDirectional.only(
-          start: AppResponsive.space(20),
+          start: AppResponsive.space(8),
           top: AppResponsive.space(12),
           bottom: AppResponsive.space(12),
         ),
@@ -135,6 +135,10 @@ class CommonTextField extends StatelessWidget {
               fontSize: AppResponsive.font(14),
               color: AppColors.colorBFC9C1,
             ),
+        errorStyle: interW400.copyWith(
+          fontSize: AppResponsive.font(12),
+          color: AppColors.roleDealer,
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         prefixIconConstraints:
             prefixIconConstraints ??

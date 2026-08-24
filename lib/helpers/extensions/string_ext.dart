@@ -152,6 +152,6 @@ extension StringExt on String? {
   }
 
   String imageUrl() {
-    return '${Endpoints.baseUrl}/${this!}';
+    return '${Endpoints.imageUrl}/${this!}';
   }
 }

@@ -13,12 +13,14 @@ class DealerProfileDropDownField extends StatelessWidget {
     required this.hintText,
     required this.items,
     required this.value,
+    this.fillColor,
     required this.onChanged,
     super.key,
   });
 
   final String label;
   final String hintText;
+  final Color? fillColor;
   final List<IdName> items;
   final IdName? value;
   final ValueChanged<IdName?> onChanged;
@@ -31,7 +33,10 @@ class DealerProfileDropDownField extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: label.tr,
-            style: companyProfileFieldLabel,
+            style: interW500.copyWith(
+              fontSize: 14,
+              color: AppColors.color9CA3AF,
+            ),
             children: <InlineSpan>[
               TextSpan(
                 text: ' *',
@@ -44,15 +49,15 @@ class DealerProfileDropDownField extends StatelessWidget {
         ),
         Gap(AppResponsive.value(6, tablet: 8)),
         CommonDropDownField<IdName>(
-          height: AppResponsive.value(45, tablet: 50),
+          height: AppResponsive.value(50, tablet: 50),
           list: items,
           selectedItem: value,
           onItemChange: onChanged,
           itemAsString: (final IdName? item) => item?.name ?? '',
           hintText: hintText.tr,
           showPrefixIcon: false,
-          showSearchBox: false,
-          fillColor: Colors.white,
+          showSearchBox: true,
+          fillColor: fillColor ?? Colors.white,
           textColor: AppColors.color191C1C,
         ),
       ],
