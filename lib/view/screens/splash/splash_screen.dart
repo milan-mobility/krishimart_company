@@ -32,13 +32,17 @@ class SplashScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Gap(AppResponsive.value(50, tablet: 65)),
-                Image.asset(Assets.png.icSplashLogo.path),
-                Gap(AppResponsive.value(20, tablet: 30)),
-                Text(
-                  'AgriHub'.tr,
-                  style: interW700.copyWith(
-                    fontSize: 25,
-                    color: AppColors.themeColor,
+                Image.asset(
+                  Assets.png.icSplashLogo.path,
+                  height: AppResponsive.value(
+                    250,
+                    tablet: 275,
+                    largeTablet: 300,
+                  ),
+                  width: AppResponsive.value(
+                    250,
+                    tablet: 275,
+                    largeTablet: 300,
                   ),
                 ),
                 Gap(AppResponsive.value(5, tablet: 8)),
