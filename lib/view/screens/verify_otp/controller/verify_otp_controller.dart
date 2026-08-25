@@ -9,6 +9,7 @@ import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
+import 'package:krishi_mart/helpers/device_helper.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/app_enums.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
@@ -76,6 +77,9 @@ class VerifyOtpController extends GetxController implements GetxService {
         'otp': otpPin,
         'role': userRole,
         'device_name': GetPlatform.isAndroid ? 'android' : 'ios',
+        'platform': GetPlatform.isAndroid ? 'android' : 'ios',
+        'device_id': await DeviceIdHelper.getDeviceId(),
+        'fcm_token': sharedPref.fcmToken,
       };
 
       Loader.load(true);

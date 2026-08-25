@@ -6,4 +6,5 @@ class PrefKeys {
   static const String selectedUserRole = 'selected_user_role';
   static const String hasUserRoleSelected = 'hasUserRoleSelected';
   static const String hasProfileCompleted = 'hasProfileCompleted';
+  static const String fcmToken = 'fcmToken';
 }

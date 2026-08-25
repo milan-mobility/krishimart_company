@@ -71,6 +71,14 @@ class SharedPreferenceHelper {
     return _sharedPreference.getString(PrefKeys.languageCode) ?? 'en';
   }
 
+  Future<void> saveFcmToken(final String fcmToken) async {
+    await _sharedPreference.setString(PrefKeys.fcmToken, fcmToken);
+  }
+
+  String? get fcmToken {
+    return _sharedPreference.getString(PrefKeys.fcmToken);
+  }
+
   Future<void> clear() async {
     final List<String> arrKeysToKeep = <String>[];
 
