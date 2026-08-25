@@ -10,10 +10,6 @@ class RoleBackgroundWidget extends StatelessWidget {
       child: IgnorePointer(
         child: Column(
           children: <Widget>[
-            // Container(
-            //   height: AppResponsive.value(250, tablet: 290),
-            //   color: AppColors.colorF0F7F2,
-            // ),
             const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

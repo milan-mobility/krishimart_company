@@ -32,10 +32,22 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.center,
-                          child: Image.asset(Assets.png.icLoginLogo.path),
+                          child: Image.asset(
+                            Assets.png.icSplashLogo.path,
+                            height: AppResponsive.value(
+                              250,
+                              tablet: 275,
+                              largeTablet: 300,
+                            ),
+                            width: AppResponsive.value(
+                              250,
+                              tablet: 275,
+                              largeTablet: 300,
+                            ),
+                          ),
                         ),
                         Text(
-                          'Welcome to AgriHub'.tr,
+                          'Welcome to iFarm Connect'.tr,
                           style: interW700.copyWith(
                             fontSize: 25,
                             color: AppColors.themeColor,

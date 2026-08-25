@@ -19,8 +19,6 @@ class RoleSelectionHeaderWidget extends StatelessWidget {
           height: AppResponsive.value(150, tablet: 200),
         ),
         Gap(AppResponsive.value(8, tablet: 12)),
-        // Text('iFarm Connect'.tr, style: userRoleTitle),
-        // Gap(AppResponsive.value(14, tablet: 18)),
         Text(
           'Farmers’ trust, our platform'.tr,
           textAlign: TextAlign.center,

@@ -34,15 +34,15 @@ class SplashScreen extends StatelessWidget {
                 Gap(AppResponsive.value(50, tablet: 65)),
                 Image.asset(
                   Assets.png.icSplashLogo.path,
-                  width: AppResponsive.value(150, tablet: 200),
-                  height: AppResponsive.value(150, tablet: 200),
-                ),
-                Gap(AppResponsive.value(20, tablet: 30)),
-                Text(
-                  'iFarm Connect'.tr,
-                  style: interW700.copyWith(
-                    fontSize: 25,
-                    color: AppColors.themeColor,
+                  height: AppResponsive.value(
+                    250,
+                    tablet: 275,
+                    largeTablet: 300,
+                  ),
+                  width: AppResponsive.value(
+                    250,
+                    tablet: 275,
+                    largeTablet: 300,
                   ),
                 ),
                 Gap(AppResponsive.value(5, tablet: 8)),
