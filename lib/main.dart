@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,43 +15,52 @@ import 'package:krishi_mart/utils/utility.dart';
 bool _firebaseReady = false;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  await init();
-  await _initializeFirebaseMessaging();
-  await _initializeNotifications();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      await init();
+      await _initializeFirebaseMessaging();
+      await _initializeNotifications();
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  FlutterError.onError = (final FlutterErrorDetails errorDetails) {
-    FlutterError.presentError(errorDetails);
-    if (kReleaseMode && _firebaseReady) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    }
-  };
+      FlutterError.onError = (final FlutterErrorDetails errorDetails) {
+        FlutterError.presentError(errorDetails);
+        if (kReleaseMode && _firebaseReady) {
+          FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+        }
+      };
 
-  PlatformDispatcher.instance.onError = (error, stack) {
-    if (kReleaseMode && _firebaseReady) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    }
+      PlatformDispatcher.instance.onError = (error, stack) {
+        if (kReleaseMode && _firebaseReady) {
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        }
 
-    return true;
-  };
-  runApp(const MyApp());
+        return true;
+      };
+      runApp(const MyApp());
 
-  if (Platform.isAndroid) {
-    final int version = await Utility.getAndroidOSVersion();
+      if (Platform.isAndroid) {
+        final int version = await Utility.getAndroidOSVersion();
 
-    if (version >= 35) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    }
-  }
+        if (version >= 35) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        }
+      }
 
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-    ),
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+          statusBarColor: Colors.white,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+      );
+    },
+    (error, stack) {
+      if (kReleaseMode) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      }
+    },
   );
 }
 
