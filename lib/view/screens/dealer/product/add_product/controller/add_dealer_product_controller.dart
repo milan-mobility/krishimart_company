@@ -16,6 +16,7 @@ import 'package:krishi_mart/utils/youtube_url_validator.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:krishi_mart/view/screens/company/product/list/controller/product_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
 import 'package:video_player/video_player.dart';
 
 class AddDealerProductController extends GetxController {
@@ -143,6 +144,9 @@ class AddDealerProductController extends GetxController {
       );
       if (response) {
         await Get.find<ProductListController>().refreshProducts();
+        if (Get.isRegistered<DealerHomeController>()) {
+          Get.find<DealerHomeController>().loadDashboard();
+        }
         Get.back();
       } else {}
     } on dio.DioException catch (error) {

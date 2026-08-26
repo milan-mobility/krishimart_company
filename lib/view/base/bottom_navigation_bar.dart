@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
@@ -7,8 +6,6 @@ import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/app_enums.dart';
-
-import '../../gen/assets.gen.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({this.selectedIndex, super.key});
@@ -42,13 +39,13 @@ class BottomNavigation extends StatelessWidget {
         child: BottomNavigationBar(
           backgroundColor: AppColors.white,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: AppColors.themeColor,
+          selectedItemColor: AppColors.color2D5A27,
           unselectedItemColor: AppColors.color414844,
           showUnselectedLabels: true,
           currentIndex: selectedIndex ?? 0,
           selectedLabelStyle: interW500.copyWith(
             fontSize: AppResponsive.font(15),
-            color: AppColors.colorA4F792,
+            color: AppColors.color2D5A27,
           ),
           unselectedLabelStyle: interW500.copyWith(
             fontSize: AppResponsive.font(14),
@@ -56,18 +53,22 @@ class BottomNavigation extends StatelessWidget {
           ),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.svg.icHome),
-              activeIcon: SvgPicture.asset(Assets.svg.icHome),
+              icon: Icon(Icons.home), //SvgPicture.asset(Assets.svg.icHome),
+              activeIcon: Icon(Icons.home),
               label: 'Home'.tr,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.svg.icProduct),
-              activeIcon: SvgPicture.asset(Assets.svg.icProduct),
+              icon: Icon(
+                Icons.production_quantity_limits,
+              ), //SvgPicture.asset(Assets.svg.icProduct),
+              activeIcon: Icon(Icons.production_quantity_limits),
               label: 'Product'.tr,
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.svg.icMenuProfile),
-              activeIcon: SvgPicture.asset(Assets.svg.icMenuProfile),
+              icon: Icon(
+                Icons.person,
+              ), // SvgPicture.asset(Assets.svg.icMenuProfile),
+              activeIcon: Icon(Icons.person),
               label: 'Profile'.tr,
             ),
           ],

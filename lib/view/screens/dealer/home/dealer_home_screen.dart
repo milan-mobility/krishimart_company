@@ -19,6 +19,12 @@ class DealerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    if (!Get.isRegistered<DealerHomeController>()) {
+      Get.put<DealerHomeController>(
+        DealerHomeController(Get.find(), Get.find()),
+        permanent: true,
+      );
+    }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(

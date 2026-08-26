@@ -13,6 +13,12 @@ class CompanyHomeScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    if (!Get.isRegistered<CompanyHomeController>()) {
+      Get.put<CompanyHomeController>(
+        CompanyHomeController(Get.find(), Get.find()),
+        permanent: true,
+      );
+    }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(

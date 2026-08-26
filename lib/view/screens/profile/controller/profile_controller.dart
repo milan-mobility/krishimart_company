@@ -13,9 +13,9 @@ import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 
 class ProfileController extends GetxController {
-  ProfileController(this._sharedPreferenceHelper, this._authRepo);
+  ProfileController(this.sharedPref, this._authRepo);
 
-  final SharedPreferenceHelper _sharedPreferenceHelper;
+  final SharedPreferenceHelper sharedPref;
   final AuthRepo _authRepo;
 
   final List<ProfileLanguageOption> languageOptions =
@@ -59,24 +59,21 @@ class ProfileController extends GetxController {
     ),
   ];
 
-  String get displayName =>
-      _sharedPreferenceHelper.getUserInfo?.name ?? 'KrishiMart'.tr;
+  String get displayName => sharedPref.getUserInfo?.name ?? 'KrishiMart'.tr;
 
   String get businessType {
-    final String role =
-        _sharedPreferenceHelper.getUserInfo?.role ??
-        _sharedPreferenceHelper.getUserRole;
+    final String role = sharedPref.getUserInfo?.role ?? sharedPref.getUserRole;
     return role.toLowerCase() == 'dealer'
         ? 'Agro Dealer'.tr
         : 'Agro Company'.tr;
   }
 
-  String get selectedLanguageCode => _sharedPreferenceHelper.getLanguageCode;
+  String get selectedLanguageCode => sharedPref.getLanguageCode;
 
   Future<void> changeLanguage(final String languageCode) async {
     if (languageCode == selectedLanguageCode) return;
 
-    await _sharedPreferenceHelper.setLanguageCode(languageCode);
+    await sharedPref.setLanguageCode(languageCode);
     await Get.updateLocale(Locale(languageCode));
     update();
   }
@@ -105,7 +102,7 @@ class ProfileController extends GetxController {
             onPositive: () {
               deleteAccount();
             },
-            txtPositive: 'Yes,Delte'.tr,
+            txtPositive: 'Yes,Delete'.tr,
           ),
         );
         return;

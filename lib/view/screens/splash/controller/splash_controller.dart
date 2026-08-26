@@ -30,28 +30,21 @@ class SplashController extends GetxController {
       await Future.delayed(interval);
     }
 
-    //temporay
-    // Get.offAllNamed(RouteHelper.dealerHome);
-
-    if (sharedPref.isRoleSelected) {
-      if (sharedPref.isLoggedIn) {
-        if (sharedPref.hasProfileCompleted) {
-          if (sharedPref.getUserRole == UserType.company.name) {
-            await Get.find<CommonController>().getCompanyUserDetail();
-            Get.offAllNamed(RouteHelper.companyHomeScreen);
-          } else {
-            Get.find<CommonController>().getDealerData();
-            Get.offAllNamed(RouteHelper.dealerHome);
-          }
+    if (sharedPref.isLoggedIn) {
+      if (sharedPref.hasProfileCompleted) {
+        if (sharedPref.getUserRole == UserType.company.name) {
+          await Get.find<CommonController>().getCompanyUserDetail();
+          Get.offAllNamed(RouteHelper.companyHomeScreen);
         } else {
-          if (sharedPref.getUserRole == UserType.company.name) {
-            Get.offAllNamed(RouteHelper.completeCompanyProfile);
-          } else {
-            Get.offAllNamed(RouteHelper.completeDealerProfile);
-          }
+          Get.find<CommonController>().getDealerData();
+          Get.offAllNamed(RouteHelper.dealerHome);
         }
       } else {
-        Get.offAllNamed(RouteHelper.login);
+        if (sharedPref.getUserRole == UserType.company.name) {
+          Get.offAllNamed(RouteHelper.completeCompanyProfile);
+        } else {
+          Get.offAllNamed(RouteHelper.completeDealerProfile);
+        }
       }
     } else {
       Get.offAllNamed(RouteHelper.userRole);

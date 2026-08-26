@@ -18,7 +18,7 @@ import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 
-class VerifyOtpController extends GetxController implements GetxService {
+class VerifyOtpController extends GetxController {
   VerifyOtpController(this.sharedPref, this.authRepo);
 
   final SharedPreferenceHelper sharedPref;

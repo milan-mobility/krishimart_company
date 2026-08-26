@@ -28,6 +28,7 @@ class CompanyRecentProductsSection extends StatelessWidget {
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
             itemCount: products.length,
             separatorBuilder: (context, index) =>
                 SizedBox(height: AppResponsive.value(10, tablet: 12)),

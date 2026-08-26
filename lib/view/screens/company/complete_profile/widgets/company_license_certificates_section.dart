@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
@@ -7,9 +6,9 @@ import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/controller/complete_company_profile_controller.dart';
+import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_certificate_preview.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_text_field.dart';
-import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_certificate_preview.dart';
 
 class CompanyLicenseCertificatesSection extends StatelessWidget {
   const CompanyLicenseCertificatesSection({
@@ -98,19 +97,6 @@ class CompanyLicenseCertificatesSection extends StatelessWidget {
               onRemove: controller.removeCertificate,
             ),
           ],
-          Gap(AppResponsive.value(11, tablet: 14)),
-          Row(
-            children: <Widget>[
-              SvgPicture.asset(Assets.svg.icCheck),
-              Gap(AppResponsive.value(7, tablet: 9)),
-              Expanded(
-                child: Text(
-                  'You can upload multiple certificates'.tr,
-                  style: companyProfileUploadDescription,
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

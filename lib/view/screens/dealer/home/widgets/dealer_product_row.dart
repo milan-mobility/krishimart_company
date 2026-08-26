@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:krishi_mart/data/model/product_model.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
+import 'package:krishi_mart/helpers/extensions/string_ext.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/view/base/placeholder_image.dart';
 
 class DealerProductRow extends StatelessWidget {
   const DealerProductRow({required this.product, super.key});
@@ -29,19 +32,40 @@ class DealerProductRow extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Container(
-            width: AppResponsive.value(50, tablet: 60),
-            height: AppResponsive.value(50, tablet: 60),
-            decoration: BoxDecoration(
-              color: AppColors.productImageBackground,
-              borderRadius: BorderRadius.circular(AppResponsive.value(8)),
-            ),
-            child: Icon(
-              Icons.agriculture_outlined,
-              color: AppColors.color1F6D1A,
-              size: AppResponsive.value(26, tablet: 30),
-            ),
-          ),
+          (product.primaryImage?.imageUrl.isNotNullAndEmpty() == true)
+              ? CachedNetworkImage(
+                  imageUrl: product.primaryImage!.imageUrl!,
+                  imageBuilder:
+                      (
+                        final BuildContext context,
+                        final ImageProvider<Object> imageProvider,
+                      ) => Container(
+                        width: AppResponsive.value(52, tablet: 62),
+                        height: AppResponsive.value(52, tablet: 62),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            AppResponsive.value(11),
+                          ),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                  placeholder: (final BuildContext context, final String url) =>
+                      PlaceholderImage(
+                        width: AppResponsive.value(52, tablet: 62),
+                        height: AppResponsive.value(52, tablet: 62),
+                      ),
+                  errorWidget: (context, url, error) => PlaceholderImage(
+                    width: AppResponsive.value(52, tablet: 62),
+                    height: AppResponsive.value(52, tablet: 62),
+                  ),
+                )
+              : PlaceholderImage(
+                  width: AppResponsive.value(52, tablet: 62),
+                  height: AppResponsive.value(52, tablet: 62),
+                ),
           Gap(AppResponsive.value(12, tablet: 14)),
           Expanded(
             child: Column(

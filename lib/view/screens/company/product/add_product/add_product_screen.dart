@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/utils/youtube_url_validator.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
 import 'package:krishi_mart/view/base/youtube_video_preview.dart';
@@ -15,7 +16,6 @@ import 'package:krishi_mart/view/screens/company/product/add_product/widgets/pro
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_image_grid.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_photo_upload.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/widgets/product_reel_upload.dart';
-import 'package:krishi_mart/utils/youtube_url_validator.dart';
 
 class AddProductScreen extends StatelessWidget {
   const AddProductScreen({super.key});
@@ -60,6 +60,7 @@ class AddProductScreen extends StatelessWidget {
                               label: 'Product Name',
                               hintText: 'e.g. Ampigo 150 ZC',
                               controller: controller.txtProductName,
+                              textCapitalization: TextCapitalization.words,
                               textStyle: interW500.copyWith(
                                 fontSize: 14,
                                 color: AppColors.color9CA3AF,
@@ -70,6 +71,7 @@ class AddProductScreen extends StatelessWidget {
                             CompanyProfileTextField(
                               label: 'Company',
                               hintText: 'e.g. Syngenta',
+                              textCapitalization: TextCapitalization.words,
                               controller: controller.txtCompany,
                               textStyle: interW500.copyWith(
                                 fontSize: 14,
