@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/view/screens/common_webview/common_webview.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/complete_company_profile_screen.dart';
 import 'package:krishi_mart/view/screens/company/home/company_home_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/add_product_screen.dart';
@@ -29,6 +30,7 @@ class RouteHelper {
   static const String companyHomeScreen = '/companyHomeScreen';
   static const String addDealerProduct = '/addDealerProduct';
   static const String editDealerProduct = '/editDealerProduct';
+  static const String commonWebView = '/commonWebView';
 
   static const String videos = '/videos';
   static const String profile = '/profile';
@@ -79,6 +81,10 @@ class RouteHelper {
     GetPage<dynamic>(
       name: companyHomeScreen,
       page: () => getRoute(CompanyHomeScreen()),
+    ),
+    GetPage<dynamic>(
+      name: commonWebView,
+      page: () => getRoute(CommonWebview()),
     ),
   ];
 

@@ -211,8 +211,6 @@ final Map<String, String> gu = <String, String>{
   'Change Language': 'ભાષા બદલો',
   'English': 'અંગ્રેજી',
   'Gujarati': 'ગુજરાતી',
-
-  //Manually
   'Delete Product': 'ઉત્પાદન કાઢી નાખો',
   'Are you sure you want to delete this product?':
       'શું તમે ખરેખર આ ઉત્પાદન કાઢી નાખવા માંગો છો?',
@@ -221,4 +219,9 @@ final Map<String, String> gu = <String, String>{
   'Yes,Delete': 'હા, કાઢી નાખો',
   'Are you sure you want to logout?': 'શું તમે ખરેખર લૉગઆઉટ કરવા માંગો છો?',
   'Yes,Logout': 'હા, લૉગઆઉટ કરો',
+  'Terms & Conditions': 'નિયમો અને શરતો',
+  'Help & Support': 'મદદ અને સહાય',
+  'Delete': 'કાઢી નાખો',
+  'Are you sure you want to delete your account?':
+      'શું તમે ખરેખર આ એકાઉન્ટ કાઢી નાખવા માંગો છો?',
 };

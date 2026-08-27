@@ -11,6 +11,7 @@ import 'package:krishi_mart/data/network/dio_exception.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/helpers/extensions/list_extension.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/utils/app_constants.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
 import 'package:krishi_mart/view/screens/dealer/home/controller/dealer_home_controller.dart';
@@ -143,58 +144,48 @@ class Utility {
     return androidInfo.version.sdkInt;
   }
 
-  /*static Future<String?> selectVideo() async {
-    try {
-      final XFile? videoPath = await ImagePicker().pickVideo(
-        source: ImageSource.gallery,
-        maxDuration: Duration(seconds: 20),
-      );
-      if (videoPath != null && videoPath.path.isNotNullAndEmpty()) {
-        String? compressedPath = videoPath.path;
-        if (GetPlatform.isAndroid) {
-          Get.defaultDialog(
-            title: 'Compressing Video',
-            titleStyle: interW600,
-            content: CompressWidget(),
-          );
+  static Future<void> sendSupportEmail() async {
+    await sendEmail(
+      email: AppConstants.supportEmail,
+      subject: '${AppConstants.appName} Help & Support',
+    );
+  }
 
-          compressedPath = await compressVideo(videoPath.path);
-          Get.back();
-          if (compressedPath != null) {
-            return compressedPath;
-          }
-        } else {
-          compressedPath = await compressVideo(videoPath.path);
-          if (compressedPath != null) {
-            return compressedPath;
-          }
-        }
+  static Future<void> sendEmail({
+    required String email,
+    List<String> cc = const <String>[],
+    String subject = '',
+    String body = '',
+  }) async {
+    if (email.isEmpty) {
+      showErrorSnackBar(message: 'Email address is not available');
+      return;
+    }
+
+    final List<String> queryParts = <String>[
+      if (cc.isNotEmpty) 'cc=${Uri.encodeComponent(cc.join(','))}',
+      if (subject.trim().isNotEmpty)
+        'subject=${Uri.encodeComponent(subject.trim())}',
+      if (body.trim().isNotEmpty) 'body=${Uri.encodeComponent(body.trim())}',
+    ];
+    final String query = queryParts.isEmpty ? '' : '?${queryParts.join('&')}';
+    final Uri emailUri = Uri.parse(
+      'mailto:${Uri.encodeComponent(email)}$query',
+    );
+
+    try {
+      final bool launched = await launchUrl(
+        emailUri,
+        mode: LaunchMode.externalApplication,
+      );
+
+      if (!launched) {
+        showErrorSnackBar(message: 'No email app found');
       }
     } catch (e) {
-      e.printError();
+      showErrorSnackBar(message: 'No email app found');
     }
-    return null;
   }
-
-  static Future<String?> compressVideo(final String path) async {
-    final MediaInfo? result = await VideoCompress.compressVideo(
-      path,
-      quality: VideoQuality.MediumQuality,
-    );
-    if (result != null) {
-      return result.path;
-    }
-    return null;
-  }
-
-  static Future<Uint8List?> getThumbnailBytes(final String videoPath) async {
-    return await VideoThumbnail.thumbnailData(
-      video: videoPath,
-      imageFormat: ImageFormat.JPEG,
-      maxHeight: 200,
-      quality: 75,
-    );
-  }*/
 
   static void showAPIError(final DioException error) {
     try {

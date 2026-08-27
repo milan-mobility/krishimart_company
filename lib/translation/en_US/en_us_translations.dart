@@ -186,8 +186,8 @@ final Map<String, String> enUs = <String, String>{
   'Agro Company': 'Agro Company',
   'Agro Dealer': 'Agro Dealer',
   'Privacy Policy': 'Privacy Policy',
-  'Terms and Conditions': 'Terms and Conditions',
-  'Help and Support': 'Help and Support',
+  'Terms & Conditions': 'Terms & Conditions',
+  'Help & Support': 'Help & Support',
   'Logout': 'Logout',
   'Delete Account': 'Delete Account',
   'This page is coming soon': 'This page is coming soon',
@@ -205,8 +205,6 @@ final Map<String, String> enUs = <String, String>{
   'Change Language': 'Change Language',
   'English': 'English',
   'Gujarati': 'Gujarati',
-
-  //Manually
   'Delete Product': 'Delete Product',
   'Delete Image': 'Delete Image',
   'Delete Reel': 'Delete Reel',
@@ -223,4 +221,7 @@ final Map<String, String> enUs = <String, String>{
   'Yes,Delete': 'Yes,Delete',
   'Are you sure you want to logout?': 'Are you sure you want to logout?',
   'Yes,Logout': 'Yes,Logout',
+  'Delete': 'Delete',
+  'Are you sure you want to delete your account?':
+      'Are you sure you want to delete your account?',
 };

@@ -81,4 +81,7 @@ class Endpoints {
 
   static const String categories = '${api}categories';
   static const String crops = '${api}masters/crops';
+
+  static const String termsAndConditions = '${baseUrl}terms-of-use.html';
+  static const String privacyPolicy = '${baseUrl}privacy-policy.html';
 }

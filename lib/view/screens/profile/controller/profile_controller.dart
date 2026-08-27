@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/profile_language_option.dart';
 import 'package:krishi_mart/data/model/profile_menu_item.dart';
+import 'package:krishi_mart/data/network/api_end_points.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
+import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/confirmation_bottom_sheet.dart';
@@ -36,12 +38,12 @@ class ProfileController extends GetxController {
       action: ProfileMenuAction.privacyPolicy,
     ),
     ProfileMenuItem(
-      labelKey: 'Terms and Conditions',
+      labelKey: 'Terms & Conditions',
       icon: Icons.description_outlined,
       action: ProfileMenuAction.termsAndConditions,
     ),
     ProfileMenuItem(
-      labelKey: 'Help and Support',
+      labelKey: 'Help & Support',
       icon: Icons.support_agent_outlined,
       action: ProfileMenuAction.helpAndSupport,
     ),
@@ -82,6 +84,29 @@ class ProfileController extends GetxController {
     switch (item.action) {
       case ProfileMenuAction.changeLanguage:
         return;
+
+      case ProfileMenuAction.privacyPolicy:
+        Get.toNamed(
+          RouteHelper.commonWebView,
+          arguments: <String, String>{
+            'title': 'Privacy Policy',
+            'url': Endpoints.privacyPolicy,
+          },
+        );
+        return;
+      case ProfileMenuAction.termsAndConditions:
+        Get.toNamed(
+          RouteHelper.commonWebView,
+          arguments: <String, String>{
+            'title': 'Terms & Conditions',
+            'url': Endpoints.termsAndConditions,
+          },
+        );
+        return;
+      case ProfileMenuAction.helpAndSupport:
+        Utility.sendSupportEmail();
+        return;
+
       case ProfileMenuAction.logout:
         Get.bottomSheet(
           ConfirmationBottomSheet(
@@ -105,11 +130,6 @@ class ProfileController extends GetxController {
             txtPositive: 'Yes,Delete'.tr,
           ),
         );
-        return;
-      case ProfileMenuAction.privacyPolicy:
-      case ProfileMenuAction.termsAndConditions:
-      case ProfileMenuAction.helpAndSupport:
-        showSuccessSnackBar(message: 'This page is coming soon'.tr);
         return;
     }
   }
