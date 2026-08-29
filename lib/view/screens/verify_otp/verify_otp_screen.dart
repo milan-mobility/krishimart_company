@@ -81,14 +81,6 @@ class VerifyOtpScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                     ),
                     Gap(AppResponsive.value(30, tablet: 40)),
-                    Text(
-                      controller.start == 0 ? '' : controller.timerText,
-                      style: interW400.copyWith(
-                        fontSize: 16,
-                        color: AppColors.color414844,
-                      ),
-                    ),
-                    Gap(AppResponsive.value(24, tablet: 34)),
                     CommonButton(
                       icon: Assets.svg.icVerify,
                       btnText: 'Verify'.tr,
@@ -101,14 +93,16 @@ class VerifyOtpScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       child: RichText(
                         text: TextSpan(
-                          text: "Didn't receive Otp? ",
+                          text: "Didn't receive Otp? ".tr,
                           style: interW400.copyWith(
                             color: AppColors.color414844,
                             fontSize: 16,
                           ),
                           children: <InlineSpan>[
                             TextSpan(
-                              text: 'Resend it',
+                              text: controller.start == 0
+                                  ? 'Resend it'.tr
+                                  : controller.timerText,
                               style: interW600.copyWith(
                                 color: AppColors.color717973,
                               ),

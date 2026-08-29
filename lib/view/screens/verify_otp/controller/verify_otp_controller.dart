@@ -47,6 +47,7 @@ class VerifyOtpController extends GetxController {
     if (Get.arguments != null) {
       mobile = Get.arguments['mobile'];
     }
+    countDownStart();
   }
 
   void checkValidation() async {
@@ -143,6 +144,7 @@ class VerifyOtpController extends GetxController {
 
       if (response) {
         showSuccessSnackBar(message: 'Otp send successfully'.tr);
+        countDownStart();
       } else {
         showErrorSnackBar(message: 'Something went Wrong!');
       }
@@ -181,5 +183,11 @@ class VerifyOtpController extends GetxController {
 
   void setOTP(final String text) {
     otpPin = text;
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
   }
 }

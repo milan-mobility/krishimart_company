@@ -80,7 +80,11 @@ class SharedPreferenceHelper {
   }
 
   Future<void> clear() async {
-    final List<String> arrKeysToKeep = <String>[];
+    final List<String> arrKeysToKeep = <String>[
+      PrefKeys.languageCode,
+      PrefKeys.fcmToken,
+      PrefKeys.hasUserRoleSelected,
+    ];
 
     final Set<String> keys = _sharedPreference.getKeys();
     for (String key in keys.toList()) {
