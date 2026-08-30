@@ -7,6 +7,7 @@ import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
 import 'package:krishi_mart/data/repository/common_repo.dart';
 import 'package:krishi_mart/data/repository/dashboard_repo.dart';
+import 'package:krishi_mart/data/repository/notifications_repo.dart';
 import 'package:krishi_mart/data/repository/product_repo.dart';
 import 'package:krishi_mart/data/repository/profile_repo.dart';
 import 'package:krishi_mart/view/screens/company/home/controller/company_home_controller.dart';
@@ -26,6 +27,7 @@ Future<void> init() async {
   Get.lazyPut(() => DioClient(Get.find<Dio>(), sharedPrefHelper: Get.find()));
 
   Get.lazyPut(() => CommonRepo(Get.find()), fenix: true);
+  Get.lazyPut(() => NotificationsRepo(Get.find()), fenix: true);
   Get.lazyPut(() => ProductRepo(Get.find()), fenix: true);
   Get.lazyPut(() => ProfileRepo(Get.find()), fenix: true);
   Get.lazyPut(() => AuthRepo(Get.find()), fenix: true);

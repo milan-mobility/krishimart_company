@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/routes/route_helper.dart';
 
 class DealerHomeHeader extends StatelessWidget {
   const DealerHomeHeader({required this.dealerName, super.key});
@@ -51,7 +53,9 @@ class DealerHomeHeader extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(RouteHelper.notificationScreen);
+              },
               icon: Icon(
                 Icons.notifications_none,
                 color: AppColors.white,

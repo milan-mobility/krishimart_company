@@ -1,160 +1,162 @@
 class NotificationModel {
-  bool? status;
-  List<Notifications>? notifications;
+  NotificationModel({this.message, this.data});
 
-  NotificationModel({this.status, this.notifications});
-
-  NotificationModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    if (json['notifications'] != null) {
-      notifications = <Notifications>[];
-      json['notifications'].forEach((v) {
-        notifications!.add(Notifications.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    if (notifications != null) {
-      data['notifications'] = notifications!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Notifications {
-  int? notifyId;
-  String? userType;
-  int? userId;
-  String? notifyTitle;
-  String? notifyDetails;
-  String? notifyType;
-  String? status;
-  String? createdAt;
-  String? updatedAt;
-  NotifyData? notifyData;
-
-  Notifications({
-    this.notifyId,
-    this.userType,
-    this.userId,
-    this.notifyTitle,
-    this.notifyDetails,
-    this.notifyType,
-    this.status,
-    this.createdAt,
-    this.updatedAt,
-    this.notifyData,
-  });
-
-  Notifications.fromJson(Map<String, dynamic> json) {
-    notifyId = _toInt(
-      json['notify_id'] ?? json['notification_id'] ?? json['id'],
+  factory NotificationModel.fromJson(final Map<String, dynamic> json) {
+    final dynamic pageData = json['data'];
+    return NotificationModel(
+      message: json['message'] as String?,
+      data: pageData is Map<String, dynamic>
+          ? NotificationPageData.fromJson(pageData)
+          : null,
     );
-    userType = json['user_type'];
-    userId = json['user_id'];
-    notifyTitle = json['notify_title'];
-    notifyDetails = json['notify_details'];
-    notifyType = json['notify_type'];
-    status = json['status'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    notifyData = json['notify_data'] != null
-        ? NotifyData.fromJson(json['notify_data'])
-        : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['notify_id'] = notifyId;
-    data['user_type'] = userType;
-    data['user_id'] = userId;
-    data['notify_title'] = notifyTitle;
-    data['notify_details'] = notifyDetails;
-    data['notify_type'] = notifyType;
-    data['status'] = status;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    if (notifyData != null) {
-      data['notify_data'] = notifyData!.toJson();
-    }
-    return data;
-  }
+  final String? message;
+  final NotificationPageData? data;
 
-  static int? _toInt(final dynamic value) {
-    if (value is int) return value;
-    return int.tryParse(value?.toString() ?? '');
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'message': message,
+    'data': data?.toJson(),
+  };
 }
 
-class NotifyData {
-  String? appointmentTime;
-  String? type;
-  int? appointmentId;
-
-  NotifyData({this.appointmentTime, this.type});
-
-  NotifyData.fromJson(Map<String, dynamic> json) {
-    appointmentTime = json['appointment_time'];
-    type = json['type'];
-    appointmentId = json['appointment_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['appointment_time'] = appointmentTime;
-    data['type'] = type;
-    data['appointment_id'] = appointmentId;
-    return data;
-  }
-}
-
-/// The data payload sent with an FCM notification.
-class PushNotificationModel {
-  const PushNotificationModel({
-    this.notificationId,
-    this.appointmentTime,
-    this.appointmentId,
-    this.body,
-    this.type,
-    this.title,
+class NotificationPageData {
+  NotificationPageData({
+    this.currentPage,
+    this.data,
+    this.firstPageUrl,
+    this.from,
+    this.lastPage,
+    this.lastPageUrl,
+    this.links,
+    this.nextPageUrl,
+    this.path,
+    this.perPage,
+    this.prevPageUrl,
+    this.to,
+    this.total,
   });
 
-  /// Server notification ID (`notify_id`). This is required to mark a push
-  /// notification as read when it is opened outside the notification list.
-  final int? notificationId;
-  final String? appointmentTime;
-  final int? appointmentId;
-  final String? body;
-  final String? type;
-  final String? title;
+  factory NotificationPageData.fromJson(final Map<String, dynamic> json) {
+    final dynamic notifications = json['data'];
+    final dynamic paginationLinks = json['links'];
+    return NotificationPageData(
+      currentPage: json['current_page'] as int?,
+      data: notifications is List<dynamic>
+          ? notifications
+                .whereType<Map<String, dynamic>>()
+                .map(PushNotificationModel.fromJson)
+                .toList()
+          : <PushNotificationModel>[],
+      firstPageUrl: json['first_page_url'] as String?,
+      from: json['from'] as int?,
+      lastPage: json['last_page'] as int?,
+      lastPageUrl: json['last_page_url'] as String?,
+      links: paginationLinks is List<dynamic>
+          ? paginationLinks
+                .whereType<Map<String, dynamic>>()
+                .map(Links.fromJson)
+                .toList()
+          : <Links>[],
+      nextPageUrl: json['next_page_url'] as String?,
+      path: json['path'] as String?,
+      perPage: json['per_page'] as int?,
+      prevPageUrl: json['prev_page_url'] as String?,
+      to: json['to'] as int?,
+      total: json['total'] as int?,
+    );
+  }
+
+  final int? currentPage;
+  final List<PushNotificationModel>? data;
+  final String? firstPageUrl;
+  final int? from;
+  final int? lastPage;
+  final String? lastPageUrl;
+  final List<Links>? links;
+  final String? nextPageUrl;
+  final String? path;
+  final int? perPage;
+  final String? prevPageUrl;
+  final int? to;
+  final int? total;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'current_page': currentPage,
+    'data': data?.map((final PushNotificationModel item) => item.toJson()),
+    'first_page_url': firstPageUrl,
+    'from': from,
+    'last_page': lastPage,
+    'last_page_url': lastPageUrl,
+    'links': links?.map((final Links item) => item.toJson()),
+    'next_page_url': nextPageUrl,
+    'path': path,
+    'per_page': perPage,
+    'prev_page_url': prevPageUrl,
+    'to': to,
+    'total': total,
+  };
+}
+
+class PushNotificationModel {
+  PushNotificationModel({
+    this.id,
+    this.title,
+    this.message,
+    this.isRead,
+    this.readAt,
+    this.createdAt,
+  });
 
   factory PushNotificationModel.fromJson(final Map<String, dynamic> json) {
     return PushNotificationModel(
-      notificationId: _toInt(json['notify_id']),
-      appointmentTime: json['appointment_time']?.toString(),
-      appointmentId: _toInt(json['appointment_id']),
-      body: json['body']?.toString(),
-      type: json['type']?.toString(),
-      title: json['title']?.toString(),
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      message: json['message'] as String?,
+      isRead: json['is_read'] as bool?,
+      readAt: json['read_at'] as String?,
+      createdAt: json['created_at'] as String?,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'notify_id': notificationId,
-      'appointment_time': appointmentTime,
-      'appointment_id': appointmentId,
-      'body': body,
-      'type': type,
-      'title': title,
-    };
+  final String? id;
+  final String? title;
+  final String? message;
+  final bool? isRead;
+  final String? readAt;
+  final String? createdAt;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'id': id,
+    'title': title,
+    'message': message,
+    'is_read': isRead,
+    'read_at': readAt,
+    'created_at': createdAt,
+  };
+}
+
+class Links {
+  Links({this.url, this.label, this.page, this.active});
+
+  factory Links.fromJson(final Map<String, dynamic> json) {
+    return Links(
+      url: json['url'] as String?,
+      label: json['label'] as String?,
+      page: json['page'] as int?,
+      active: json['active'] as bool?,
+    );
   }
 
-  static int? _toInt(final dynamic value) {
-    if (value is int) return value;
-    return int.tryParse(value?.toString() ?? '');
-  }
+  final String? url;
+  final String? label;
+  final int? page;
+  final bool? active;
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'url': url,
+    'label': label,
+    'page': page,
+    'active': active,
+  };
 }

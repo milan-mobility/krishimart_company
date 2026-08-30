@@ -249,15 +249,7 @@ class NotificationService with WidgetsBindingObserver {
         //Move
         refreshApis(notification);
 
-        debugPrint('TYPE => ${notification.type}');
-
         debugPrint('TITLE => ${notification.title}');
-
-        debugPrint('BODY => ${notification.body}');
-
-        debugPrint('APPOINTMENT ID => ${notification.appointmentId}');
-
-        debugPrint('APPOINTMENT TIME => ${notification.appointmentTime}');
 
         debugPrint('================================================');
 
@@ -294,7 +286,7 @@ class NotificationService with WidgetsBindingObserver {
 
     final String title = notification.title ?? '';
 
-    final String body = notification.body ?? '';
+    final String body = notification.message ?? '';
 
     if (title.isEmpty && body.isEmpty) {
       debugPrint('Notification title and body both empty');
@@ -625,7 +617,7 @@ class NotificationService with WidgetsBindingObserver {
         title: notification.title?.isNotEmpty == true
             ? notification.title
             : 'Appointment update',
-        body: notification.body ?? '',
+        body: notification.message ?? '',
         notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             'high_importance_channel',

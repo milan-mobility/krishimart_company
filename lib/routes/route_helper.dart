@@ -10,6 +10,8 @@ import 'package:krishi_mart/view/screens/dealer/home/dealer_home_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/add_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/product/edit_product/edit_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/login/login_screen.dart';
+import 'package:krishi_mart/view/screens/notification/binding/notification_binding.dart';
+import 'package:krishi_mart/view/screens/notification/notification_screen.dart';
 import 'package:krishi_mart/view/screens/profile/profile_screen.dart';
 import 'package:krishi_mart/view/screens/splash/splash_screen.dart';
 import 'package:krishi_mart/view/screens/user_role/user_role_screen.dart';
@@ -31,6 +33,7 @@ class RouteHelper {
   static const String addDealerProduct = '/addDealerProduct';
   static const String editDealerProduct = '/editDealerProduct';
   static const String commonWebView = '/commonWebView';
+  static const String notificationScreen = '/notificationScreen';
 
   static const String videos = '/videos';
   static const String profile = '/profile';
@@ -85,6 +88,11 @@ class RouteHelper {
     GetPage<dynamic>(
       name: commonWebView,
       page: () => getRoute(CommonWebview()),
+    ),
+    GetPage<dynamic>(
+      name: notificationScreen,
+      page: () => getRoute(NotificationScreen()),
+      binding: NotificationBinding(),
     ),
   ];
 
