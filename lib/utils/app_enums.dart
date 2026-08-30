@@ -3,10 +3,11 @@ enum FromScreen { signup, login, passcode, forgot }
 enum UserType { farmer, dealer, company }
 
 enum AppLanguage {
-  english('English', 'en', ),
-  gujarati('Gujarati(ગુજરાતી)', 'gu',);
+  english('English', 'en'),
+  gujarati('Gujarati(ગુજરાતી)', 'gu'),
+  hindi('Hindi(हिन्दी)', 'hi');
 
-  const AppLanguage(this.languageName, this.languageCode,);
+  const AppLanguage(this.languageName, this.languageCode);
 
   final String languageName;
   final String languageCode;

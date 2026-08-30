@@ -211,6 +211,7 @@ final Map<String, String> gu = <String, String>{
   'Change Language': 'ભાષા બદલો',
   'English': 'અંગ્રેજી',
   'Gujarati': 'ગુજરાતી',
+  'Hindi': 'હિન્દી',
   'Delete Product': 'ઉત્પાદન કાઢી નાખો',
   'Are you sure you want to delete this product?':
       'શું તમે ખરેખર આ ઉત્પાદન કાઢી નાખવા માંગો છો?',

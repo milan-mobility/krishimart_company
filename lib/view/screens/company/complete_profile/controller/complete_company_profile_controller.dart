@@ -17,6 +17,7 @@ import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
+import 'package:krishi_mart/view/base/privacy_consent_dialog.dart';
 
 class CompleteCompanyProfileController extends GetxController {
   CompleteCompanyProfileController(
@@ -111,7 +112,11 @@ class CompleteCompanyProfileController extends GetxController {
           userModel?.profileCompleted ?? false,
         );
         await commonController.getCompanyUserDetail();
-        Get.offAllNamed(RouteHelper.companyHomeScreen);
+        showPrivacyConsentDialog(
+          onAccepted: () {
+            Get.offAllNamed(RouteHelper.companyHomeScreen);
+          },
+        );
       }
     } on DioException catch (error) {
       Utility.showAPIError(error);

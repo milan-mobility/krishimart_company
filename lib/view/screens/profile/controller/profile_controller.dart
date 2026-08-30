@@ -24,6 +24,7 @@ class ProfileController extends GetxController {
       const <ProfileLanguageOption>[
         ProfileLanguageOption(code: 'en', labelKey: 'English'),
         ProfileLanguageOption(code: 'gu', labelKey: 'Gujarati'),
+        ProfileLanguageOption(code: 'hi', labelKey: 'Hindi'),
       ];
 
   final List<ProfileMenuItem> menuItems = const <ProfileMenuItem>[

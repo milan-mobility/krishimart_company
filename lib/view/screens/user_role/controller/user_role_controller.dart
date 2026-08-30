@@ -11,6 +11,6 @@ class UserRoleController extends GetxController {
   Future<void> selectRole(final UserType role) async {
     sharedPref.saveRoleSelected(true);
     sharedPref.saveUserRole(role.name);
-    Get.offAllNamed(RouteHelper.login);
+    Get.toNamed(RouteHelper.login);
   }
 }

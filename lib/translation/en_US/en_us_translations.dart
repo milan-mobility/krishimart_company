@@ -205,6 +205,7 @@ final Map<String, String> enUs = <String, String>{
   'Change Language': 'Change Language',
   'English': 'English',
   'Gujarati': 'Gujarati',
+  'Hindi': 'Hindi',
   'Delete Product': 'Delete Product',
   'Delete Image': 'Delete Image',
   'Delete Reel': 'Delete Reel',
