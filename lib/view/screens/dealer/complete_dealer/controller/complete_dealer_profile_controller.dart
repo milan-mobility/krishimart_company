@@ -31,6 +31,7 @@ class CompleteDealerProfileController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtAgroName = TextEditingController();
   final TextEditingController txtDealerName = TextEditingController();
+  final TextEditingController txtEmail = TextEditingController();
   final TextEditingController txtDetailedAddress = TextEditingController();
   final TextEditingController txtPesticideLicense = TextEditingController();
   final TextEditingController txtPesticideLicenseIssueDate =
@@ -107,6 +108,7 @@ class CompleteDealerProfileController extends GetxController {
         '_method': 'PUT',
         'shop_name': txtAgroName.text.trim(),
         'owner_name': txtDealerName.text.trim(),
+        'email': txtEmail.text.trim(),
         'state_id': selectedState?.id,
         'district_id': selectedDistrict?.id,
         'taluka_id': selectedTaluka?.id,
@@ -279,6 +281,7 @@ class CompleteDealerProfileController extends GetxController {
   void onClose() {
     txtAgroName.dispose();
     txtDealerName.dispose();
+    txtEmail.dispose();
     txtDetailedAddress.dispose();
     txtPesticideLicense.dispose();
     txtPesticideLicenseIssueDate.dispose();

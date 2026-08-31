@@ -10,6 +10,7 @@ class DealerLicenseDateRow extends StatelessWidget {
     required this.onIssueDateSelected,
     required this.onExpireDateSelected,
     required this.issueDate,
+    this.isReadOnly = false,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class DealerLicenseDateRow extends StatelessWidget {
   final ValueChanged<DateTime> onIssueDateSelected;
   final ValueChanged<DateTime> onExpireDateSelected;
   final DateTime? issueDate;
+  final bool isReadOnly;
 
   @override
   Widget build(final BuildContext context) {
@@ -31,6 +33,7 @@ class DealerLicenseDateRow extends StatelessWidget {
             controller: issueDateController,
             onDateSelected: onIssueDateSelected,
             isExpiryDate: false,
+            isReadOnly: isReadOnly,
           ),
         ),
         Gap(AppResponsive.value(12, tablet: 16)),
@@ -42,6 +45,7 @@ class DealerLicenseDateRow extends StatelessWidget {
             onDateSelected: onExpireDateSelected,
             isExpiryDate: true,
             firstDate: issueDate?.add(const Duration(days: 1)),
+            isReadOnly: isReadOnly,
           ),
         ),
       ],

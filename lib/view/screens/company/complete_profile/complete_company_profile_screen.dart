@@ -65,6 +65,22 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           CompanyProfileTextField(
+                            label: 'Email',
+                            hintText: 'Enter your email',
+                            controller: controller.txtEmail,
+                            isRequired: true,
+                            keyboardType: TextInputType.emailAddress,
+                            additionalValidator: (final String? value) {
+                              if ((value ?? '').isEmpty) {
+                                return 'Email cannot be empty'.tr;
+                              } else if (!(value ?? '').isEmail) {
+                                return 'Please enter valid email'.tr;
+                              }
+                              return null;
+                            },
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          CompanyProfileTextField(
                             label: 'GST Number',
                             hintText: 'Enter GST number',
                             controller: controller.txtGstNumber,

@@ -18,6 +18,7 @@ class DealerProfileTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.suffixIcon,
+    this.additionalValidator,
     super.key,
   });
 
@@ -31,6 +32,7 @@ class DealerProfileTextField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
+  final String? Function(String? value)? additionalValidator;
 
   @override
   Widget build(final BuildContext context) {
@@ -66,12 +68,12 @@ class DealerProfileTextField extends StatelessWidget {
           maxLines: maxLines,
           fillColor: AppColors.colorF7FAF7,
           borderColor: AppColors.formBorder,
-          validator: isRequired
+          validator: isRequired || additionalValidator != null
               ? (final String? value) {
-                  if (value?.trim().isEmpty ?? true) {
+                  if (isRequired && (value?.trim().isEmpty ?? true)) {
                     return 'This field is required'.tr;
                   }
-                  return null;
+                  return additionalValidator?.call(value);
                 }
               : null,
         ),

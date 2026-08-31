@@ -73,6 +73,7 @@ class AddProductScreen extends StatelessWidget {
                               hintText: 'e.g. Syngenta',
                               textCapitalization: TextCapitalization.words,
                               controller: controller.txtCompany,
+                              readOnly: true,
                               textStyle: interW500.copyWith(
                                 fontSize: 14,
                                 color: AppColors.color9CA3AF,

@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
+import 'package:krishi_mart/helpers/extensions/list_extension.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_certificate_list.dart';
@@ -14,6 +20,7 @@ import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_p
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_section_card.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_profile_text_field.dart';
 import 'package:krishi_mart/view/screens/dealer/edit_dealer/controller/edit_dealer_profile_controller.dart';
+import 'package:krishi_mart/view/screens/dealer/edit_dealer/widgets/dealer_existing_license_list.dart';
 
 class EditDealerProfileScreen extends StatelessWidget {
   const EditDealerProfileScreen({super.key});
@@ -54,26 +61,20 @@ class EditDealerProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      'AgriGrow Dealer Registration'.tr,
-                      style: userRoleWelcome.copyWith(
-                        fontSize: AppResponsive.font(24),
-                      ),
-                    ),
-                    Gap(AppResponsive.value(8, tablet: 10)),
-                    Text(
-                      'Register your agro dealership details to start trading on the KrishiMart platform'
-                          .tr,
-                      style: userRoleSubtitle.copyWith(
-                        fontSize: AppResponsive.font(14),
-                      ),
-                    ),
-                    Gap(AppResponsive.value(24, tablet: 30)),
                     DealerProfileSectionCard(
                       title: 'Agro Information',
                       icon: Icons.agriculture_outlined,
                       child: Column(
                         children: <Widget>[
+                          Align(
+                            alignment: Alignment.center,
+                            child: _buildProfilePicture(
+                              controller.profilePicture,
+                              (photo) {
+                                controller.setProfilePic(photo);
+                              },
+                            ),
+                          ),
                           DealerProfileTextField(
                             label: 'Name of Agro',
                             hintText: 'Enter firm name',
@@ -88,6 +89,22 @@ class EditDealerProfileScreen extends StatelessWidget {
                             controller: controller.txtDealerName,
                             isRequired: true,
                             textCapitalization: TextCapitalization.words,
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerProfileTextField(
+                            label: 'Email',
+                            hintText: 'Enter your email',
+                            controller: controller.txtEmail,
+                            isRequired: true,
+                            keyboardType: TextInputType.emailAddress,
+                            additionalValidator: (final String? value) {
+                              if ((value ?? '').isEmpty) {
+                                return 'Email cannot be empty'.tr;
+                              } else if (!(value ?? '').isEmail) {
+                                return 'Please enter valid email'.tr;
+                              }
+                              return null;
+                            },
                           ),
                         ],
                       ),
@@ -167,6 +184,7 @@ class EditDealerProfileScreen extends StatelessWidget {
                             label: 'Pesticide License Number',
                             hintText: 'PL-XXXX-XXXX',
                             controller: controller.txtPesticideLicense,
+                            readOnly: controller.hasPesticideLicenseDetails,
                             textCapitalization: TextCapitalization.characters,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
@@ -180,12 +198,14 @@ class EditDealerProfileScreen extends StatelessWidget {
                             onExpireDateSelected:
                                 controller.setPesticideLicenseExpireDate,
                             issueDate: controller.pesticideLicenseIssueDate,
+                            isReadOnly: controller.hasPesticideLicenseDetails,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Fertilizer License Number',
                             hintText: 'FL-XXXX-XXXX',
                             controller: controller.txtFertilizerLicense,
+                            readOnly: controller.hasFertilizerLicenseDetails,
                             textCapitalization: TextCapitalization.characters,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
@@ -199,12 +219,14 @@ class EditDealerProfileScreen extends StatelessWidget {
                             onExpireDateSelected:
                                 controller.setFertilizerLicenseExpireDate,
                             issueDate: controller.fertilizerLicenseIssueDate,
+                            isReadOnly: controller.hasFertilizerLicenseDetails,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           DealerProfileTextField(
                             label: 'Seeds License Number',
                             hintText: 'SL-XXXX-XXXX',
                             controller: controller.txtSeedsLicense,
+                            readOnly: controller.hasSeedsLicenseDetails,
                             textCapitalization: TextCapitalization.characters,
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
@@ -218,51 +240,55 @@ class EditDealerProfileScreen extends StatelessWidget {
                             onExpireDateSelected:
                                 controller.setSeedsLicenseExpireDate,
                             issueDate: controller.seedsLicenseIssueDate,
+                            isReadOnly: controller.hasSeedsLicenseDetails,
                           ),
                         ],
                       ),
                     ),
                     Gap(AppResponsive.value(18, tablet: 22)),
-                    InkWell(
-                      onTap: controller.selectCertificates,
-                      borderRadius: BorderRadius.circular(
-                        AppResponsive.value(10),
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                          vertical: AppResponsive.value(18),
+                    if (controller.existingLicenseDocuments.isNotEmpty)
+                      DealerExistingLicenseList(
+                        documentUrls: controller.existingLicenseDocuments,
+                      )
+                    else ...<Widget>[
+                      InkWell(
+                        onTap: controller.selectCertificates,
+                        borderRadius: BorderRadius.circular(
+                          AppResponsive.value(10),
                         ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppColors.formBorder,
-                            style: BorderStyle.solid,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                            vertical: AppResponsive.value(18),
                           ),
-                          borderRadius: BorderRadius.circular(
-                            AppResponsive.value(10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.formBorder),
+                            borderRadius: BorderRadius.circular(
+                              AppResponsive.value(10),
+                            ),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Icon(
+                                Icons.cloud_upload_outlined,
+                                color: AppColors.categorySelected,
+                                size: AppResponsive.value(28, tablet: 32),
+                              ),
+                              Gap(AppResponsive.value(4, tablet: 6)),
+                              Text(
+                                'PNG, JPG, PDF (Max 10MB each)'.tr,
+                                style: companyProfileUploadDescription,
+                              ),
+                            ],
                           ),
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            Icon(
-                              Icons.cloud_upload_outlined,
-                              color: AppColors.categorySelected,
-                              size: AppResponsive.value(28, tablet: 32),
-                            ),
-                            Gap(AppResponsive.value(4, tablet: 6)),
-                            Text(
-                              'PNG, JPG, PDF (Max 10MB each)'.tr,
-                              style: companyProfileUploadDescription,
-                            ),
-                          ],
-                        ),
                       ),
-                    ),
-                    Gap(AppResponsive.value(18, tablet: 22)),
-                    DealerCertificateList(
-                      certificatePaths: controller.certificatesPath,
-                      onRemove: controller.removeCertificateAt,
-                    ),
+                      Gap(AppResponsive.value(12, tablet: 14)),
+                      DealerCertificateList(
+                        certificatePaths: controller.certificatesPath,
+                        onRemove: controller.removeCertificateAt,
+                      ),
+                    ],
                     Gap(AppResponsive.value(18, tablet: 22)),
                     DealerProfileSectionCard(
                       title: 'Referral Information (Optional)',
@@ -319,6 +345,78 @@ class EditDealerProfileScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildProfilePicture(
+    final String path,
+    final Function(String) onPicTap,
+  ) {
+    return Stack(
+      children: [
+        Container(
+          height: 128,
+          width: 128,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColors.colorB1F0CE, width: 4),
+          ),
+          child: path.isEmpty
+              ? SvgPicture.asset(Assets.svg.icUser)
+              : Utility.checkIsNetworkUrl(path)
+              ? CachedNetworkImage(
+                  imageUrl: path,
+                  imageBuilder: (context, provider) => Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 4),
+                          color: AppColors.black.withValues(alpha: .1),
+                          blurRadius: 6,
+                          spreadRadius: -4,
+                        ),
+
+                        BoxShadow(
+                          offset: Offset(0, 10),
+                          color: AppColors.black.withValues(alpha: .1),
+                          blurRadius: 15,
+                          spreadRadius: -3,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: provider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.person),
+                )
+              : ClipOval(child: Image.file(File(path), fit: BoxFit.cover)),
+        ),
+        Transform.translate(
+          offset: Offset(90, 90),
+          child: Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: AppColors.themeColor,
+              shape: BoxShape.circle,
+            ),
+            child: GestureDetector(
+              onTap: () async {
+                final List<String> photos = await Utility.getPhotos(
+                  isMultiple: false,
+                );
+                if (photos.isNotNullOrEmpty()) {
+                  onPicTap(photos.first);
+                }
+              },
+              child: Icon(Icons.edit, color: Colors.white, size: 20),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

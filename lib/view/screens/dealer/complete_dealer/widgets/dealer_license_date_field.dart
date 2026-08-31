@@ -9,6 +9,7 @@ class DealerLicenseDateField extends StatelessWidget {
     required this.onDateSelected,
     required this.isExpiryDate,
     this.firstDate,
+    this.isReadOnly = false,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class DealerLicenseDateField extends StatelessWidget {
   final ValueChanged<DateTime> onDateSelected;
   final bool isExpiryDate;
   final DateTime? firstDate;
+  final bool isReadOnly;
 
   @override
   Widget build(final BuildContext context) {
@@ -26,7 +28,7 @@ class DealerLicenseDateField extends StatelessWidget {
       hintText: hintText,
       controller: controller,
       readOnly: true,
-      onTap: () => _selectDate(context),
+      onTap: isReadOnly ? null : () => _selectDate(context),
       suffixIcon: const Icon(Icons.calendar_today_outlined),
     );
   }

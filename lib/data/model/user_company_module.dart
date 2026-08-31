@@ -231,6 +231,10 @@ class Profile {
     seedsLicenseNumber = json['seeds_license_number'];
     seedsLicenseIssueDate = json['seeds_license_issue_date'];
     seedsLicenseExpiryDate = json['seeds_license_expiry_date'];
+    talukaId = json['taluka_id'];
+    villageId = json['village_id'];
+    referralPersonName = json['referral_person_name'];
+    referralMobile = json['referral_mobile_number'] ?? json['referral_mobile'];
     if (json['license_documents'] != null) {
       licenseDocuments = json['license_documents'].cast<String>();
     }
@@ -286,6 +290,10 @@ class Profile {
     data['seeds_license_number'] = seedsLicenseNumber;
     data['seeds_license_issue_date'] = seedsLicenseIssueDate;
     data['seeds_license_expiry_date'] = seedsLicenseExpiryDate;
+    data['taluka_id'] = talukaId;
+    data['village_id'] = villageId;
+    data['referral_person_name'] = referralPersonName;
+    data['referral_mobile_number'] = referralMobile;
     data['license_documents'] = licenseDocuments;
     if (taluka != null) {
       data['taluka'] = taluka!.toJson();

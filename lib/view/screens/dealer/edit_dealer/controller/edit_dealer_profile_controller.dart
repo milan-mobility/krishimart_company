@@ -10,12 +10,10 @@ import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/profile_repo.dart';
-import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
-import 'package:krishi_mart/view/base/privacy_consent_dialog.dart';
 
 class EditDealerProfileController extends GetxController {
   EditDealerProfileController(
@@ -31,6 +29,7 @@ class EditDealerProfileController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtAgroName = TextEditingController();
   final TextEditingController txtDealerName = TextEditingController();
+  final TextEditingController txtEmail = TextEditingController();
   final TextEditingController txtDetailedAddress = TextEditingController();
   final TextEditingController txtPesticideLicense = TextEditingController();
   final TextEditingController txtPesticideLicenseIssueDate =
@@ -50,7 +49,10 @@ class EditDealerProfileController extends GetxController {
   final TextEditingController txtReferralName = TextEditingController();
   final TextEditingController txtReferralMobile = TextEditingController();
 
-  List<String> certificatesPath = [];
+  final List<String> certificatesPath = <String>[];
+  final List<String> existingLicenseDocuments = <String>[];
+
+  String profilePicture = '';
 
   IdName? selectedState;
   IdName? selectedDistrict;
@@ -59,6 +61,24 @@ class EditDealerProfileController extends GetxController {
   DateTime? pesticideLicenseIssueDate;
   DateTime? fertilizerLicenseIssueDate;
   DateTime? seedsLicenseIssueDate;
+
+  bool get hasPesticideLicenseDetails => _hasLicenseDetails(
+    txtPesticideLicense,
+    txtPesticideLicenseIssueDate,
+    txtPesticideLicenseExpireDate,
+  );
+
+  bool get hasFertilizerLicenseDetails => _hasLicenseDetails(
+    txtFertilizerLicense,
+    txtFertilizerLicenseIssueDate,
+    txtFertilizerLicenseExpireDate,
+  );
+
+  bool get hasSeedsLicenseDetails => _hasLicenseDetails(
+    txtSeedsLicense,
+    txtSeedsLicenseIssueDate,
+    txtSeedsLicenseExpireDate,
+  );
 
   @override
   void onInit() {
@@ -80,7 +100,7 @@ class EditDealerProfileController extends GetxController {
       showErrorSnackBar(message: 'Please add at least one license detail'.tr);
       return;
     }
-    if (certificatesPath.isEmpty) {
+    if (certificatesPath.isEmpty && existingLicenseDocuments.isEmpty) {
       showErrorSnackBar(
         message: 'Please add a certificate for the license details'.tr,
       );
@@ -107,6 +127,7 @@ class EditDealerProfileController extends GetxController {
         '_method': 'PUT',
         'shop_name': txtAgroName.text.trim(),
         'owner_name': txtDealerName.text.trim(),
+        'email': txtEmail.text.trim(),
         'state_id': selectedState?.id,
         'district_id': selectedDistrict?.id,
         'taluka_id': selectedTaluka?.id,
@@ -125,32 +146,26 @@ class EditDealerProfileController extends GetxController {
         'seeds_license_number': txtSeedsLicense.text.trim(),
         'seeds_license_issue_date': txtSeedsLicenseIssueDate.text.trim(),
         'seeds_license_expiry_date': txtSeedsLicenseExpireDate.text.trim(),
-        'referral_person_name': txtReferralName.text.trim(),
-        'referral_mobile_number': txtReferralMobile.text.trim(),
+        if (txtReferralName.text.isNotEmpty)
+          'referral_person_name': txtReferralName.text.trim(),
+        if (txtReferralMobile.text.isNotEmpty)
+          'referral_mobile_number': txtReferralMobile.text.trim(),
+
+        if (profilePicture.isNotEmpty &&
+            !Utility.checkIsNetworkUrl(profilePicture))
+          'profile_photo': await dio.MultipartFile.fromFile(
+            profilePicture,
+            filename: profilePicture.split(Platform.pathSeparator).last,
+          ),
       };
-      for (int index = 0; index < certificatesPath.length; index++) {
-        final String certificatePath = certificatesPath[index];
-        params['license_documents[$index]'] = await dio.MultipartFile.fromFile(
-          certificatePath,
-          filename: certificatePath.split(Platform.pathSeparator).last,
-        );
-      }
 
       Loader.load(true);
 
       final UserProfileModel userProfileModel = await profileRepo
           .completeDealerProfile(params);
       if (userProfileModel.data != null) {
-        final UserModel? userModel = userProfileModel.data;
-        sharedPref.saveHasProfileCompleted(
-          userModel?.profileCompleted ?? false,
-        );
         await commonController.getDealerData();
-        showPrivacyConsentDialog(
-          onAccepted: () {
-            Get.offAllNamed(RouteHelper.dealerHome);
-          },
-        );
+        Get.back();
       }
     } on dio.DioException catch (error) {
       Utility.showAPIError(error);
@@ -257,6 +272,11 @@ class EditDealerProfileController extends GetxController {
     return true;
   }
 
+  void setProfilePic(final String imagePath) {
+    profilePicture = imagePath;
+    update();
+  }
+
   bool _hasAtLeastOneLicense() {
     return txtPesticideLicense.text.trim().isNotEmpty ||
         txtFertilizerLicense.text.trim().isNotEmpty ||
@@ -271,14 +291,87 @@ class EditDealerProfileController extends GetxController {
     }
   }
 
+  bool _hasLicenseDetails(
+    final TextEditingController licenseNumber,
+    final TextEditingController issueDate,
+    final TextEditingController expireDate,
+  ) {
+    return licenseNumber.text.trim().isNotEmpty ||
+        issueDate.text.trim().isNotEmpty ||
+        expireDate.text.trim().isNotEmpty;
+  }
+
   Future<void> _loadLocationData() async {
     await commonController.getStates();
+    final Profile? profile = commonController.userProfileModel?.data?.profile;
+    if (profile == null) {
+      update();
+      return;
+    }
+
+    txtAgroName.text = profile.shopName ?? '';
+    txtDealerName.text = profile.ownerName ?? '';
+    txtDetailedAddress.text = profile.address ?? '';
+    txtPesticideLicense.text = profile.pesticideLicenseNumber ?? '';
+    txtPesticideLicenseIssueDate.text = profile.pesticideLicenseIssueDate ?? '';
+    txtPesticideLicenseExpireDate.text =
+        profile.pesticideLicenseExpiryDate ?? '';
+    txtFertilizerLicense.text = profile.fertilizerLicenseNumber ?? '';
+    txtFertilizerLicenseIssueDate.text =
+        profile.fertilizerLicenseIssueDate ?? '';
+    txtFertilizerLicenseExpireDate.text =
+        profile.fertilizerLicenseExpiryDate ?? '';
+    txtSeedsLicense.text = profile.seedsLicenseNumber ?? '';
+    txtSeedsLicenseIssueDate.text = profile.seedsLicenseIssueDate ?? '';
+    txtSeedsLicenseExpireDate.text = profile.seedsLicenseExpiryDate ?? '';
+    txtReferralName.text = profile.referralPersonName ?? '';
+    txtReferralMobile.text = profile.referralMobile ?? '';
+    existingLicenseDocuments
+      ..clear()
+      ..addAll(
+        profile.licenseDocumentUrls ?? profile.licenseDocuments ?? <String>[],
+      );
+
+    profilePicture =
+        commonController.userProfileModel?.data?.user?.profilePhotoUrl ?? '';
+
+    txtEmail.text = commonController.userProfileModel?.data?.user?.email ?? '';
+
+    pesticideLicenseIssueDate = _parseDate(txtPesticideLicenseIssueDate.text);
+    fertilizerLicenseIssueDate = _parseDate(txtFertilizerLicenseIssueDate.text);
+    seedsLicenseIssueDate = _parseDate(txtSeedsLicenseIssueDate.text);
+    selectedState = _itemById(commonController.states, profile.stateId);
+    if (selectedState != null) {
+      await commonController.getDistricts(selectedState?.id);
+    }
+    selectedDistrict = _itemById(
+      commonController.districts,
+      profile.districtId,
+    );
+    if (selectedDistrict != null) {
+      await commonController.getTalukas(selectedDistrict?.id);
+    }
+    selectedTaluka = _itemById(commonController.talukas, profile.talukaId);
+    if (selectedTaluka != null) {
+      await commonController.getVillages(selectedTaluka?.id);
+    }
+    selectedVillage = _itemById(commonController.villages, profile.villageId);
+    update();
+  }
+
+  IdName? _itemById(final List<IdName> items, final int? id) {
+    if (id == null) return null;
+    for (final IdName item in items) {
+      if (item.id == id) return item;
+    }
+    return null;
   }
 
   @override
   void onClose() {
     txtAgroName.dispose();
     txtDealerName.dispose();
+    txtEmail.dispose();
     txtDetailedAddress.dispose();
     txtPesticideLicense.dispose();
     txtPesticideLicenseIssueDate.dispose();

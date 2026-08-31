@@ -89,6 +89,22 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                             isRequired: true,
                             textCapitalization: TextCapitalization.words,
                           ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          DealerProfileTextField(
+                            label: 'Email',
+                            hintText: 'Enter your email',
+                            controller: controller.txtEmail,
+                            isRequired: true,
+                            keyboardType: TextInputType.emailAddress,
+                            additionalValidator: (final String? value) {
+                              if ((value ?? '').isEmpty) {
+                                return 'Email cannot be empty'.tr;
+                              } else if (!(value ?? '').isEmail) {
+                                return 'Please enter valid email'.tr;
+                              }
+                              return null;
+                            },
+                          ),
                         ],
                       ),
                     ),

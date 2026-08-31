@@ -32,6 +32,7 @@ class CompleteCompanyProfileController extends GetxController {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtCompanyName = TextEditingController();
+  final TextEditingController txtEmail = TextEditingController();
   final TextEditingController txtGstNumber = TextEditingController();
   final TextEditingController txtCinNumber = TextEditingController();
   final TextEditingController txtPanNumber = TextEditingController();
@@ -80,6 +81,7 @@ class CompleteCompanyProfileController extends GetxController {
       final Map<String, dynamic> params = <String, dynamic>{
         '_method': 'PUT',
         'company_name': txtCompanyName.text.trim(),
+        'email': txtEmail.text.trim(),
         'gst_number': txtGstNumber.text.trim(),
         'cin_number': txtCinNumber.text.trim(),
         'pan_number': txtPanNumber.text.trim(),

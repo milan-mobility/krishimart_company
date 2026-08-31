@@ -45,7 +45,17 @@ class AddProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _prefillCompanyName();
     _loadProductOptions();
+  }
+
+  Future<void> _prefillCompanyName() async {
+    if (commonController.userProfileModel == null) {
+      await commonController.getCompanyUserDetail();
+    }
+    txtCompany.text =
+        commonController.userProfileModel?.data?.profile?.companyName ?? '';
+    update();
   }
 
   Future<void> _loadProductOptions() async {
