@@ -12,7 +12,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/data/model/notification_model.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
+import 'package:krishi_mart/data/repository/notifications_repo.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
+import 'package:krishi_mart/view/screens/notification/controller/notification_controller.dart';
 
 class NotificationService with WidgetsBindingObserver {
   static PushNotificationModel? _pendingInitialNotification;
@@ -242,8 +244,9 @@ class NotificationService with WidgetsBindingObserver {
         final PushNotificationModel notification =
             PushNotificationModel.fromJson(data);
 
-        if (sharedPref.isLoggedIn) {
-          // Get.find<CommonController>().refreshNotifications(showLoader: false);
+        if (sharedPref.isLoggedIn &&
+            Get.isRegistered<NotificationController>()) {
+          unawaited(Get.find<NotificationController>().refreshNotifications());
         }
 
         //Move
@@ -535,34 +538,32 @@ class NotificationService with WidgetsBindingObserver {
   Future<void> _refreshNotificationData(
     final PushNotificationModel notification,
   ) async {
-    //   try {
-    //     final CommonController commonController = Get.find<CommonController>();
-    //
-    //     final int? notificationId = notification.notificationId;
-    //     if (notificationId != null) {
-    //       await commonController.readNotification(notificationId);
-    //     } else {
-    //       debugPrint(
-    //         'Notification tap could not be marked read. Send notify_id in FCM data.',
-    //       );
-    //     }
-    //
-    //     // readNotification refreshes on success; refresh again so the global
-    //     // list and unread badge remain accurate for every notification type.
-    //     if (sharedPref.isLoggedIn) {
-    //       await commonController.refreshNotifications(showLoader: false);
-    //     }
-    //
-    //     await Future.wait(<Future<void>>[refreshApis(notification)]);
-    //   } catch (e, stackTrace) {
-    //     debugPrint('Notification refresh error => $e');
-    //     FirebaseCrashlytics.instance.recordError(
-    //       e,
-    //       stackTrace,
-    //       reason: 'Notification tap refresh failed',
-    //     );
-    //   }
-    // }
+    final String? notificationId = notification.id;
+    if (!sharedPref.isLoggedIn ||
+        notification.isRead == true ||
+        notificationId == null ||
+        notificationId.isEmpty) {
+      return;
+    }
+
+    try {
+      if (Get.isRegistered<NotificationController>()) {
+        await Get.find<NotificationController>().markNotificationAsReadById(
+          notificationId,
+        );
+      } else {
+        await Get.find<NotificationsRepo>().markNotificationAsRead(
+          notificationId,
+        );
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Notification read request failed: $error');
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stackTrace,
+        reason: 'Notification read request failed',
+      );
+    }
   }
 
   Future<void> refreshApis(final PushNotificationModel notification) async {

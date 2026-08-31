@@ -22,6 +22,7 @@ class Endpoints {
   static const String createProduct = '${api}company/products';
   static const String productList = '${api}company/products';
   static const String notifications = '${api}notifications';
+  static const String readNotification = '${api}notifications/read';
 
   static String getDashboard(final String role) {
     return '$api$role/dashboard';

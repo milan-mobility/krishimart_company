@@ -224,4 +224,8 @@ final Map<String, String> hi = <String, String>{
   'Delete': 'हटाएँ',
   'Are you sure you want to delete your account?':
       'क्या आप वाकई अपना खाता हटाना चाहते हैं?',
+  'Edit Company': 'कंपनी संपादित करें',
+  'Email': 'ईमेल',
+  'Enter your email': 'अपना ईमेल दर्ज करें',
+  'Please enter valid email': 'कृपया मान्य ईमेल दर्ज करें',
 };

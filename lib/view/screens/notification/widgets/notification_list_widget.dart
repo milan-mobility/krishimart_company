@@ -10,11 +10,14 @@ class NotificationListWidget extends StatelessWidget {
   const NotificationListWidget({
     required this.pagingController,
     required this.onRefresh,
+    required this.onNotificationTap,
     super.key,
   });
 
   final PagingController<int, PushNotificationModel> pagingController;
   final Future<void> Function() onRefresh;
+  final Future<void> Function(PushNotificationModel notification)
+  onNotificationTap;
 
   @override
   Widget build(final BuildContext context) {
@@ -39,7 +42,10 @@ class NotificationListWidget extends StatelessWidget {
                       final BuildContext context,
                       final PushNotificationModel notification,
                       final int index,
-                    ) => NotificationListRow(notification: notification),
+                    ) => NotificationListRow(
+                      notification: notification,
+                      onTap: () => onNotificationTap(notification),
+                    ),
                 firstPageProgressIndicatorBuilder: (_) =>
                     const Center(child: CircularProgressIndicator()),
                 newPageProgressIndicatorBuilder: (_) => const Padding(

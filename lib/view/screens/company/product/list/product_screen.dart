@@ -31,12 +31,6 @@ class ProductListScreen extends StatelessWidget {
             txtColor: AppColors.white,
             iconStr: Assets.svg.icProduct,
             leadingIconColor: Colors.white,
-            actions: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.notifications_none, color: AppColors.white),
-              ),
-            ],
           ),
           body: RefreshIndicator(
             onRefresh: controller.refreshProducts,

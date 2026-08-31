@@ -225,4 +225,8 @@ final Map<String, String> gu = <String, String>{
   'Delete': 'કાઢી નાખો',
   'Are you sure you want to delete your account?':
       'શું તમે ખરેખર આ એકાઉન્ટ કાઢી નાખવા માંગો છો?',
+  'Edit Company': 'કંપની સંપાદિત કરો',
+  'Email': 'ઇમેઇલ',
+  'Enter your email': 'તમારું ઇમેઇલ દાખલ કરો',
+  'Please enter valid email': 'કૃપા કરીને માન્ય ઇમેઇલ દાખલ કરો',
 };

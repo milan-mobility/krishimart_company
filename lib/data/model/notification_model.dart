@@ -1,10 +1,11 @@
 class NotificationModel {
-  NotificationModel({this.message, this.data});
+  NotificationModel({this.message, this.data, this.unreadCount});
 
   factory NotificationModel.fromJson(final Map<String, dynamic> json) {
     final dynamic pageData = json['data'];
     return NotificationModel(
       message: json['message'] as String?,
+      unreadCount: json['unread_count'] as int?,
       data: pageData is Map<String, dynamic>
           ? NotificationPageData.fromJson(pageData)
           : null,
@@ -13,9 +14,11 @@ class NotificationModel {
 
   final String? message;
   final NotificationPageData? data;
+  final int? unreadCount;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'message': message,
+    'unread_count': unreadCount,
     'data': data?.toJson(),
   };
 }
@@ -35,6 +38,7 @@ class NotificationPageData {
     this.prevPageUrl,
     this.to,
     this.total,
+    this.unreadCount,
   });
 
   factory NotificationPageData.fromJson(final Map<String, dynamic> json) {
@@ -64,6 +68,7 @@ class NotificationPageData {
       prevPageUrl: json['prev_page_url'] as String?,
       to: json['to'] as int?,
       total: json['total'] as int?,
+      unreadCount: json['unread_count'] as int?,
     );
   }
 
@@ -80,6 +85,7 @@ class NotificationPageData {
   final String? prevPageUrl;
   final int? to;
   final int? total;
+  final int? unreadCount;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'current_page': currentPage,
@@ -95,6 +101,7 @@ class NotificationPageData {
     'prev_page_url': prevPageUrl,
     'to': to,
     'total': total,
+    'unread_count': unreadCount,
   };
 }
 
@@ -110,7 +117,8 @@ class PushNotificationModel {
 
   factory PushNotificationModel.fromJson(final Map<String, dynamic> json) {
     return PushNotificationModel(
-      id: json['id'] as String?,
+      id: (json['id'] ?? json['notification_id'] ?? json['notify_id'])
+          ?.toString(),
       title: json['title'] as String?,
       message: json['message'] as String?,
       isRead: json['is_read'] as bool?,

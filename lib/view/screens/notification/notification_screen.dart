@@ -20,6 +20,7 @@ class NotificationScreen extends GetView<NotificationController> {
           child: NotificationListWidget(
             pagingController: controller.pagingController,
             onRefresh: controller.refreshNotifications,
+            onNotificationTap: controller.markNotificationAsRead,
           ),
         ),
       ),

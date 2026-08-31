@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:krishi_mart/data/model/notification_model.dart';
@@ -10,6 +11,7 @@ class NotificationController extends GetxController {
   final NotificationsRepo _notificationsRepo;
   late final PagingController<int, PushNotificationModel> pagingController;
   bool _hasNextPage = true;
+  int unreadCount = 0;
 
   @override
   void onInit() {
@@ -31,7 +33,18 @@ class NotificationController extends GetxController {
       final NotificationModel response = await _notificationsRepo
           .getNotifications(pageKey);
       _hasNextPage = response.data?.nextPageUrl != null;
-      return response.data?.data ?? <PushNotificationModel>[];
+      final List<PushNotificationModel> notifications =
+          response.data?.data ?? <PushNotificationModel>[];
+      if (pageKey == 1) {
+        unreadCount =
+            response.unreadCount ??
+            response.data?.unreadCount ??
+            notifications.where((final PushNotificationModel item) {
+              return !(item.isRead ?? false);
+            }).length;
+        update();
+      }
+      return notifications;
     } on DioException {
       rethrow;
     } catch (_) {
@@ -44,6 +57,33 @@ class NotificationController extends GetxController {
     pagingController
       ..refresh()
       ..fetchNextPage();
+  }
+
+  Future<void> markNotificationAsRead(
+    final PushNotificationModel notification,
+  ) async {
+    if (notification.isRead ?? false) {
+      return;
+    }
+    await markNotificationAsReadById(notification.id);
+  }
+
+  Future<void> markNotificationAsReadById(final String? notificationId) async {
+    if (notificationId == null || notificationId.isEmpty) {
+      return;
+    }
+    try {
+      final bool isMarked = await _notificationsRepo.markNotificationAsRead(
+        notificationId,
+      );
+      if (isMarked) {
+        await refreshNotifications();
+      }
+    } on DioException catch (error) {
+      debugPrint('Mark notification as read failed: $error');
+    } catch (error) {
+      debugPrint('Mark notification as read failed: $error');
+    }
   }
 
   @override

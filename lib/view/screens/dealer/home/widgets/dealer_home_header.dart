@@ -6,6 +6,7 @@ import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
+import 'package:krishi_mart/view/screens/notification/controller/notification_controller.dart';
 
 class DealerHomeHeader extends StatelessWidget {
   const DealerHomeHeader({required this.dealerName, super.key});
@@ -14,57 +15,97 @@ class DealerHomeHeader extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        AppResponsive.value(18, tablet: 28),
-        AppResponsive.value(16, tablet: 20),
-        AppResponsive.value(12, tablet: 20),
-        AppResponsive.value(16, tablet: 20),
-      ),
-      color: AppColors.themeColor,
-      child: SafeArea(
-        bottom: false,
-        child: Row(
-          children: <Widget>[
-            CircleAvatar(
-              radius: AppResponsive.value(21, tablet: 25),
-              backgroundColor: AppColors.white.withValues(alpha: .2),
-              child: ClipOval(
-                child: SvgPicture.asset(
-                  Assets.svg.icUser,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.white,
-                    BlendMode.srcIn,
+    return GetBuilder<NotificationController>(
+      init: Get.isRegistered<NotificationController>()
+          ? null
+          : NotificationController(Get.find()),
+      builder: (final NotificationController notificationController) {
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.fromLTRB(
+            AppResponsive.value(18, tablet: 28),
+            AppResponsive.value(16, tablet: 20),
+            AppResponsive.value(12, tablet: 20),
+            AppResponsive.value(16, tablet: 20),
+          ),
+          color: AppColors.themeColor,
+          child: SafeArea(
+            bottom: false,
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: AppResponsive.value(21, tablet: 25),
+                  backgroundColor: AppColors.white.withValues(alpha: .2),
+                  child: ClipOval(
+                    child: SvgPicture.asset(
+                      Assets.svg.icUser,
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(width: AppResponsive.value(10, tablet: 14)),
-            Expanded(
-              child: Text(
-                dealerName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: interW700.copyWith(
-                  fontSize: AppResponsive.font(18),
-                  color: AppColors.white,
+                SizedBox(width: AppResponsive.value(10, tablet: 14)),
+                Expanded(
+                  child: Text(
+                    dealerName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: interW700.copyWith(
+                      fontSize: AppResponsive.font(18),
+                      color: AppColors.white,
+                    ),
+                  ),
                 ),
-              ),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: () {
+                        Get.toNamed(RouteHelper.notificationScreen);
+                      },
+                      icon: Icon(
+                        Icons.notifications_none,
+                        color: AppColors.white,
+                        size: AppResponsive.value(24, tablet: 28),
+                      ),
+                    ),
+                    if (notificationController.unreadCount > 0)
+                      Positioned(
+                        top: AppResponsive.value(7),
+                        right: AppResponsive.value(7),
+                        child: Container(
+                          constraints: BoxConstraints(
+                            minWidth: AppResponsive.value(16),
+                            minHeight: AppResponsive.value(16),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppResponsive.value(4),
+                          ),
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(
+                            color: AppColors.roleDealer,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            notificationController.unreadCount > 99
+                                ? '99+'
+                                : '${notificationController.unreadCount}',
+                            style: interW700.copyWith(
+                              fontSize: AppResponsive.font(9),
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
             ),
-            IconButton(
-              onPressed: () {
-                Get.toNamed(RouteHelper.notificationScreen);
-              },
-              icon: Icon(
-                Icons.notifications_none,
-                color: AppColors.white,
-                size: AppResponsive.value(24, tablet: 28),
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

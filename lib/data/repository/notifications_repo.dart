@@ -15,4 +15,14 @@ class NotificationsRepo {
     );
     return NotificationModel.fromJson(response.data as Map<String, dynamic>);
   }
+
+  Future<bool> markNotificationAsRead(final String notificationId) async {
+    final Response<dynamic> response = await _dioClient.post(
+      Endpoints.readNotification,
+      data: <String, String>{'notification_id': notificationId},
+    );
+    return response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204;
+  }
 }
