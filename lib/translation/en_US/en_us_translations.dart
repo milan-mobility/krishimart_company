@@ -225,4 +225,10 @@ final Map<String, String> enUs = <String, String>{
   'Delete': 'Delete',
   'Are you sure you want to delete your account?':
       'Are you sure you want to delete your account?',
+
+  //New
+  'Edit Company': 'Edit Company',
+  'Email': 'Email',
+  'Enter your email': 'Enter your email',
+  'Please enter valid email': 'Please enter valid email',
 };

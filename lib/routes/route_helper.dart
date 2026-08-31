@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:krishi_mart/view/screens/common_webview/common_webview.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/complete_company_profile_screen.dart';
+import 'package:krishi_mart/view/screens/company/edit_company_profile/edit_company_profile_screen.dart';
 import 'package:krishi_mart/view/screens/company/home/company_home_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/add_product_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/list/product_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/complete_dealer_profile_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/edit_dealer/edit_dealer_profile_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/home/dealer_home_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/product/add_product/add_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/product/edit_product/edit_dealer_product_screen.dart';
@@ -25,6 +27,8 @@ class RouteHelper {
   static const String userRole = '/userRole';
   static const String verifyOtp = '/verifyOtp';
   static const String completeCompanyProfile = '/completeCompanyProfile';
+  static const String editCompanyProfile = '/editCompanyProfile';
+  static const String editDealerProfile = '/editDealerProfile';
   static const String addProduct = '/addProduct';
   static const String productList = '/product-list';
   static const String completeDealerProfile = '/completeDealerProfile';
@@ -93,6 +97,14 @@ class RouteHelper {
       name: notificationScreen,
       page: () => getRoute(NotificationScreen()),
       binding: NotificationBinding(),
+    ),
+    GetPage<dynamic>(
+      name: editCompanyProfile,
+      page: () => getRoute(EditCompanyProfileScreen()),
+    ),
+    GetPage<dynamic>(
+      name: editDealerProfile,
+      page: () => getRoute(EditDealerProfileScreen()),
     ),
   ];
 

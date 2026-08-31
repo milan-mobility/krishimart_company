@@ -102,7 +102,10 @@ class Profile {
   String? contactNumber;
   String? cinNumber;
   String? panNumber;
+  String? tanNumber;
   String? gstNumber;
+  String? licenseNumber;
+  List<int>? businessCategoryIds;
   String? website;
   String? logo;
   String? licenseCertificate;
@@ -146,7 +149,10 @@ class Profile {
     this.contactNumber,
     this.cinNumber,
     this.panNumber,
+    this.tanNumber,
     this.gstNumber,
+    this.licenseNumber,
+    this.businessCategoryIds,
     this.website,
     this.logo,
     this.shopName,
@@ -188,7 +194,16 @@ class Profile {
     contactNumber = json['contact_number'];
     cinNumber = json['cin_number'];
     panNumber = json['pan_number'];
+    tanNumber = json['tan_number'];
     gstNumber = json['gst_number'];
+    licenseNumber = json['license_number'];
+    final dynamic categoryIds = json['business_category_ids'];
+    if (categoryIds is List<dynamic>) {
+      businessCategoryIds = categoryIds
+          .map((final dynamic id) => int.tryParse(id.toString()))
+          .whereType<int>()
+          .toList();
+    }
     website = json['website'];
     logo = json['logo'];
     licenseCertificate = json['license_certificate'];
@@ -197,7 +212,7 @@ class Profile {
     verificationStatus = json['verification_status'];
     stateId = json['state_id'];
     districtId = json['district_id'];
-    address = json['address'];
+    address = json['address_line_1'] ?? json['address'];
     addressLine2 = json['address_line_2'];
     postalCode = json['postal_code'];
     shopName = json['shop_name'];
@@ -238,7 +253,10 @@ class Profile {
     data['contact_number'] = contactNumber;
     data['cin_number'] = cinNumber;
     data['pan_number'] = panNumber;
+    data['tan_number'] = tanNumber;
     data['gst_number'] = gstNumber;
+    data['license_number'] = licenseNumber;
+    data['business_category_ids'] = businessCategoryIds;
     data['website'] = website;
     data['logo'] = logo;
     data['shop_name'] = shopName;

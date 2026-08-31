@@ -4,14 +4,16 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/gen/assets.gen.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
-import 'package:krishi_mart/view/screens/company/complete_profile/controller/complete_company_profile_controller.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_category_tile.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_profile_section_card.dart';
+import 'package:krishi_mart/view/screens/company/edit_company_profile/controller/edit_company_profile_controller.dart';
+
+import '../../../../../data/model/category_model.dart';
 
 class CompanyBusinessCategorySection extends StatelessWidget {
   const CompanyBusinessCategorySection({required this.controller, super.key});
 
-  final CompleteCompanyProfileController controller;
+  final EditCompanyProfileController controller;
 
   @override
   Widget build(final BuildContext context) {
@@ -29,9 +31,9 @@ class CompanyBusinessCategorySection extends StatelessWidget {
           Row(
             children: controller.commonController.categories
                 .map(
-                  (final category) => CompanyCategoryTile(
+                  (final Category category) => CompanyCategoryTile(
                     title: category.name ?? '',
-                    imageUrl: category.image,
+                    imageUrl: category.iconUrl,
                     isSelected: controller.isCategorySelected(category),
                     onTap: () => controller.toggleCategory(category),
                   ),
