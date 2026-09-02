@@ -8,6 +8,7 @@ import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
+import 'package:krishi_mart/view/base/location_autofill_button.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/controller/complete_dealer_profile_controller.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_certificate_list.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/widgets/dealer_license_date_row.dart';
@@ -21,7 +22,12 @@ class CompleteDealerProfileScreen extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return GetBuilder<CompleteDealerProfileController>(
-      init: CompleteDealerProfileController(Get.find(), Get.find(), Get.find()),
+      init: CompleteDealerProfileController(
+        Get.find(),
+        Get.find(),
+        Get.find(),
+        Get.find(),
+      ),
       builder: (final CompleteDealerProfileController controller) {
         return Scaffold(
           backgroundColor: AppColors.colorF7FAF7,
@@ -115,7 +121,10 @@ class CompleteDealerProfileScreen extends StatelessWidget {
                     DealerProfileSectionCard(
                       title: 'Location Details',
                       icon: Icons.location_on_outlined,
-                      trailing: SizedBox(),
+                      trailing: LocationAutofillButton(
+                        isLoading: controller.isAutoFillingLocation,
+                        onPressed: controller.autoFillLocation,
+                      ),
                       child: Column(
                         children: <Widget>[
                           GetBuilder<CommonController>(

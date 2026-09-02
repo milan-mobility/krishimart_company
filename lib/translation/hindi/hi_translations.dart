@@ -228,4 +228,24 @@ final Map<String, String> hi = <String, String>{
   'Email': 'ईमेल',
   'Enter your email': 'अपना ईमेल दर्ज करें',
   'Please enter valid email': 'कृपया मान्य ईमेल दर्ज करें',
+  'Please enable location services and try again.':
+      'कृपया लोकेशन सेवाएं चालू करें और फिर से प्रयास करें।',
+  'Location permission was denied.': 'लोकेशन अनुमति अस्वीकार कर दी गई।',
+  'Location permission is permanently denied. Enable it in Settings.':
+      'लोकेशन अनुमति स्थायी रूप से अस्वीकार है। इसे सेटिंग्स में सक्षम करें।',
+  'Unable to get your current location':
+      'आपका वर्तमान स्थान प्राप्त नहीं किया जा सका',
+  'Location Access': 'लोकेशन एक्सेस',
+  'Open Settings': 'सेटिंग्स खोलें',
+  'Unable to find coordinates for this address':
+      'इस पते के निर्देशांक नहीं मिल सके',
+  'Unable to confirm your entered location':
+      'आपके दर्ज किए गए स्थान की पुष्टि नहीं हो सकी',
+  'We could not find coordinates for this address. Use your current location as your':
+      'इस पते के निर्देशांक नहीं मिले। अपने वर्तमान स्थान को अपना',
+  'location?': 'स्थान उपयोग करें?',
+  'For best accuracy, complete your profile while you are at your business location.':
+      'सटीकता के लिए, अपनी व्यावसायिक जगह पर रहते हुए प्रोफ़ाइल पूरी करें।',
+  'Not now': 'अभी नहीं',
+  'Use Current Location': 'वर्तमान स्थान उपयोग करें',
 };

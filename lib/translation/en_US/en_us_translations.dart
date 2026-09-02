@@ -231,4 +231,23 @@ final Map<String, String> enUs = <String, String>{
   'Email': 'Email',
   'Enter your email': 'Enter your email',
   'Please enter valid email': 'Please enter valid email',
+  'Please enable location services and try again.':
+      'Please enable location services and try again.',
+  'Location permission was denied.': 'Location permission was denied.',
+  'Location permission is permanently denied. Enable it in Settings.':
+      'Location permission is permanently denied. Enable it in Settings.',
+  'Unable to get your current location': 'Unable to get your current location',
+  'Location Access': 'Location Access',
+  'Open Settings': 'Open Settings',
+  'Unable to find coordinates for this address':
+      'Unable to find coordinates for this address',
+  'Unable to confirm your entered location':
+      'Unable to confirm your entered location',
+  'We could not find coordinates for this address. Use your current location as your':
+      'We could not find coordinates for this address. Use your current location as your',
+  'location?': 'location?',
+  'For best accuracy, complete your profile while you are at your business location.':
+      'For best accuracy, complete your profile while you are at your business location.',
+  'Not now': 'Not now',
+  'Use Current Location': 'Use Current Location',
 };
