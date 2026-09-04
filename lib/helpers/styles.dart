@@ -118,6 +118,11 @@ TextStyle productFormTitle = interW700.copyWith(
   color: AppColors.color1A1A2D,
 );
 
+TextStyle youtubePreviewTitle = interW600.copyWith(
+  fontSize: AppResponsive.font(13),
+  color: AppColors.themeColor,
+);
+
 TextStyle productFieldLabel = interW600.copyWith(
   fontSize: AppResponsive.font(10),
   color: AppColors.color717973,
@@ -152,3 +157,101 @@ TextStyle profileDestructiveMenuLabel = interW600.copyWith(
   fontSize: AppResponsive.font(15),
   color: AppColors.roleDealer,
 );
+
+abstract final class Styles {
+  static TextStyle get homeTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(17),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get homeSectionTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(16),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get homeProductTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(14),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get homeBody => interW400.copyWith(
+    fontSize: AppResponsive.font(13),
+    color: AppColors.homeMuted,
+  );
+
+  static TextStyle get homeProductCompany => interW700.copyWith(
+    fontSize: AppResponsive.font(14),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get homeProductName => interW700.copyWith(
+    fontSize: AppResponsive.font(16),
+    color: AppColors.color191C1C,
+  );
+
+  static TextStyle get homeProductDescription => interW400.copyWith(
+    fontSize: AppResponsive.font(12),
+    color: AppColors.color404943,
+    height: 1.35,
+  );
+
+  static TextStyle get homeProductBadge => interW500.copyWith(
+    fontSize: AppResponsive.font(10),
+    color: AppColors.color1F6D1A,
+  );
+
+  static TextStyle get relatedProductTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(16),
+    color: AppColors.color1A1A2D,
+  );
+
+  static TextStyle get relatedProductAction => interW500.copyWith(
+    fontSize: AppResponsive.font(14),
+    color: AppColors.white,
+  );
+
+  static TextStyle get productDetailHeader => interW700.copyWith(
+    fontSize: AppResponsive.font(22),
+    color: AppColors.white,
+  );
+
+  static TextStyle get productDetailName => interW700.copyWith(
+    fontSize: AppResponsive.font(22),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get productDetailFactLabel => interW400.copyWith(
+    fontSize: AppResponsive.font(12),
+    color: AppColors.color404943,
+  );
+
+  static TextStyle get productDetailFactValue => interW700.copyWith(
+    fontSize: AppResponsive.font(16),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get productDetailCardTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(16),
+    color: AppColors.themeColor,
+  );
+
+  static TextStyle get productDetailBody => interW400.copyWith(
+    fontSize: AppResponsive.font(14),
+    color: AppColors.color404943,
+  );
+
+  static TextStyle get reelProductTitle => interW700.copyWith(
+    fontSize: AppResponsive.font(20),
+    color: AppColors.white,
+  );
+
+  static TextStyle get reelCompanyName => interW500.copyWith(
+    fontSize: AppResponsive.font(14),
+    color: AppColors.white,
+  );
+
+  static TextStyle get reelControlText => interW500.copyWith(
+    fontSize: AppResponsive.font(12),
+    color: AppColors.white,
+  );
+}

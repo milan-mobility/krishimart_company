@@ -7,6 +7,7 @@ import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/view/base/common_appbar.dart';
 import 'package:krishi_mart/view/base/common_button.dart';
+import 'package:krishi_mart/view/base/location_autofill_button.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/controller/complete_company_profile_controller.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_business_category_section.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_license_certificates_section.dart';
@@ -21,6 +22,7 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     return GetBuilder<CompleteCompanyProfileController>(
       init: CompleteCompanyProfileController(
+        Get.find(),
         Get.find(),
         Get.find(),
         Get.find(),
@@ -65,11 +67,40 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           CompanyProfileTextField(
+                            label: 'Email',
+                            hintText: 'Enter your email',
+                            controller: controller.txtEmail,
+                            isRequired: true,
+                            keyboardType: TextInputType.emailAddress,
+                            additionalValidator: (final String? value) {
+                              if ((value ?? '').isEmpty) {
+                                return 'Email cannot be empty'.tr;
+                              } else if (!(value ?? '').isEmail) {
+                                return 'Please enter valid email'.tr;
+                              }
+                              return null;
+                            },
+                          ),
+                          Gap(AppResponsive.value(14, tablet: 18)),
+                          CompanyProfileTextField(
                             label: 'GST Number',
                             hintText: 'Enter GST number',
                             controller: controller.txtGstNumber,
                             isRequired: true,
+                            maxLength: 15,
                             textCapitalization: TextCapitalization.characters,
+                            additionalValidator: (final String? value) {
+                              final String gstin =
+                                  value?.trim().toUpperCase() ?? '';
+                              final RegExp gstinPattern = RegExp(
+                                r'^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$',
+                              );
+
+                              if (!gstinPattern.hasMatch(gstin)) {
+                                return 'Enter a valid GSTIN'.tr;
+                              }
+                              return null;
+                            },
                           ),
                           Gap(AppResponsive.value(14, tablet: 18)),
                           CompanyProfileTextField(
@@ -103,6 +134,10 @@ class CompleteCompanyProfileScreen extends StatelessWidget {
                     CompanyProfileSectionCard(
                       title: 'Company Address',
                       iconAsset: Assets.png.icCompanyForm.path,
+                      trailing: LocationAutofillButton(
+                        isLoading: controller.isAutoFillingLocation,
+                        onPressed: controller.autoFillLocation,
+                      ),
                       child: Column(
                         children: <Widget>[
                           CompanyProfileTextField(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/view/base/bottom_navigation_bar.dart';
@@ -18,6 +19,12 @@ class DealerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    if (!Get.isRegistered<DealerHomeController>()) {
+      Get.put<DealerHomeController>(
+        DealerHomeController(Get.find(), Get.find()),
+        permanent: true,
+      );
+    }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -27,40 +34,73 @@ class DealerHomeScreen extends StatelessWidget {
           builder: (final DealerHomeController controller) {
             return Column(
               children: <Widget>[
-                DealerHomeHeader(dealerName: controller.dealerName),
+                GetBuilder<CommonController>(
+                  builder: (final CommonController commonController) {
+                    return DealerHomeHeader(
+                      dealerName:
+                          commonController
+                              .userProfileModel
+                              ?.data
+                              ?.profile
+                              ?.shopName ??
+                          '',
+                    );
+                  },
+                ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(
-                      AppResponsive.value(16, tablet: 28),
-                    ),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: AppResponsive.contentWidth,
+                  child: RefreshIndicator(
+                    onRefresh: controller.loadDashboard,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: EdgeInsets.all(
+                        AppResponsive.value(16, tablet: 28),
                       ),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              DealerDashboardStatCard(
-                                value: '12',
-                                label: 'Products',
-                                icon: Assets.svg.icProducts,
-                                color: AppColors.dashboardStatGreen,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: AppResponsive.contentWidth,
+                          minHeight: MediaQuery.sizeOf(context).height,
+                        ),
+                        child: controller.isLoading
+                            ? const Center(child: CircularProgressIndicator())
+                            : controller.hasError
+                            ? Center(
+                                child: TextButton(
+                                  onPressed: controller.loadDashboard,
+                                  child: Text('Retry'.tr),
+                                ),
+                              )
+                            : Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      DealerDashboardStatCard(
+                                        value:
+                                            '${controller.dashboard?.totalProducts ?? 0}',
+                                        label: 'Products',
+                                        icon: Assets.svg.icProducts,
+                                        color: AppColors.dashboardStatGreen,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      DealerDashboardStatCard(
+                                        value: '${controller.totalViews}',
+                                        label: 'Views',
+                                        icon: Assets.svg.icViews,
+                                        color: AppColors.dashboardStatOrange,
+                                      ),
+                                    ],
+                                  ),
+                                  if (controller.banners.isNotEmpty) ...[
+                                    Gap(AppResponsive.value(24, tablet: 30)),
+                                    DealerBannerCarousel(
+                                      controller: controller,
+                                    ),
+                                  ],
+                                  Gap(AppResponsive.value(26, tablet: 32)),
+                                  DealerProductsSection(
+                                    products: controller.recentProducts,
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 10),
-                              DealerDashboardStatCard(
-                                value: '29',
-                                label: 'Views',
-                                icon: Assets.svg.icViews,
-                                color: AppColors.dashboardStatOrange,
-                              ),
-                            ],
-                          ),
-                          Gap(AppResponsive.value(24, tablet: 30)),
-                          DealerBannerCarousel(controller: controller),
-                          Gap(AppResponsive.value(26, tablet: 32)),
-                          DealerProductsSection(products: controller.products),
-                        ],
                       ),
                     ),
                   ),

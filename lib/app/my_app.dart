@@ -38,7 +38,11 @@ class _MyAppState extends State<MyApp> {
       defaultTransition: Transition.noTransition,
       locale: Locale(sharedPref.getLanguageCode),
       fallbackLocale: const Locale('en'),
-      supportedLocales: const <Locale>[Locale('en'), Locale('gu')],
+      supportedLocales: const <Locale>[
+        Locale('en'),
+        Locale('gu'),
+        Locale('hi'),
+      ],
       localizationsDelegates: <LocalizationsDelegate>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

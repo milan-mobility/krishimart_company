@@ -13,6 +13,9 @@ class AppColors {
   static const Color color404943 = Color(0xFF404943);
   static const Color color717973 = Color(0xFF717973);
   static const Color color2D5A27 = Color(0xFF2D5A27);
+  static const Color homeMuted = Color(0xFF727B75);
+  static const Color homeSurface = Color(0xFFF1F4F2);
+  static const Color homeChip = Color(0xFFE8EDEB);
   static const Color colorF0F7F2 = Color(0xFFF0F7F2);
   static const Color colorE8F3EC = Color(0xFFE8F3EC);
   static const Color color191C1C = Color(0xFF191C1C);
@@ -21,7 +24,7 @@ class AppColors {
   static const Color color1A1A2D = Color(0xFF1A1A2D);
   static const Color colorB1F0CE = Color(0xFFB1F0CE);
   static const Color roleCompany = Color(0xFF14532D);
-  static const Color roleDealer = Color(0xFFFF6814);
+  static const Color roleDealer = Color(0xFFF32F32);
   static const Color roleSubtitle = Color(0xFF6B7280);
   static const Color roleBackground = Color(0xFFF4FBF5);
   static const Color roleCompanyIconBackground = Color(0xFFEAF9F0);
@@ -46,4 +49,7 @@ class AppColors {
   static const Color color0F5238 = Color(0xFF0F5238);
   static const Color color1E3A8A = Color(0xFF1E3A8A);
   static const Color color9CA3AF = Color(0xFF9CA3AF);
+  static const Color color262626 = Color(0xFF262626);
+  static const Color color797979 = Color(0xFF797979);
+  static const Color homeBannerStart = Color(0xFF104C38);
 }

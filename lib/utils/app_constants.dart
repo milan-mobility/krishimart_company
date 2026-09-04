@@ -1,3 +1,5 @@
 class AppConstants {
-  static String appName = 'Krishi Mart';
+  static String appName = 'iFarm Connect';
+
+  static const String supportEmail = 'advickone@gmail.com';
 }

@@ -11,6 +11,7 @@ class CompanyProfileSectionCard extends StatelessWidget {
     required this.iconAsset,
     required this.child,
     this.subtitle,
+    this.trailing,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class CompanyProfileSectionCard extends StatelessWidget {
   final String iconAsset;
   final String? subtitle;
   final Widget child;
+  final Widget? trailing;
 
   @override
   Widget build(final BuildContext context) {
@@ -48,7 +50,10 @@ class CompanyProfileSectionCard extends StatelessWidget {
                 height: AppResponsive.value(36, tablet: 42),
               ),
               Gap(AppResponsive.value(10, tablet: 12)),
-              Text(title.tr, style: companyProfileSectionTitle),
+              Expanded(
+                child: Text(title.tr, style: companyProfileSectionTitle),
+              ),
+              if (trailing != null) trailing!,
             ],
           ),
           if (subtitle != null) ...<Widget>[

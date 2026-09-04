@@ -20,7 +20,7 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: AppColors.productSurface,
         bottomNavigationBar: const BottomNavigation(selectedIndex: 2),
         body: GetBuilder<ProfileController>(
-          init: ProfileController(Get.find()),
+          init: ProfileController(Get.find(), Get.find()),
           builder: (final ProfileController controller) {
             return SafeArea(
               child: ConstrainedBox(
@@ -35,8 +35,7 @@ class ProfileScreen extends StatelessWidget {
                       Text('My Profile'.tr, style: profileTitle),
                       SizedBox(height: AppResponsive.value(20, tablet: 26)),
                       ProfileHeaderWidget(
-                        name: controller.displayName,
-                        businessType: controller.businessType,
+                        role: controller.sharedPref.getUserRole,
                       ),
                       SizedBox(height: AppResponsive.value(22, tablet: 28)),
                       ProfileMenuListWidget(

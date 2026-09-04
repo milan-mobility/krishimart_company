@@ -25,59 +25,62 @@ class ProductReelUpload extends StatelessWidget {
           style: interW500.copyWith(fontSize: 14, color: AppColors.color9CA3AF),
         ),
         Gap(AppResponsive.value(6, tablet: 8)),
-        if (hasPreview)
+        InkWell(
+          onTap: controller.isProcessingReel ? null : controller.selectReel,
+          borderRadius: BorderRadius.circular(AppResponsive.value(10)),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: AppResponsive.value(20)),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppResponsive.value(10)),
+              border: Border.all(color: AppColors.productUploadBorder),
+            ),
+            child: Column(
+              children: <Widget>[
+                if (controller.isProcessingReel)
+                  SizedBox(
+                    width: AppResponsive.value(24),
+                    height: AppResponsive.value(24),
+                    child: const CircularProgressIndicator(
+                      color: AppColors.themeColor,
+                      strokeWidth: 2,
+                    ),
+                  )
+                else
+                  Icon(
+                    Icons.video_library_outlined,
+                    color: AppColors.color404943,
+                    size: AppResponsive.value(24, tablet: 28),
+                  ),
+                Gap(AppResponsive.value(7, tablet: 9)),
+                Text(
+                  controller.isSelectingReel
+                      ? 'Opening gallery...'.tr
+                      : controller.isCompressingReel
+                      ? 'Compressing reel...'.tr
+                      : hasPreview
+                      ? 'Replace Reel'.tr
+                      : 'Upload Reel'.tr,
+                  style: productUploadLabel,
+                ),
+                Gap(AppResponsive.value(3, tablet: 5)),
+                Text(
+                  'Video up to 30 seconds'.tr,
+                  style: companyProfileUploadDescription,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (hasPreview) ...[
+          Gap(AppResponsive.value(14, tablet: 18)),
           ProductReelPreview(
             videoController: videoController!,
             onTogglePlayback: controller.toggleReelPlayback,
             onRemove: controller.removeReel,
-          )
-        else
-          InkWell(
-            onTap: controller.isProcessingReel ? null : controller.selectReel,
-            borderRadius: BorderRadius.circular(AppResponsive.value(10)),
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: AppResponsive.value(20)),
-              decoration: BoxDecoration(
-                color: AppColors.productSurface,
-                borderRadius: BorderRadius.circular(AppResponsive.value(10)),
-                border: Border.all(color: AppColors.productUploadBorder),
-              ),
-              child: Column(
-                children: <Widget>[
-                  if (controller.isProcessingReel)
-                    SizedBox(
-                      width: AppResponsive.value(24),
-                      height: AppResponsive.value(24),
-                      child: const CircularProgressIndicator(
-                        color: AppColors.themeColor,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  else
-                    Icon(
-                      Icons.video_library_outlined,
-                      color: AppColors.color404943,
-                      size: AppResponsive.value(24, tablet: 28),
-                    ),
-                  Gap(AppResponsive.value(7, tablet: 9)),
-                  Text(
-                    controller.isSelectingReel
-                        ? 'Opening gallery...'.tr
-                        : controller.isCompressingReel
-                        ? 'Compressing reel...'.tr
-                        : 'Upload Reel'.tr,
-                    style: productUploadLabel,
-                  ),
-                  Gap(AppResponsive.value(3, tablet: 5)),
-                  Text(
-                    'Video up to 30 seconds'.tr,
-                    style: companyProfileUploadDescription,
-                  ),
-                ],
-              ),
-            ),
           ),
+        ],
       ],
     );
   }

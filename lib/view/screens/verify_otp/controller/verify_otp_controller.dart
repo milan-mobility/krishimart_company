@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/model/auth_model.dart';
 import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
+import 'package:krishi_mart/helpers/device_helper.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/app_enums.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
@@ -16,7 +18,7 @@ import 'package:krishi_mart/view/base/custom_snack_bar.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 
-class VerifyOtpController extends GetxController implements GetxService {
+class VerifyOtpController extends GetxController {
   VerifyOtpController(this.sharedPref, this.authRepo);
 
   final SharedPreferenceHelper sharedPref;
@@ -45,6 +47,7 @@ class VerifyOtpController extends GetxController implements GetxService {
     if (Get.arguments != null) {
       mobile = Get.arguments['mobile'];
     }
+    countDownStart();
   }
 
   void checkValidation() async {
@@ -75,6 +78,9 @@ class VerifyOtpController extends GetxController implements GetxService {
         'otp': otpPin,
         'role': userRole,
         'device_name': GetPlatform.isAndroid ? 'android' : 'ios',
+        'platform': GetPlatform.isAndroid ? 'android' : 'ios',
+        'device_id': await DeviceIdHelper.getDeviceId(),
+        'fcm_token': sharedPref.fcmToken,
       };
 
       Loader.load(true);
@@ -93,8 +99,10 @@ class VerifyOtpController extends GetxController implements GetxService {
 
         if (userModel?.hasProfileCompleted ?? true) {
           if (sharedPref.getUserRole == UserType.company.name) {
+            await Get.find<CommonController>().getCompanyUserDetail();
             Get.offAllNamed(RouteHelper.companyHomeScreen);
           } else {
+            await Get.find<CommonController>().getDealerData();
             Get.offAllNamed(RouteHelper.dealerHome);
           }
         } else {
@@ -104,6 +112,41 @@ class VerifyOtpController extends GetxController implements GetxService {
             Get.offAllNamed(RouteHelper.completeDealerProfile);
           }
         }
+      }
+    } on DioException catch (e) {
+      Utility.showAPIError(e);
+    } catch (e) {
+      debugPrint('EXCEPTION=>${e.toString()}');
+    } finally {
+      Loader.load(false);
+    }
+  }
+
+  Future<void> resendOtpApiCall() async {
+    final bool isInternetAvailable = await ConnectionUtils.isNetworkConnected();
+    if (!isInternetAvailable) {
+      showErrorSnackBar(
+        title: MessageConstant.netWorkTitle,
+        message: MessageConstant.networkError,
+      );
+      return;
+    }
+
+    try {
+      final Map<String, dynamic> params = <String, dynamic>{
+        'mobile': mobile,
+        'role': userRole,
+      };
+
+      Loader.load(true);
+      final bool response = await authRepo.resendOTP(params);
+      Loader.load(false);
+
+      if (response) {
+        showSuccessSnackBar(message: 'Otp send successfully'.tr);
+        countDownStart();
+      } else {
+        showErrorSnackBar(message: 'Something went Wrong!');
       }
     } on DioException catch (e) {
       Utility.showAPIError(e);
@@ -140,5 +183,11 @@ class VerifyOtpController extends GetxController implements GetxService {
 
   void setOTP(final String text) {
     otpPin = text;
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    super.onClose();
   }
 }

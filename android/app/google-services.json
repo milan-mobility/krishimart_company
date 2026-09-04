@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "81554952924",
+    "project_id": "ifarm-dd5b0",
+    "storage_bucket": "ifarm-dd5b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81554952924:android:75027c88c0339c7bb61a19",
+        "android_client_info": {
+          "package_name": "com.advick.ifarmconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxsWVr4ekklESqpT9UrOeoZN6PM894zk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

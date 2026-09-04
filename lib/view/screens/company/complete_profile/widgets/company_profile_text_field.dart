@@ -18,8 +18,12 @@ class CompanyProfileTextField extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.suffixIcon,
+    this.maxLines = 1,
+    this.textStyle,
     this.keyboardType = TextInputType.text,
     this.textCapitalization = TextCapitalization.none,
+    this.additionalValidator,
+    this.onChanged,
     super.key,
   });
 
@@ -31,10 +35,14 @@ class CompanyProfileTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool isRequired;
   final bool readOnly;
+  final int maxLines;
   final VoidCallback? onTap;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final TextStyle? textStyle;
   final TextCapitalization textCapitalization;
+  final String? Function(String? value)? additionalValidator;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(final BuildContext context) {
@@ -44,7 +52,7 @@ class CompanyProfileTextField extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: label.tr,
-            style: companyProfileFieldLabel,
+            style: textStyle ?? companyProfileFieldLabel,
             children: isRequired
                 ? <InlineSpan>[
                     TextSpan(
@@ -66,20 +74,23 @@ class CompanyProfileTextField extends StatelessWidget {
           textCapitalization: textCapitalization,
           fillColor: AppColors.white,
           borderColor: AppColors.formBorder,
+          maxLines: maxLines,
+          minLines: maxLines,
           maxLength: maxLength,
           readOnly: readOnly,
           onTap: onTap,
+          onChange: onChanged,
           suffixIcon: suffixIcon,
-          validator: isRequired
+          validator: isRequired || additionalValidator != null
               ? (final String? value) {
-                  if (value?.trim().isEmpty ?? true) {
+                  if (isRequired && (value?.trim().isEmpty ?? true)) {
                     return 'This field is required'.tr;
                   }
                   if (minLength != null && value!.trim().length < minLength!) {
                     return minLengthErrorText?.tr ??
                         'Please enter at least $minLength characters'.tr;
                   }
-                  return null;
+                  return additionalValidator?.call(value);
                 }
               : null,
         ),

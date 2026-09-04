@@ -3,18 +3,19 @@ import 'package:get/get.dart';
 import 'package:krishi_mart/helpers/app_colors.dart';
 import 'package:krishi_mart/helpers/app_responsive.dart';
 import 'package:krishi_mart/helpers/styles.dart';
+import 'package:krishi_mart/view/screens/company/complete_profile/widgets/company_category_image.dart';
 
 class CompanyCategoryTile extends StatelessWidget {
   const CompanyCategoryTile({
     required this.title,
-    required this.icon,
+    required this.imageUrl,
     required this.isSelected,
     required this.onTap,
     super.key,
   });
 
   final String title;
-  final IconData icon;
+  final String? imageUrl;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -40,11 +41,7 @@ class CompanyCategoryTile extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    icon,
-                    size: AppResponsive.value(20, tablet: 24),
-                    color: AppColors.themeColor,
-                  ),
+                  CompanyCategoryImage(imageUrl: imageUrl),
                   SizedBox(height: AppResponsive.value(5, tablet: 7)),
                   Text(title.tr, style: companyProfileCategoryTitle),
                 ],

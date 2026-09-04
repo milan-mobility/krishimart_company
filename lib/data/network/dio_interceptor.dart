@@ -20,10 +20,10 @@ class DioInterceptor extends InterceptorsWrapper {
   ) async {
     String authToken = sharedPrefHelper.authToken;
 
+    options.headers.putIfAbsent("Accept", () => 'application/json');
+    options.headers.putIfAbsent("Content-Type", () => 'application/json');
     if (authToken.isNotNullAndEmpty()) {
-      options.headers.putIfAbsent("Accept", () => 'application/json');
-      options.headers.putIfAbsent("Content-Type", () => 'application/json');
-      options.headers.putIfAbsent("Bearer", () => authToken);
+      options.headers.putIfAbsent("Authorization", () => 'Bearer $authToken');
     }
     super.onRequest(options, handler);
   }

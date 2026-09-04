@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:krishi_mart/view/screens/common_webview/common_webview.dart';
 import 'package:krishi_mart/view/screens/company/complete_profile/complete_company_profile_screen.dart';
+import 'package:krishi_mart/view/screens/company/edit_company_profile/edit_company_profile_screen.dart';
 import 'package:krishi_mart/view/screens/company/home/company_home_screen.dart';
 import 'package:krishi_mart/view/screens/company/product/add_product/add_product_screen.dart';
-import 'package:krishi_mart/view/screens/company/product/add_product/binding/product_binding.dart';
 import 'package:krishi_mart/view/screens/company/product/list/product_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/complete_dealer/complete_dealer_profile_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/edit_dealer/edit_dealer_profile_screen.dart';
 import 'package:krishi_mart/view/screens/dealer/home/dealer_home_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/product/add_product/add_dealer_product_screen.dart';
+import 'package:krishi_mart/view/screens/dealer/product/edit_product/edit_dealer_product_screen.dart';
 import 'package:krishi_mart/view/screens/login/login_screen.dart';
+import 'package:krishi_mart/view/screens/notification/binding/notification_binding.dart';
+import 'package:krishi_mart/view/screens/notification/notification_screen.dart';
 import 'package:krishi_mart/view/screens/profile/profile_screen.dart';
 import 'package:krishi_mart/view/screens/splash/splash_screen.dart';
 import 'package:krishi_mart/view/screens/user_role/user_role_screen.dart';
@@ -21,11 +27,17 @@ class RouteHelper {
   static const String userRole = '/userRole';
   static const String verifyOtp = '/verifyOtp';
   static const String completeCompanyProfile = '/completeCompanyProfile';
+  static const String editCompanyProfile = '/editCompanyProfile';
+  static const String editDealerProfile = '/editDealerProfile';
   static const String addProduct = '/addProduct';
   static const String productList = '/product-list';
   static const String completeDealerProfile = '/completeDealerProfile';
   static const String dealerHome = '/dealer-home';
   static const String companyHomeScreen = '/companyHomeScreen';
+  static const String addDealerProduct = '/addDealerProduct';
+  static const String editDealerProduct = '/editDealerProduct';
+  static const String commonWebView = '/commonWebView';
+  static const String notificationScreen = '/notificationScreen';
 
   static const String videos = '/videos';
   static const String profile = '/profile';
@@ -45,7 +57,6 @@ class RouteHelper {
     GetPage<dynamic>(
       name: addProduct,
       page: () => getRoute(const AddProductScreen()),
-      binding: ProductBinding(),
     ),
     GetPage<dynamic>(
       name: productList,
@@ -66,8 +77,34 @@ class RouteHelper {
       page: () => getRoute(const ProfileScreen()),
     ),
     GetPage<dynamic>(
+      name: addDealerProduct,
+      page: () => getRoute(const AddDealerProductScreen()),
+    ),
+    GetPage<dynamic>(
+      name: editDealerProduct,
+      page: () =>
+          getRoute(EditDealerProductScreen(product: Get.arguments as dynamic)),
+    ),
+    GetPage<dynamic>(
       name: companyHomeScreen,
       page: () => getRoute(CompanyHomeScreen()),
+    ),
+    GetPage<dynamic>(
+      name: commonWebView,
+      page: () => getRoute(CommonWebview()),
+    ),
+    GetPage<dynamic>(
+      name: notificationScreen,
+      page: () => getRoute(NotificationScreen()),
+      binding: NotificationBinding(),
+    ),
+    GetPage<dynamic>(
+      name: editCompanyProfile,
+      page: () => getRoute(EditCompanyProfileScreen()),
+    ),
+    GetPage<dynamic>(
+      name: editDealerProfile,
+      page: () => getRoute(EditDealerProfileScreen()),
     ),
   ];
 

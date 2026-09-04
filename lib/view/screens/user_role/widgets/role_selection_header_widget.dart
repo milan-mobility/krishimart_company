@@ -15,12 +15,10 @@ class RoleSelectionHeaderWidget extends StatelessWidget {
       children: <Widget>[
         Image.asset(
           Assets.png.icSplashLogo.path,
-          width: AppResponsive.value(96, tablet: 116),
-          height: AppResponsive.value(96, tablet: 116),
+          width: AppResponsive.value(150, tablet: 200),
+          height: AppResponsive.value(150, tablet: 200),
         ),
         Gap(AppResponsive.value(8, tablet: 12)),
-        Text('KrishiMart'.tr, style: userRoleTitle),
-        Gap(AppResponsive.value(14, tablet: 18)),
         Text(
           'Farmers’ trust, our platform'.tr,
           textAlign: TextAlign.center,
@@ -29,8 +27,8 @@ class RoleSelectionHeaderWidget extends StatelessWidget {
             color: AppColors.color2D5A27,
           ),
         ),
-        Gap(AppResponsive.value(28, tablet: 38)),
-        Text('Welcome to KrishiMart'.tr, style: userRoleWelcome),
+        Gap(AppResponsive.value(15, tablet: 20)),
+        Text('Welcome to iFarm Connect'.tr, style: userRoleWelcome),
         Gap(AppResponsive.value(7, tablet: 10)),
         Text('Please select your role to continue'.tr, style: userRoleSubtitle),
       ],
