@@ -10,10 +10,12 @@ import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/profile_repo.dart';
+import 'package:krishi_mart/data/services/location_service.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
+import 'package:krishi_mart/view/base/current_location_confirmation_dialog.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:krishi_mart/view/base/privacy_consent_dialog.dart';
 
@@ -22,11 +24,13 @@ class CompleteDealerProfileController extends GetxController {
     this.sharedPref,
     this.profileRepo,
     this.commonController,
+    this.locationService,
   );
 
   final SharedPreferenceHelper sharedPref;
   final ProfileRepo profileRepo;
   final CommonController commonController;
+  final LocationService locationService;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtAgroName = TextEditingController();
@@ -60,6 +64,9 @@ class CompleteDealerProfileController extends GetxController {
   DateTime? pesticideLicenseIssueDate;
   DateTime? fertilizerLicenseIssueDate;
   DateTime? seedsLicenseIssueDate;
+  bool isAutoFillingLocation = false;
+  double? latitude;
+  double? longitude;
 
   @override
   void onInit() {
@@ -103,6 +110,10 @@ class CompleteDealerProfileController extends GetxController {
       return;
     }
 
+    if (!await _ensureCoordinatesForAddress()) {
+      return;
+    }
+
     try {
       final Map<String, dynamic> params = <String, dynamic>{
         '_method': 'PUT',
@@ -114,6 +125,8 @@ class CompleteDealerProfileController extends GetxController {
         'taluka_id': selectedTaluka?.id,
         'village_id': selectedVillage?.id,
         'address': txtDetailedAddress.text.trim(),
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
         'pesticide_license_number': txtPesticideLicense.text.trim(),
         'pesticide_license_issue_date': txtPesticideLicenseIssueDate.text
             .trim(),
@@ -190,6 +203,94 @@ class CompleteDealerProfileController extends GetxController {
   void selectVillage(final IdName? village) {
     selectedVillage = village;
     update();
+  }
+
+  Future<void> autoFillLocation() async {
+    if (isAutoFillingLocation) return;
+    isAutoFillingLocation = true;
+    update();
+
+    try {
+      await commonController.getStates();
+      final location = await locationService.getCurrentLocation();
+      if (location == null) return;
+      latitude = location.latitude;
+      longitude = location.longitude;
+      if (location.address.isNotEmpty) {
+        txtDetailedAddress.text = location.address;
+      }
+
+      selectedState = _findLocationItem(
+        commonController.states,
+        location.state,
+      );
+      if (selectedState != null) {
+        await commonController.getDistricts(selectedState?.id);
+        selectedDistrict = _findLocationItem(
+          commonController.districts,
+          location.district,
+        );
+      }
+    } on LocationServiceException catch (error) {
+      showErrorSnackBar(message: error.message.tr);
+    } catch (error) {
+      debugPrint('Location autofill failed: $error');
+      showErrorSnackBar(message: 'Unable to get your current location'.tr);
+    } finally {
+      isAutoFillingLocation = false;
+      update();
+    }
+  }
+
+  IdName? _findLocationItem(final List<IdName> items, final String name) {
+    final String normalizedName = name.trim().toLowerCase();
+    if (normalizedName.isEmpty) return null;
+    for (final IdName item in items) {
+      final String itemName = item.name?.trim().toLowerCase() ?? '';
+      if (itemName == normalizedName ||
+          itemName.contains(normalizedName) ||
+          normalizedName.contains(itemName)) {
+        return item;
+      }
+    }
+    return null;
+  }
+
+  Future<bool> _ensureCoordinatesForAddress() async {
+    if (latitude != null && longitude != null) {
+      return true;
+    }
+    final String address = <String>[
+      txtDetailedAddress.text.trim(),
+      selectedVillage?.name ?? '',
+      selectedTaluka?.name ?? '',
+      selectedDistrict?.name ?? '',
+      selectedState?.name ?? '',
+    ].where((final String value) => value.isNotEmpty).join(', ');
+    final location = await locationService.getCoordinatesFromAddress(address);
+    if (location != null) {
+      latitude = location.latitude;
+      longitude = location.longitude;
+      return true;
+    }
+
+    final bool shouldUseCurrentLocation =
+        await CurrentLocationConfirmationDialog.show(profileType: 'Dealer');
+    if (!shouldUseCurrentLocation) return false;
+    try {
+      final currentLocation = await locationService.getCurrentLocation();
+      if (currentLocation == null) return false;
+      latitude = currentLocation.latitude;
+      longitude = currentLocation.longitude;
+      return true;
+    } on LocationServiceException catch (error) {
+      showErrorSnackBar(message: error.message.tr);
+      return false;
+    } catch (error) {
+      debugPrint('Current location lookup failed: $error');
+      showErrorSnackBar(message: 'Unable to get your current location'.tr);
+      return false;
+    }
   }
 
   void setPesticideLicenseIssueDate(final DateTime date) {

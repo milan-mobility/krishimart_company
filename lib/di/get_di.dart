@@ -4,6 +4,7 @@ import 'package:krishi_mart/data/controllers/common_controller.dart';
 import 'package:krishi_mart/data/controllers/loader_controller.dart';
 import 'package:krishi_mart/data/network/dio_client.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
+import 'package:krishi_mart/data/services/location_service.dart';
 import 'package:krishi_mart/data/repository/auth_repo.dart';
 import 'package:krishi_mart/data/repository/common_repo.dart';
 import 'package:krishi_mart/data/repository/dashboard_repo.dart';
@@ -20,6 +21,7 @@ Future<void> init() async {
 
   Get.put(sharedPreferences);
   Get.put(SharedPreferenceHelper());
+  Get.lazyPut(() => LocationService(), fenix: true);
   final dio = Dio();
   Get.put(dio);
 

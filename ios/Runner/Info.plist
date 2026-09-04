@@ -30,6 +30,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>iFarm Connect needs access to your photo library so you can select product images and reels.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>iFarm Connect uses your location to autofill your business address.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

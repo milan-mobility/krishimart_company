@@ -12,10 +12,12 @@ import 'package:krishi_mart/data/model/user_company_module.dart';
 import 'package:krishi_mart/data/network/connection.dart';
 import 'package:krishi_mart/data/pref_helper/shared_pref_helper.dart';
 import 'package:krishi_mart/data/repository/profile_repo.dart';
+import 'package:krishi_mart/data/services/location_service.dart';
 import 'package:krishi_mart/routes/route_helper.dart';
 import 'package:krishi_mart/utils/message_constant.dart';
 import 'package:krishi_mart/utils/utility.dart';
 import 'package:krishi_mart/view/base/custom_snack_bar.dart';
+import 'package:krishi_mart/view/base/current_location_confirmation_dialog.dart';
 import 'package:krishi_mart/view/base/loader.dart';
 import 'package:krishi_mart/view/base/privacy_consent_dialog.dart';
 
@@ -24,11 +26,13 @@ class CompleteCompanyProfileController extends GetxController {
     this.sharedPref,
     this.profileRepo,
     this.commonController,
+    this.locationService,
   );
 
   final SharedPreferenceHelper sharedPref;
   final ProfileRepo profileRepo;
   final CommonController commonController;
+  final LocationService locationService;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController txtCompanyName = TextEditingController();
@@ -49,6 +53,9 @@ class CompleteCompanyProfileController extends GetxController {
 
   final List<Category> selectedCategories = <Category>[];
   String certificatePaths = '';
+  bool isAutoFillingLocation = false;
+  double? latitude;
+  double? longitude;
 
   @override
   void onInit() {
@@ -77,6 +84,10 @@ class CompleteCompanyProfileController extends GetxController {
       return;
     }
 
+    if (!await _ensureCoordinatesForAddress()) {
+      return;
+    }
+
     try {
       final Map<String, dynamic> params = <String, dynamic>{
         '_method': 'PUT',
@@ -92,6 +103,8 @@ class CompleteCompanyProfileController extends GetxController {
         'state_id': selectedState?.id,
         'district_id': selectedDistrict?.id,
         'postal_code': txtPincode.text.trim(),
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
         'license_number': txtLicenseNumber.text.trim(),
         'license_start_date': txtLicenseIssueDate.text.trim(),
         'license_end_date': txtLicenseExpireDate.text.trim(),
@@ -139,6 +152,97 @@ class CompleteCompanyProfileController extends GetxController {
   void selectDistrict(final IdName? district) {
     selectedDistrict = district;
     update();
+  }
+
+  Future<void> autoFillLocation() async {
+    if (isAutoFillingLocation) return;
+    isAutoFillingLocation = true;
+    update();
+
+    try {
+      await commonController.getStates();
+      final location = await locationService.getCurrentLocation();
+      if (location == null) return;
+      latitude = location.latitude;
+      longitude = location.longitude;
+      if (location.address.isNotEmpty) {
+        txtAddressLine1.text = location.address;
+      }
+      if (location.postalCode.isNotEmpty) {
+        txtPincode.text = location.postalCode;
+      }
+
+      selectedState = _findLocationItem(
+        commonController.states,
+        location.state,
+      );
+      if (selectedState != null) {
+        await commonController.getDistricts(selectedState?.id);
+        selectedDistrict = _findLocationItem(
+          commonController.districts,
+          location.district,
+        );
+      }
+    } on LocationServiceException catch (error) {
+      showErrorSnackBar(message: error.message.tr);
+    } catch (error) {
+      debugPrint('Location autofill failed: $error');
+      showErrorSnackBar(message: 'Unable to get your current location'.tr);
+    } finally {
+      isAutoFillingLocation = false;
+      update();
+    }
+  }
+
+  IdName? _findLocationItem(final List<IdName> items, final String name) {
+    final String normalizedName = name.trim().toLowerCase();
+    if (normalizedName.isEmpty) return null;
+    for (final IdName item in items) {
+      final String itemName = item.name?.trim().toLowerCase() ?? '';
+      if (itemName == normalizedName ||
+          itemName.contains(normalizedName) ||
+          normalizedName.contains(itemName)) {
+        return item;
+      }
+    }
+    return null;
+  }
+
+  Future<bool> _ensureCoordinatesForAddress() async {
+    if (latitude != null && longitude != null) {
+      return true;
+    }
+    final String address = <String>[
+      txtAddressLine1.text.trim(),
+      txtAddressLine2.text.trim(),
+      selectedDistrict?.name ?? '',
+      selectedState?.name ?? '',
+      txtPincode.text.trim(),
+    ].where((final String value) => value.isNotEmpty).join(', ');
+    final location = await locationService.getCoordinatesFromAddress(address);
+    if (location != null) {
+      latitude = location.latitude;
+      longitude = location.longitude;
+      return true;
+    }
+
+    final bool shouldUseCurrentLocation =
+        await CurrentLocationConfirmationDialog.show(profileType: 'Company');
+    if (!shouldUseCurrentLocation) return false;
+    try {
+      final currentLocation = await locationService.getCurrentLocation();
+      if (currentLocation == null) return false;
+      latitude = currentLocation.latitude;
+      longitude = currentLocation.longitude;
+      return true;
+    } on LocationServiceException catch (error) {
+      showErrorSnackBar(message: error.message.tr);
+      return false;
+    } catch (error) {
+      debugPrint('Current location lookup failed: $error');
+      showErrorSnackBar(message: 'Unable to get your current location'.tr);
+      return false;
+    }
   }
 
   Future<void> _loadOtherData() async {

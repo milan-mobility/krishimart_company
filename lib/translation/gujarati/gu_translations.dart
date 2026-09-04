@@ -229,4 +229,24 @@ final Map<String, String> gu = <String, String>{
   'Email': 'ઇમેઇલ',
   'Enter your email': 'તમારું ઇમેઇલ દાખલ કરો',
   'Please enter valid email': 'કૃપા કરીને માન્ય ઇમેઇલ દાખલ કરો',
+  'Please enable location services and try again.':
+      'કૃપા કરીને સ્થાન સેવાઓ ચાલુ કરો અને ફરી પ્રયાસ કરો.',
+  'Location permission was denied.': 'સ્થાનની પરવાનગી નકારવામાં આવી હતી.',
+  'Location permission is permanently denied. Enable it in Settings.':
+      'સ્થાનની પરવાનગી કાયમ માટે નકારવામાં આવી છે. સેટિંગ્સમાં તેને સક્ષમ કરો.',
+  'Unable to get your current location':
+      'તમારું વર્તમાન સ્થાન મેળવી શકાયું નથી',
+  'Location Access': 'સ્થાન ઍક્સેસ',
+  'Open Settings': 'સેટિંગ્સ ખોલો',
+  'Unable to find coordinates for this address':
+      'આ સરનામા માટે નિર્દેશાંકો મળી શક્યા નથી',
+  'Unable to confirm your entered location':
+      'તમારા દાખલ કરેલા સ્થાનની પુષ્ટિ થઈ શકી નથી',
+  'We could not find coordinates for this address. Use your current location as your':
+      'આ સરનામા માટે નિર્દેશાંકો મળ્યા નથી. તમારું વર્તમાન સ્થાન તમારા',
+  'location?': 'સ્થાન તરીકે ઉપયોગ કરવો છે?',
+  'For best accuracy, complete your profile while you are at your business location.':
+      'શ્રેષ્ઠ ચોકસાઈ માટે, તમારી વ્યવસાયિક જગ્યાએ રહીને પ્રોફાઇલ પૂર્ણ કરો.',
+  'Not now': 'હમણાં નહીં',
+  'Use Current Location': 'વર્તમાન સ્થાન વાપરો',
 };
